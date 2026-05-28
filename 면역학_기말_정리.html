@@ -1,0 +1,2824 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>면역학 기말고사 정리</title>
+<style>
+:root {
+  --bg: #fafafa;
+  --panel: #ffffff;
+  --text: #222;
+  --muted: #888;
+  --border: #e8e8e8;
+  --border-strong: #d4d4d4;
+  --accent: #2c2c2c;
+  --code-bg: #f4f4f4;
+  --hl: #fff7c0;
+  --hl-text: #4a3c00;
+  --imp: #c00;
+  --shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --panel: #242424;
+  --text: #e4e4e4;
+  --muted: #888;
+  --border: #333;
+  --border-strong: #444;
+  --accent: #e4e4e4;
+  --code-bg: #2d2d2d;
+  --hl: #4a3c00;
+  --hl-text: #fff7c0;
+  --imp: #ff6b6b;
+  --shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "맑은 고딕", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+header.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+header.topbar h1 {
+  font-size: 16px; margin: 0; font-weight: 600;
+  color: var(--text); letter-spacing: -0.2px;
+}
+header.topbar .controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+header.topbar input.search {
+  padding: 7px 12px; border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  width: 200px; font-size: 13px; outline: none;
+  transition: border-color .15s;
+}
+header.topbar input.search:focus { border-color: var(--text); }
+header.topbar button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 12px; border-radius: 4px;
+  cursor: pointer; font-size: 13px;
+  transition: border-color .15s, background .15s;
+}
+header.topbar button:hover { border-color: var(--text); }
+
+.container {
+  max-width: 1180px; margin: 0 auto; padding: 24px;
+  display: grid; grid-template-columns: 240px 1fr; gap: 32px;
+}
+@media(max-width: 900px) {
+  .container { grid-template-columns: 1fr; padding: 16px; }
+  .sidebar { position: static !important; max-height: none !important; }
+}
+
+.sidebar {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  background: var(--panel);
+  border-radius: 4px;
+  padding: 18px 14px;
+  border: 1px solid var(--border);
+}
+.sidebar h2 {
+  font-size: 11px; margin: 0 0 12px;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 1.2px; font-weight: 600;
+}
+.toc { list-style: none; padding: 0; margin: 0; }
+.toc li { margin: 1px 0; }
+.toc a {
+  display: block; padding: 5px 10px; border-radius: 3px;
+  text-decoration: none; color: var(--text); font-size: 13px;
+  transition: background .15s;
+  border-left: 2px solid transparent;
+}
+.toc a:hover { background: var(--code-bg); }
+.toc a.active {
+  background: var(--code-bg);
+  border-left-color: var(--text);
+  font-weight: 500;
+}
+.toc .sub { margin-left: 10px; font-size: 12.5px; }
+.toc .sub a { color: var(--muted); padding: 3px 10px; }
+.toc .sub a:hover { color: var(--text); }
+
+.main {
+  background: var(--panel);
+  border-radius: 4px;
+  padding: 28px 36px;
+  border: 1px solid var(--border);
+}
+
+.section { margin-bottom: 48px; scroll-margin-top: 90px; }
+.section:last-child { margin-bottom: 0; }
+
+.section-title {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 0 0 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.section-title h2 {
+  margin: 0; font-size: 22px;
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+.section-title .num {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.subsection {
+  background: var(--panel);
+  border-radius: 4px;
+  margin: 8px 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.subsection-header {
+  padding: 12px 16px;
+  background: var(--panel);
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  user-select: none;
+  font-weight: 500;
+  font-size: 14.5px;
+  color: var(--text);
+}
+.subsection-header:hover { background: var(--code-bg); }
+.subsection.open .subsection-header { border-bottom: 1px solid var(--border); }
+.subsection-header .arrow {
+  transition: transform .15s; color: var(--muted);
+  font-size: 11px;
+}
+.subsection.open .subsection-header .arrow { transform: rotate(90deg); }
+.subsection-body {
+  padding: 18px 20px;
+  display: none;
+  background: var(--panel);
+}
+.subsection.open .subsection-body { display: block; }
+
+h3, h4 { color: var(--text); margin-top: 18px; margin-bottom: 8px; font-weight: 600; }
+h3 { font-size: 16px; padding-bottom: 4px; }
+h4 { font-size: 14.5px; color: var(--text); }
+
+p, li { margin: 5px 0; }
+ul, ol { padding-left: 22px; }
+
+/* Callout boxes - minimal, single subtle border */
+.important, .tip, .warn, .info {
+  background: var(--code-bg);
+  border-left: 2px solid var(--border-strong);
+  padding: 10px 14px;
+  border-radius: 0 3px 3px 0;
+  margin: 10px 0;
+}
+.important { border-left-color: var(--imp); }
+
+/* Star importance markers */
+.star {
+  display: inline-block;
+  color: var(--imp); font-weight: 600;
+  font-size: 12px;
+  vertical-align: super;
+}
+.tag {
+  display: inline-block; padding: 1px 7px;
+  background: var(--code-bg); color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 3px; font-size: 11px;
+  font-weight: 500; margin-right: 4px;
+  vertical-align: middle;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-size: 13.5px;
+  background: var(--panel);
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background: var(--code-bg);
+  font-weight: 600;
+  color: var(--text);
+  font-size: 13px;
+}
+
+code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12.5px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+em.kw {
+  font-style: normal;
+  background: var(--hl);
+  color: var(--hl-text);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.exam-section {
+  margin-top: 24px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 22px;
+}
+.exam-section h3 {
+  margin-top: 0;
+  color: var(--text);
+  border: none;
+}
+.exam-q {
+  background: var(--panel);
+  border-radius: 3px;
+  margin: 10px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+}
+.exam-q .yr {
+  display: inline-block;
+  background: var(--code-bg);
+  color: var(--muted);
+  padding: 2px 7px; border-radius: 3px;
+  font-size: 11px; font-weight: 600;
+  margin-right: 8px;
+  letter-spacing: 0.3px;
+}
+.exam-q .ans {
+  margin-top: 10px; padding: 10px 12px;
+  background: var(--code-bg);
+  border-left: 2px solid var(--imp);
+  border-radius: 0 3px 3px 0;
+  font-size: 13.5px;
+  display: none;
+}
+.exam-q.show-ans .ans { display: block; }
+.exam-q .toggle-ans {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  padding: 4px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 8px;
+  transition: background .15s;
+}
+.exam-q .toggle-ans:hover { background: var(--code-bg); }
+
+/* Quiz modal */
+.modal {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 100;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal.open { display: flex; }
+.modal-content {
+  background: var(--panel);
+  border-radius: 6px;
+  max-width: 580px; width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 26px;
+  position: relative;
+  border: 1px solid var(--border);
+}
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 600;
+}
+.modal-close {
+  position: absolute; top: 14px; right: 18px;
+  background: transparent; border: none;
+  font-size: 20px; cursor: pointer; color: var(--muted);
+}
+.modal-close:hover { color: var(--text); }
+.flashcard {
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: 28px;
+  min-height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  transition: border-color .15s;
+}
+.flashcard.flipped { border-color: var(--text); }
+.flashcard .front, .flashcard .back { width: 100%; }
+.flashcard .back { display: none; }
+.flashcard.flipped .front { display: none; }
+.flashcard.flipped .back { display: block; }
+.quiz-controls {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 14px; gap: 8px;
+  flex-wrap: wrap;
+}
+.quiz-controls button {
+  padding: 7px 14px; border-radius: 3px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer; font-weight: 500; font-size: 13px;
+  transition: background .15s;
+}
+.quiz-controls button:hover { background: var(--code-bg); }
+.quiz-progress {
+  font-size: 12px; color: var(--muted);
+  text-align: center; margin-top: 12px;
+}
+.cat-select {
+  display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0;
+}
+.cat-select button {
+  padding: 5px 11px; border-radius: 12px;
+  background: var(--panel); color: var(--text);
+  border: 1px solid var(--border);
+  cursor: pointer; font-size: 12.5px;
+}
+.cat-select button:hover { border-color: var(--text); }
+.cat-select button.active {
+  background: var(--text);
+  color: var(--panel);
+  border-color: var(--text);
+}
+
+.hl-search { background: yellow !important; color: black !important; }
+[data-theme="dark"] .hl-search { background: #fde047 !important; color: black !important; }
+
+.kw-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px; margin: 10px 0;
+}
+.kw-grid .card {
+  background: var(--panel);
+  padding: 10px 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+.kw-grid .card .term {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  font-size: 13.5px;
+}
+
+.compare {
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: 12px;
+  margin: 10px 0;
+}
+
+footer {
+  text-align: center; padding: 30px; color: var(--muted); font-size: 12px;
+}
+
+/* Floating quiz button */
+.fab {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--text);
+  color: var(--panel);
+  border: none;
+  width: 48px; height: 48px; border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px; z-index: 40;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.fab:hover { opacity: 0.85; }
+
+@media print {
+  header.topbar, .sidebar, .fab, .modal { display: none !important; }
+  .container { display: block; }
+  .subsection-body { display: block !important; }
+  .exam-q .ans { display: block !important; }
+}
+
+.imp1::before { content: '★'; color: var(--muted); margin-right: 3px; }
+.imp2::before { content: '★★'; color: var(--text); margin-right: 3px; }
+.imp3::before { content: '★★★'; color: var(--imp); margin-right: 3px; }
+.imp4::before { content: '★★★★'; color: var(--imp); margin-right: 3px; font-weight: 700; }
+.imp5::before { content: '★★★★★'; color: var(--imp); margin-right: 3px; font-weight: 700; }
+
+.section-intro {
+  background: var(--code-bg);
+  padding: 12px 16px;
+  border-radius: 3px;
+  border-left: 2px solid var(--border-strong);
+  margin: 10px 0 18px;
+  font-size: 13.5px;
+}
+
+details { margin: 8px 0; }
+details summary {
+  cursor: pointer; font-weight: 500;
+  padding: 6px 0; color: var(--text);
+  font-size: 14px;
+}
+details summary:hover { color: var(--muted); }
+details > div { padding: 8px 0 8px 14px; }
+
+ul.compact li { margin: 2px 0; }
+
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+.mnemonic {
+  background: var(--code-bg);
+  border-left: 2px solid var(--border-strong);
+  padding: 10px 14px;
+  border-radius: 0 3px 3px 0;
+  margin: 10px 0;
+  font-style: italic;
+  font-size: 13.5px;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <h1>면역학 기말고사 정리</h1>
+  <div class="controls">
+    <input type="text" class="search" placeholder="검색..." id="searchInput">
+    <button id="expandAll">모두 펼치기</button>
+    <button id="collapseAll">모두 접기</button>
+    <button id="themeToggle">다크모드</button>
+    <button id="quizBtn">암기 테스트</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <h2>목차</h2>
+    <ul class="toc">
+      <li><a href="#intro">시험 안내</a></li>
+      <li><a href="#sec1">1. 면역 관용</a>
+        <ul class="toc sub">
+          <li><a href="#sec1-1">자가면역관용 개요</a></li>
+          <li><a href="#sec1-2">중추 면역 관용</a></li>
+          <li><a href="#sec1-3">말초 면역 관용</a></li>
+          <li><a href="#sec1-4">자가면역 & 유발인자</a></li>
+          <li><a href="#sec1-exam">기출문제</a></li>
+        </ul>
+      </li>
+      <li><a href="#sec2">2. 면역학적 검사방법 (1)</a>
+        <ul class="toc sub">
+          <li><a href="#sec2-basic">기초 검사법</a></li>
+          <li><a href="#sec2-elisa">ELISA / Western Blot</a></li>
+          <li><a href="#sec2-facs">FACS / ELISPOT</a></li>
+          <li><a href="#sec2-covid">COVID-19 키트</a></li>
+          <li><a href="#sec2-exam">기출문제</a></li>
+        </ul>
+      </li>
+      <li><a href="#sec3">3. 분자실험 + 점막면역계</a>
+        <ul class="toc sub">
+          <li><a href="#sec3-pcr">PCR & 분자기법</a></li>
+          <li><a href="#sec3-microarray">DNA Microarray</a></li>
+          <li><a href="#sec3-malt">점막면역계 (MALT)</a></li>
+          <li><a href="#sec3-galt">GALT / Peyer's patch</a></li>
+          <li><a href="#sec3-siga">sIgA & 타액선</a></li>
+          <li><a href="#sec3-exam">기출문제</a></li>
+        </ul>
+      </li>
+      <li><a href="#sec4">4. 과민면역반응</a>
+        <ul class="toc sub">
+          <li><a href="#sec4-overview">개요 & 분류</a></li>
+          <li><a href="#sec4-t4">제4형 (T 세포매개)</a></li>
+          <li><a href="#sec4-t2">제2형 (항체매개)</a></li>
+          <li><a href="#sec4-t3">제3형 (면역복합체)</a></li>
+          <li><a href="#sec4-t1">제1형 (즉시형/알러지)</a></li>
+          <li><a href="#sec4-exam">기출문제</a></li>
+        </ul>
+      </li>
+      <li><a href="#sec5">5. 종양면역</a>
+        <ul class="toc sub">
+          <li><a href="#sec5-immune">암에 대한 면역반응</a></li>
+          <li><a href="#sec5-escape">면역회피 기전</a></li>
+          <li><a href="#sec5-therapy">면역치료 전략</a></li>
+          <li><a href="#sec5-exam">기출문제</a></li>
+        </ul>
+      </li>
+      <li><a href="#sec6">6. 이식면역</a>
+        <ul class="toc sub">
+          <li><a href="#sec6-types">이식 종류 & 항원</a></li>
+          <li><a href="#sec6-recog">직접/간접 인지</a></li>
+          <li><a href="#sec6-reject">거부반응 분류</a></li>
+          <li><a href="#sec6-prevent">예방 & 면역억제제</a></li>
+          <li><a href="#sec6-exam">기출문제</a></li>
+        </ul>
+      </li>
+      <li><a href="#sec-summary">핵심 키워드 정리</a></li>
+      <li><a href="#sec-allexam">전체 기출 모음</a></li>
+    </ul>
+  </aside>
+
+  <main class="main" id="mainContent">
+
+<!-- ============== INTRO ============== -->
+<section class="section" id="intro">
+  <div class="section-title">
+    <div class="num">0</div>
+    <h2>시험 안내 & 학습 가이드</h2>
+  </div>
+
+  <div class="info">
+    <strong>시험 일시:</strong> 2025년 6월 12일 (목) 오전 10시<br>
+    <strong>출제 교수님:</strong><br>
+    • <b>유윤정 교수님</b> — 모두 객관식 (면역관용, 점막면역계, 과민면역반응, 종양면역, 이식면역)<br>
+    • <b>차정헌 교수님</b> — 객관식 + 서술형 2~3문제 (짤족 형태, 면역학적 검사방법, 분자실험)
+  </div>
+
+  <div class="tip">
+    <strong>사용법:</strong><br>
+    • 좌측 <b>목차 클릭</b>으로 이동 (스크롤 따라 활성 위치 표시)<br>
+    • 각 소제목 클릭 시 <b>접기/펼치기</b> 가능<br>
+    • 상단 <b>검색창</b>으로 키워드 즉시 찾기<br>
+    • 기출문제는 <b>"정답 보기"</b> 버튼으로 답 확인<br>
+    • 우측 하단 <b>Q 버튼</b>으로 암기 플래시카드 모드
+  </div>
+
+  <div class="warn">
+    <strong>별표 표기 안내</strong> — 별이 많을수록 중요!<br>
+    <span class="imp1"></span> 알아두기 &nbsp; <span class="imp2"></span> 중요 &nbsp; <span class="imp3"></span> 핵심 &nbsp; <span class="imp4"></span> 매우 중요 &nbsp; <span class="imp5"></span> 빈출 (반드시!)
+  </div>
+</section>
+
+<!-- ============== SECTION 1: 면역 관용 ============== -->
+<section class="section" id="sec1">
+  <div class="section-title">
+    <div class="num">1</div>
+    <h2>면역 관용 (Immune Tolerance)</h2>
+  </div>
+
+  <div class="section-intro">
+    <strong>핵심:</strong> 자기항원을 인지하는 비정상 림프구를 <em class="kw">제거하거나 불활성화</em>시켜 자가면역을 방지하는 시스템.
+    중추(1차림프기관) vs 말초(2차림프기관) 면역관용으로 나뉨.
+  </div>
+
+  <div class="subsection open" id="sec1-1">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>I. 자가 면역 관용 개요</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+      <h4>정의</h4>
+      <p>T 및 B림프구가 <em class="kw">자신의 MHC만을 인식</em>하면서 <em class="kw">자기항원과는 반응하지 않도록</em> 하는 기전.</p>
+      <ul>
+        <li><b>T:</b> 자신의 MHC만 인식, self antigen은 인식 X</li>
+        <li><b>B:</b> 자신항원을 인식하지 X</li>
+      </ul>
+
+      <h4>의의</h4>
+      <ul class="compact">
+        <li>알레르기 및 자가면역질환 예방·치료</li>
+        <li>장기이식 거부반응 방지</li>
+        <li>인위적 림프구 관용 유도 가능</li>
+      </ul>
+
+      <h4>면역관용의 2가지 단계</h4>
+      <table>
+        <tr><th>구분</th><th>장소</th><th>대상</th></tr>
+        <tr><td><b>중추(central) 면역관용</b></td><td>1차 림프기관 (가슴샘, 골수)</td><td>발생 초기 림프구</td></tr>
+        <tr><td><b>말초(peripheral) 면역관용</b></td><td>2차 림프기관 (림프절, 비장, 점막림프계)</td><td>중추에서 빠져나온 림프구</td></tr>
+      </table>
+
+      <div class="important">
+        <span class="imp3"></span><b>★ 면역관용은 미생물이 아니라 자신을 공격하는 비정상 림프구를 없애거나 불활성화시키는 것!</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec1-2">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>II. 중추 면역 관용 (Central Tolerance)</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+      <h4>1. T 림프구 (가슴샘에서)</h4>
+      <p><b>관여하는 세포:</b> <em class="kw">상피세포, 대식세포, 가지돌기세포</em> <span class="imp3"></span></p>
+
+      <div class="info">
+        <b>꼭 기억해야 할 2가지 ⭐⭐</b>
+        <ol>
+          <li><b>MHC restriction (MHC 제한):</b> T림프구는 항원 peptide를 인지할 때 MHC도 동시에 인지해야 함</li>
+          <li>자기항원(self peptide)이 class I MHC(모든 유핵세포) 또는 class II MHC(APC)와 결합</li>
+        </ol>
+      </div>
+
+      <div class="warn">
+        <b>왜 상피세포에 대부분의 self peptide가 존재하는가?</b>
+        <ol>
+          <li>가슴샘 상피세포에 있는 <em class="kw">AIRE (Autoimmune regulator protein)</em>가 우리 몸의 거의 모든 단백질을 만들어냄</li>
+          <li>다른 곳의 자기항원이 혈관을 통해 가슴샘으로 들어옴</li>
+        </ol>
+      </div>
+
+      <h4>T cell 중추면역관용 과정</h4>
+      <ol class="compact">
+        <li><b>Pre T (Double negative):</b> 골수에서 CD4-, CD8- stem cell 생성</li>
+        <li><b>Immature T (Double positive):</b> 가슴샘 이동, CD4+, CD8+, CD3, TCR 발현</li>
+        <li>상피세포·대식세포·가지돌기세포와 접촉</li>
+        <li>인식 강도에 따라 운명 결정:
+          <ul>
+            <li>인식 X → <span class="tag danger">apoptosis</span></li>
+            <li>강하게 인식 (MHC+self peptide) → <span class="tag danger">apoptosis</span> 또는 <span class="tag ok">Treg 분화</span></li>
+            <li>약하게 인식 (MHC만) → <span class="tag ok">생존</span> → 단일양성으로 분화</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="tip">
+        <b>최종 결과:</b> 자기 MHC는 인지하면서 self peptide는 인지하지 않는 T<sub>H</sub>, T<sub>c</sub>만 살아남음. +) Treg도 생성!
+      </div>
+
+      <h4>2. B 림프구 (골수에서)</h4>
+      <ul>
+        <li><b>자기항원과 강하게 반응하는 BCR</b> → ① apoptosis 또는 ② <em class="kw">Receptor editing</em> (새로운 light chain 발현)</li>
+        <li><b>약하게 반응하는 BCR</b> → BCR 발현량 감소 → <em class="kw">Anergy (무반응)</em></li>
+      </ul>
+
+      <table>
+        <caption style="font-weight:700; padding:6px;">중추면역관용 요약</caption>
+        <tr><th></th><th>T 림프구</th><th>B 림프구</th></tr>
+        <tr><td><b>장소</b></td><td>가슴샘 (Thymus)</td><td>골수 (Bone marrow)</td></tr>
+        <tr><td><b>반응</b></td><td>1. Apoptosis (deletion)<br>2. Treg로 분화</td><td>1. Apoptosis (deletion)<br>2. Receptor editing<br>3. Anergy</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec1-3">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>III. 말초 면역 관용 (Peripheral Tolerance)</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+      <p>중추면역관용에 의해 제거되지 않은 자가면역반응 림프구를 제거.</p>
+
+      <h4>B cell 말초관용</h4>
+      <p>정상 B 림프구는 반드시 보조 T 림프구의 도움을 받아야 활성화. T<sub>H</sub>가 제거선택되었거나 Treg에 의해 보조자극(CD40L)을 받지 못하면:</p>
+      <ul>
+        <li>① 무반응 (anergy)</li>
+        <li>② 세포고사 (apoptosis)</li>
+        <li>③ 억제 수용체를 통한 BCR threshold 조절</li>
+      </ul>
+
+      <h4>T cell 말초관용 — 3가지 기전</h4>
+
+      <div class="info">
+        <b>① 무반응 (Anergy) — T<sub>H</sub>가 살아있되 무반응</b><br>
+        • 정상: APC가 B7 충분히 발현 → TCR + CD28 (B7 인식) → 활성화<br>
+        • 자기항원: B7 없거나, <em class="kw">CTLA-4</em>가 B7과 결합하여 제거<br>
+        <span class="imp2"></span>CTLA-4는 꼭 기억! (B7에 대한 친화력이 CD28보다 강함)
+      </div>
+
+      <div class="info">
+        <b>② 세포사 (Apoptosis)</b><br>
+        • 정상: TCR(pro-apoptotic) + CD28(anti-apoptotic) → 활성화<br>
+        • 자기항원: <em class="kw">Fas-FasL</em> 상호작용에 의한 apoptosis (반복자극 시) 또는 B7 없어 anti-apoptotic 단백질 X
+      </div>
+
+      <div class="important">
+        <span class="imp5"></span><b>③ Treg (조절/억제 T 림프구)에 의한 면역억제</b>
+        <p><b>특징:</b> ⑴ CTLA-4 발현 ⑵ IL-2 소모 ⑶ IL-10, TGF-β 생성</p>
+        <p><b>억제 기전 ★★★:</b></p>
+        <ul>
+          <li><b>접촉의존:</b> Treg의 CTLA-4가 APC의 B7과 결합 → B7 제거</li>
+          <li><b>IL-2 소모:</b> 자기반응 T<sub>H</sub>가 증식하는데 필요한 IL-2를 사용</li>
+          <li><b>Cytokine 분비:</b> IL-10 (DC, Mφ의 B7·class II·IL-12 발현 억제), TGF-β (T<sub>H</sub>1, T<sub>H</sub>2 분화 억제, Treg 분화 유도)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec1-4">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>IV. 자가면역 & 유발인자</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+      <h4>자가면역의 특성 ★</h4>
+      <ul>
+        <li>T, B 또는 두 세포 모두에서 면역관용 문제 발생</li>
+        <li><em class="kw">유전적 요인 + 환경적 요인</em> (염증 유발: 감염 또는 조직손상)</li>
+        <li>전신적 또는 장기특이적</li>
+      </ul>
+
+      <div class="info">
+        <b>⭐⭐ 면역 특혜 지역 (Immunological privileged sites)</b>
+        <p><b>"이건 꼭 기억" — Brain, Eye, Testis(고환), Uterus(자궁)</b></p>
+        <p>혈관내피세포의 tight junction, 면역억제 cytokine 생성, 림프구 불활성화·죽이는 분자 발현 → 면역반응 잘 안 일어남</p>
+      </div>
+
+      <h4>1. 유전적 요인 ⋆⋆⋆</h4>
+      <ul>
+        <li>한 가족·일란성 쌍둥이에서 발생빈도 높음</li>
+        <li>특정 HLA 분자 발현 시 자가면역질환 확률↑ (relative risk)</li>
+        <li>AIRE, CTLA-4, Fas 유전자 변이와 연관</li>
+      </ul>
+
+      <h4>2. 환경적 요인 — 미생물이 자가면역을 유도하는 4가지 기전 <span class="imp5"></span></h4>
+      <div class="important">
+        <ol>
+          <li><b>Microbe induces B7 in APC:</b> 자기 peptide와 결합한 APC에서 B7 발현 유도 → 자기반응 T<sub>H</sub> 활성화</li>
+          <li><b>미생물 효소가 자기단백질 변형:</b> 예) <em class="kw">P. gingivalis</em>의 peptidyl-arginine deiminase → rheumatoid arthritis</li>
+          <li><b>Microbe has similar peptide to self (분자모방, molecular mimicry):</b> 교차반응으로 자기반응 T 활성화 (예: CMV/HLA-DR, Poliovirus/ACh receptor)</li>
+          <li><b>면역특혜지역 손상:</b> 외상·감염으로 격리항원 노출 → 자가면역 (예: 외상후 포도막염, 정관수술 후 고환염)</li>
+        </ol>
+      </div>
+
+      <h4>3. 기타 요인</h4>
+      <ul class="compact">
+        <li>외상에 의한 격리조직(눈·고환) 손상</li>
+        <li>과도한 자외선 노출 (핵단백질 유리)</li>
+        <li>호르몬 (여자에서 발생빈도 높음 — Sjögren, SLE, Graves, MG, RA, MS 등)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 기출문제 -->
+  <div class="exam-section" id="sec1-exam">
+    <h3>면역관용 기출문제</h3>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>면역특혜지역은?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> Eye (눈) — brain, eye, testis, uterus 중 하나</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>말초면역관용에서 MHC2-peptide를 인지한 T<sub>H</sub>의 anergy로 옳은 것?</b>
+      <ul>
+        <li>1) apoptosis가 일어난다</li>
+        <li>2) TCR editing이 일어난다</li>
+        <li>3) Fas-FasL 상호작용이 일어난다</li>
+        <li>4) B7에 결합 후 분해한다</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 4번 (CTLA-4가 B7에 결합하여 분해)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022</span><b>Thymus가 지방화 되면서 생기는 문제로 올바른 것은?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> MHC I-peptide 복합체와 약하게 결합하는 CD4+CD8+ T가 Tc로 분화하지 않음</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023</span><b>말초면역 관용에서 Treg가 자기항원인지하는 숫T 억제하기 위해 하는 일?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> TGF-β (혹은 CTLA-4로 B7 제거, IL-2 소모, IL-10 분비)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019</span><b>Thymus가 퇴화된 환자의 치과치료에서 일어날 수 있는 문제점은?</b>
+      <ul>
+        <li>1) class I MHC + peptide를 인식하지 못하는 T세포의 apoptosis</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 1번 (가슴샘 퇴화 → 구조선택 실패 → 자가면역 가능성)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019</span><b>B cell 중추면역관용으로 틀린 것은?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> 억제수용체를 통한 역치조절 (이건 말초관용에서 일어남)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 2: 면역학적 검사방법 ============== -->
+<section class="section" id="sec2">
+  <div class="section-title">
+    <div class="num">2</div>
+    <h2>면역학적 검사방법 (1) — 차정헌 교수님</h2>
+  </div>
+
+  <div class="section-intro">
+    <strong>출제 경향:</strong> 짤족 서술형 2-3문제 + 객관식 1-2문제. 검사 방법을 달달 외우기보다 <em>기출 위주로 서술형 답안 작성 연습</em> 추천.
+    각 실험에서 <strong>항원/항체 중 무엇을 detect하는지</strong>가 핵심!
+  </div>
+
+  <div class="subsection" id="sec2-basic">
+    <div class="subsection-header">
+      <span><span class="imp2"></span>1-4. 기초 검사법</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1. Haemagglutination (적혈구 응집)</h4>
+      <ul class="compact">
+        <li><b>목적:</b> 혈청에서 적혈구(또는 적혈구 표면 코팅 항원)와 결합하는 <em class="kw">항체</em>의 유무·양 detect</li>
+        <li><b>원리:</b> negative → 항체-적혈구 결합 X, 바닥 중심에 진한 dot / positive → 결합, 희미한 큰 원</li>
+        <li>96 well plate에서 가로방향 serial dilution → 어느 희석배수까지 positive인지로 항체량 측정</li>
+      </ul>
+
+      <h4>2. Complement fixation</h4>
+      <p><b>목적:</b> 보체를 이용해 혈청 내 항원에 대한 항체 존재 여부 검사</p>
+      <table>
+        <tr><th>단계</th><th>왼쪽 tube (Ag만)</th><th>오른쪽 tube (Ag + test serum)</th></tr>
+        <tr><td>1</td><td>항체 X → immune complex 없음</td><td>항체 있음 → immune complex 형성</td></tr>
+        <tr><td>2</td><td>Complement free</td><td>Complement → complex에 결합</td></tr>
+        <tr><td>3 (RBC 첨가)</td><td><span class="tag danger">RBC lysis 일어남</span></td><td><span class="tag ok">lysis 없음 (항체 있음)</span></td></tr>
+      </table>
+      <div class="warn"><b>결과 분석:</b> Lysis 일어나면 항체 X / Lysis 없으면 항체 있음 (반대!)</div>
+
+      <h4>3. Lymphocyte stimulation test <span class="imp1"></span></h4>
+      <p><b>분리 방법 (꼭 알기):</b> <em class="kw">Density-gradient separation on Ficoll Isopaque</em> — 밀도 차 이용한 원심분리. lymphocyte &lt; ficoll &lt; RBC·granulocyte</p>
+      <ul>
+        <li><b>목적:</b> 특정 항원이 림프구를 stimulation 시키는지 검사</li>
+        <li><b>방법:</b> 분리한 lymphocyte + antigen + culture medium + <em class="kw">[3H] thymidine</em> 배양 → radioactivity 측정</li>
+        <li><b>해석:</b> 항원에 자극 → 림프구 proliferation → DNA 합성 시 ³H thymidine 흡수 → radioactivity ↑</li>
+      </ul>
+      <div class="info"><b>★ thymidine을 쓰는 이유:</b> 세포가 분열하면서 DNA를 복제할 때 thymidine을 흡수 → DNA 합성·증식 정도(=림프구 활성화) 측정 가능 (자주 출제!)</div>
+
+      <h4>4. Cytotoxicity assay by chromium release</h4>
+      <ul class="compact">
+        <li><b>목적:</b> effector cell (NK, Mφ)의 cytotoxicity 측정</li>
+        <li><b>방법:</b> ⁵¹Cr로 target cell label → effector cell 첨가 → target cell이 죽으면 ⁵¹Cr 방출 → radioactivity 측정</li>
+      </ul>
+
+      <h4>5. Monoclonal antibody production <span class="imp2"></span></h4>
+      <table>
+        <tr><th></th><th>Monoclonal antibody</th><th>Polyclonal antibody</th></tr>
+        <tr><td>정의</td><td>한 종류 epitope에만 결합</td><td>여러 epitope에 결합</td></tr>
+        <tr><td>생성</td><td>한 B cell clone에서</td><td>여러 다른 B cell에서</td></tr>
+        <tr><td>특이성</td><td>높음</td><td>상대적으로 낮음</td></tr>
+        <tr><td>교차반응</td><td>적음</td><td>높음 (affinity 높음)</td></tr>
+      </table>
+      <div class="info">
+        <b>실험 방법:</b><br>
+        ① mouse에 X항원 injection<br>
+        ② Spleen cell 추출 (B cell 多)<br>
+        ③ Myeloma cell 분리 (immortality)<br>
+        ④ PEG로 세포막 fusion<br>
+        ⑤ <em class="kw">HAT 배지</em>에서 배양 — myeloma(HAT 민감), B cell (수명 짧음) → fusion된 세포만 생존<br>
+        ⑥ X에 결합하는 hybridoma 선별<br>
+        ⑦ High dilution으로 단일 세포 well → monoclonal Ab 획득
+      </div>
+
+      <h4>6. Polyclonal Ab Purification by affinity chromatography</h4>
+      <p>특정 항원에 대한 polyclonal Ab 정제. Antigen-bead column에 serum loading → wash → elution (pH 변화)</p>
+
+      <h4>7. Immunoprecipitation</h4>
+      <p>Antibody-bead complex로 특정 단백질(항원) 정제. Co-IP는 결합 단백질도 함께 detect 가능.</p>
+
+      <h4>8. Agglutination tests for soluble antigens</h4>
+      <p>Latex particle에 항체 코팅 → multivalent 항원과 결합 시 응집 → 가시화. <em>Co-agglutination</em>: Staphylococcus protein A가 항체 Fc와 결합하는 성질 이용 (예: S. pneumoniae 진단).</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec2-elisa">
+    <div class="subsection-header">
+      <span><span class="imp5"></span>9-11. ELISA & Western Blot</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>9. ELISA (Enzyme-Linked Immunosorbent Assay) <span class="imp5"></span></h4>
+      <div class="important">
+        <b>목적:</b> 혈청 내 특정 항원에 대한 <em class="kw">항체</em>의 양 측정 → <b>plate에 항원 코팅!</b>
+      </div>
+      <p><b>HIV ELISA 원리:</b></p>
+      <ul>
+        <li>HIV는 잠복기 존재 → serum에 항원 X, 그러나 <em>항체는 계속 존재</em></li>
+        <li>HIV 항원 코팅 plate → 환자 혈청 → washing → 2차 항체(anti-human Ig + enzyme) → washing → substrate → 발색</li>
+      </ul>
+
+      <p><b>ELISA 단계:</b> ① 항원 코팅 → ② 환자 혈청 → ③ Wash → ④ 2차 항체 → ⑤ Wash → ⑥ Substrate → ⑦ 발색 측정 (450nm OD)</p>
+
+      <table>
+        <tr><th>OD 값</th><th>해석</th></tr>
+        <tr><td>≥ 0.500</td><td><span class="tag danger">Positive</span> (Western Blot으로 재확인)</td></tr>
+        <tr><td>0.300 ~ 0.499</td><td><span class="tag warn">Indeterminate</span> → Retest</td></tr>
+        <tr><td>&lt; 0.300</td><td><span class="tag ok">Negative</span></td></tr>
+      </table>
+
+      <div class="warn">
+        <b>예제 답</b><br>
+        Q1. ELISA는 무엇을 측정? → <b>① HIV 항체만</b> (잠복기에 항원 X)<br>
+        Q2. 혈청 빼면? → <b>④ ①·③ 모두</b> (2차 Ab 씻겨나가고, OD = assay control)<br>
+        Q3. Washing 안 하면? → <b>③ 모든 well이 과현상</b><br>
+        Q4. HIV+? → 0.500 이상인 환자
+      </div>
+
+      <h4>10. Western Blot <span class="imp1"></span></h4>
+      <div class="important">
+        <b>목적:</b> 특정 단백질(항원) 존재 여부 → <em class="kw">항체 이용</em>. ELISA보다 specific. <b>HIV ELISA의 confirmatory test!</b>
+      </div>
+      <ul>
+        <li>SDS-PAGE → membrane으로 blotting → 표적 단백질에 대한 antibody로 detection</li>
+      </ul>
+
+      <div class="info">
+        <b>Western Blot 해석 (HIV)</b>
+        <table>
+          <tr><th>패턴</th><th>판정</th></tr>
+          <tr><td>Band 없음</td><td>Negative</td></tr>
+          <tr><td>p24 또는 p31 + (gp160 또는 gp120)</td><td>Positive</td></tr>
+          <tr><td>Band 있으나 위 기준 X</td><td>Indeterminate</td></tr>
+        </table>
+        <b>주요 단백질:</b> gp160 (env precursor), gp120 (CD4 결합), p24 (gag), p31 (Reverse transcriptase)
+      </div>
+
+      <h4>Blotting 비교 ⋆⋆</h4>
+      <table>
+        <tr><th>Blotting</th><th>대상</th><th>Probe</th></tr>
+        <tr><td>Southern</td><td>DNA</td><td>DNA probe</td></tr>
+        <tr><td>Northern</td><td>RNA</td><td>RNA probe</td></tr>
+        <tr><td>Western</td><td>Protein</td><td>Antibody</td></tr>
+      </table>
+
+      <h4>11. Sandwich ELISA</h4>
+      <div class="important">
+        <b>목적:</b> 항원의 존재 여부 → <em class="kw">plate에 항체 코팅!</em> (ELISA와 반대)<br>
+        혈청 cytokine detection 등에 사용
+      </div>
+      <p><b>구성:</b> 1차 항체 (plate) → 항원 → 2차 항체-Biotin → Streptavidin-HRP → TMB substrate → 발색 → Stop solution (강산)</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec2-facs">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>12-13. ELISPOT & FACS</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>12. ELISPOT (Enzyme-Linked Immunospot)</h4>
+      <p><b>목적:</b> 항체나 cytokine을 분비하는 <em class="kw">개별 세포의 수</em> 측정 (B cell이 항체 생성하는지, T cell이 cytokine 생성하는지)</p>
+      <ul>
+        <li>B cell 검사: plate에 antigen 코팅 → B cell이 항체 생성 시 spot 형성</li>
+        <li>T cell 검사: plate에 anti-cytokine Ab 코팅 → T cell이 cytokine 분비 시 spot 형성</li>
+        <li>Spot 수가 많을수록 면역반응 세포 많음</li>
+      </ul>
+
+      <h4>13. FACS (Fluorescence-Activated Cell Sorting) <span class="imp4"></span></h4>
+      <div class="important">
+        <b>22년·23년 객관식, 24년 출제!</b> 매년 나오는 빈출 주제
+      </div>
+      <ul>
+        <li><b>목적:</b> 서로 다른 표면항원을 갖는 세포 분류·분리, 상대적 숫자 파악</li>
+        <li><b>방법:</b> 다른 색 fluorescent dye-labeled Ab로 tagging → nozzle 통과 → laser detection → 전기장으로 분리</li>
+        <li>4사분면 해석:
+          <ul class="compact">
+            <li>1사분면: CD4⁻CD8⁺ (Tc)</li>
+            <li>2사분면: CD4⁺CD8⁺ (Double positive)</li>
+            <li>3사분면: CD4⁻CD8⁻ (Double negative)</li>
+            <li>4사분면: CD4⁺CD8⁻ (TH)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec2-covid">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>14-15. COVID-19 자가진단 키트 & 중화항체 키트</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>14. COVID-19 자가진단 키트 <span class="imp3"></span></h4>
+      <div class="important">
+        <b>목적:</b> COVID virus <em class="kw">항원</em>의 유무 진단 → 키트에 <em class="kw">항체 코팅</em><br>
+        <b>원리:</b> 면역크로마토그래피 (항원항체반응 + 크로마토그래피)
+      </div>
+      <p><b>구성:</b></p>
+      <ul>
+        <li><b>Labeled antibody</b> (효소부착)</li>
+        <li><b>Test line:</b> Primary antibody — 항원 있을 때만 sandwich 형성</li>
+        <li><b>Control line:</b> Secondary antibody — 항원 유무와 무관, 무조건 결합 (검사 정상 작동 확인)</li>
+      </ul>
+
+      <div class="warn">
+        <b>[빈출] Test line에 대한 옳은 설명:</b>
+        <ul class="compact">
+          <li>Labeling된 항원항체 복합체와 결합</li>
+          <li>COVID-19 항원과 결합</li>
+          <li>Sandwich-ELISA와 동일한 원리</li>
+          <li>Labeling된 항체와 결합</li>
+          <li>선이 나타나면 항체가 있다는 의미</li>
+        </ul>
+      </div>
+
+      <h4>15. 중화 항체 진단 키트</h4>
+      <p><b>목적:</b> 백신 접종자의 <em class="kw">중화 항체</em> 존재 유무 → 키트에 RBD 또는 ACE2 코팅</p>
+      <ul class="compact">
+        <li>중화항체 多 → HRP-RBD가 항체와 결합 → ACE2와 결합 ↓ → 발색 ↓</li>
+        <li>중화항체 少 → HRP-RBD가 ACE2와 결합 → 발색 ↑</li>
+      </ul>
+      <p><b>★핵심:</b> RBD(Receptor Binding Domain)와 ACE2 결합을 항체가 방해하는 것</p>
+
+      <h4>16. Knockout Mice</h4>
+      <ul class="compact">
+        <li><b>Knockout:</b> 특정 유전자 deletion</li>
+        <li><b>Transgenic:</b> 특정 유전자 과발현 (CMV promoter 등)</li>
+        <li><b>Knockin:</b> Deletion + 다른 유전자 삽입</li>
+        <li>Neomycin (저항성), Ganciclovir (tk 유전자 있으면 죽음) 항생제로 선별</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 기출문제 -->
+  <div class="exam-section" id="sec2-exam">
+    <h3>면역학적 검사방법 기출문제</h3>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>Monoclonal antibody 제작 방법 중 틀린 것은?</b>
+      <ul>
+        <li>1. Spleen B cell은 HAT media에서 죽지 않는다</li>
+        <li>2. Spleen B + myeloma fusion은 HAT에서 죽지 않는다</li>
+        <li>3. 1-2주 배양하는 이유는 B cell 성격을 얻기 위해</li>
+        <li>4. fusion된 cell을 well에 하나씩 배양</li>
+        <li>5. monoclonal Ab는 한 항원의 한 epitope에 결합</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 3번 — Spleen B cell의 성격이 아니라 <b>cancer cell의 immortality</b>를 얻기 위함</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023, 2024</span><b>FACS 분석 결과 옳은 것 모두 (CD4/CD8 분포)</b>
+      <ul>
+        <li>1) CD4⁻CD8⁻가 CD4⁺CD8⁺보다 적다</li>
+        <li>2) CD4⁺CD8⁺가 다른 세포보다 많다</li>
+        <li>3) CD4⁺가 CD8⁺보다 많다</li>
+        <li>4) CD4⁺CD8⁺가 CD8⁺보다 많다</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 1, 2, 4</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023, 2024</span><b>COVID-19 자가검진키트 test line에 대한 옳은 설명을 모두 고르시오</b>
+      <ul>
+        <li>1) Labeling된 항체와 결합</li>
+        <li>2) Labeling된 항원항체 복합체와 결합</li>
+        <li>3) COVID-19 항원과 결합</li>
+        <li>4) 선이 나타나면 항체가 있다는 의미</li>
+        <li>5) Sandwich-ELISA와 동일한 원리</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 2, 3, 5</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2021</span><b>Western blot 측정/Primary Ab 결합 대상은?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> (1) <b>항원</b> (HIV의 경우 항체) (2) target 단백질 (HIV의 경우 항원)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2021, 서술형</span><b>Lymphocyte stimulation test에서 thymidine이 쓰인 이유는?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> 림프구가 자극받아 proliferation 시 DNA 복제가 일어나는데, [³H] thymidine이 DNA에 흡수됨 → radioactivity 측정으로 림프구 활성화 정도 정량 가능</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2024, 서술형</span><b>DNA Microarray 원리와 방법</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans">
+        ① DNA chip 만들기: 20,500개 gene에 specific primer로 PCR → DNA product를 유리에 dot으로 printing<br>
+        ② 정상세포와 암세포의 mRNA → RT-PCR로 cDNA (정상: green, 암: red labeling)<br>
+        ③ DNA chip에 hybridization → 색 분석:<br>
+        • Yellow: 둘 다 발현 • Red: 암세포 우세 • Green: 정상세포 우세 • 무색: 모두 X<br>
+        → 정상세포와 암세포의 유전자 발현 차이 비교
+      </div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">서술형</span><b>HIV ELISA로 HIV 감염여부 확인하는 원리는?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans">
+        ① HIV는 잠복기가 존재하여 혈청 내 항원이 detect 되지 않음. 하지만 감염 시 항체는 계속 존재<br>
+        ② HIV 항원을 plate에 코팅 → 환자 혈청 첨가 → HIV 항체가 있으면 항원에 결합<br>
+        ③ Washing → enzyme-conjugated 2차 항체(anti-human Ig) 첨가 → washing → substrate 첨가<br>
+        ④ 발색 정도(OD 450nm)로 항체 존재·양 측정. ≥0.5 positive (Western blot으로 확정)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 3: 분자실험 + 점막면역계 ============== -->
+<section class="section" id="sec3">
+  <div class="section-title">
+    <div class="num">3</div>
+    <h2>분자실험 방법론 & 점막면역계 (MALT)</h2>
+  </div>
+
+  <div class="subsection" id="sec3-pcr">
+    <div class="subsection-header">
+      <span><span class="imp5"></span>I. PCR & 분자기법</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1. PCR (Polymerase Chain Reaction) <span class="imp5"></span></h4>
+      <ul>
+        <li>두 종류 primer(forward, reverse)로 목적 DNA 영역 사이에 두고 증폭</li>
+        <li><b>재료:</b> Template DNA, Primer, dNTP, Taq polymerase, PCR buffer (Mg²⁺)</li>
+      </ul>
+
+      <div class="info">
+        <b>3단계 cycle (30-35회 반복):</b>
+        <ol>
+          <li><b>Denaturation</b> (94°C, 15초~1분) — 2가닥 → 1가닥</li>
+          <li><b>Annealing</b> (42-55°C, 30초~1분) — Primer가 template에 결합</li>
+          <li><b>Extension</b> (72°C, 30초~10분) — Taq polymerase가 DNA 합성</li>
+        </ol>
+        Initial denaturation (94°C, 2-3분) + Final extension (72°C, 10분)
+      </div>
+
+      <h4>2. Southern Blotting</h4>
+      <p>특정 DNA fragment detection. DNA를 restriction enzyme으로 절단 → 전기영동 → blotting → DNA probe로 hybridization → autoradiography/fluorescent</p>
+
+      <h4>3. Sanger Sequencing</h4>
+      <ul>
+        <li>ddNTP (3'-OH 없음) 사용 → DNA polymerization 멈춤</li>
+        <li>4종 ddNTP를 각각 다른 tube 또는 다른 색 형광으로 labeling</li>
+        <li>전기영동 후 short→long 순서로 읽어 5'→3' 서열 결정</li>
+      </ul>
+
+      <h4>4. Cloning <span class="imp1"></span></h4>
+      <ul class="compact">
+        <li>Bacteria E.coli plasmid를 vector로 사용</li>
+        <li>제한효소로 절단 → Sticky end (complementary, affinity↑) 또는 Blunt end</li>
+        <li>Sticky end가 ligation에 용이</li>
+        <li><b>필수 조건:</b> ① Replication origin ② Selective marker (예: 항생제 저항성 유전자)</li>
+      </ul>
+
+      <h4>5. RT-PCR (Reverse Transcription PCR) <span class="imp3"></span></h4>
+      <div class="important">
+        <b>핵심 Q: 어떻게 total RNA에서 mRNA만 선별적으로 RT?</b><br>
+        <b>A:</b> Oligo-dT primer가 mRNA의 <em class="kw">poly A tail</em>에만 결합 → mRNA만 선별적으로 cDNA로 reverse transcription
+      </div>
+      <ul class="compact">
+        <li>Retrovirus의 reverse transcriptase 이용</li>
+        <li>mRNA → cDNA → 일반 PCR로 증폭</li>
+      </ul>
+
+      <h4>6-7. Real-time PCR (정량 PCR)</h4>
+      <p>실시간으로 증폭되는 DNA 양 측정. CT값 (threshold 넘는 cycle 수)이 작을수록 초기 template 多.</p>
+      <table>
+        <tr><th>방법</th><th>특징</th></tr>
+        <tr><td>SYBR Green</td><td>ds DNA에 비특이적 결합. 싸지만 정확도 낮음. Single product detection only</td></tr>
+        <tr><td>TaqMan probe</td><td>Specific. 비쌈. Multiplex 가능 (여러 색 probe). Reporter + Quencher 구조</td></tr>
+      </table>
+
+      <h4>8. COVID-19 PCR 검사</h4>
+      <p>+ssRNA virus. RNA 추출 → cDNA 합성 → PCR 증폭 → TaqMan probe → 형광 측정. Multiplex로 3개까지 검출.</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec3-microarray">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>9. DNA Microarray (서술형 출제)</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+      <div class="important">
+        <b>★ 2023, 2024 주관식 출제 — 매년 나옴!</b>
+      </div>
+
+      <h4>DNA chip 만들기</h4>
+      <ol class="compact">
+        <li>20,500가지 gene에 specific primer 제작</li>
+        <li>DNA isolation + PCR로 specific DNA product 생성</li>
+        <li>DNA product를 유리에 dot으로 printing (Dot 하나 = PCR reaction 하나)</li>
+      </ol>
+
+      <h4>How arrays work</h4>
+      <ol class="compact">
+        <li>정상세포 mRNA → RT-PCR → cDNA를 <em class="kw">Green</em>으로 labeling</li>
+        <li>암세포 mRNA → RT-PCR → cDNA를 <em class="kw">Red</em>로 labeling</li>
+        <li>DNA chip에 뿌려 hybridization (single strand cDNA → 상보적 부위에 결합)</li>
+        <li>Scanner로 dot 색 읽기</li>
+      </ol>
+
+      <table>
+        <tr><th>Dot 색</th><th>해석</th></tr>
+        <tr><td><span style="color:#facc15">Yellow</span></td><td>정상·암 모두 비슷하게 발현</td></tr>
+        <tr><td><span style="color:#ef4444">Red</span></td><td>암세포에서 우세 발현</td></tr>
+        <tr><td><span style="color:#10b981">Green</span></td><td>정상세포에서 우세 발현</td></tr>
+        <tr><td>무색</td><td>둘 다 발현 안됨</td></tr>
+      </table>
+
+      <h4>Proteomics & Protein Array</h4>
+      <p><b>Proteomics:</b> 2D gel (pH + size) → Mass spectrometry로 amino acid sequencing</p>
+      <p><b>Protein array:</b> Plate에 항체 심고 → 항원 뿌리면 → fluorescent 2차 항체로 detection (sandwich ELISA와 유사). 단점: 항체 필요, 비쌈, 임상 사용 X</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec3-malt">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>II. 점막면역계 (MALT) 개요</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+      <h4>MALT 종류</h4>
+      <ul>
+        <li><b>호흡기:</b> BALT, NALT</li>
+        <li><b>소화기:</b> GALT (소장 Peyer's patch ★★★, 맹장·대장 follicle)</li>
+        <li><b>Waldeyer's ring:</b> Adenoid, palatine tonsil, lingual tonsil</li>
+        <li><b>Lacrimal gland, Salivary gland ★, Mammary gland</b></li>
+        <li><b>생식기</b> (자궁 등)</li>
+      </ul>
+
+      <div class="important">
+        <b>⭐⭐⭐ 점막면역계 특징 (다른 면역계와 차이점)</b>
+        <ol>
+          <li><b>IgA 생성</b> — Isotype switching 후 주로 IgA (다른 곳은 IgG, IgM 등)</li>
+          <li><b>Mucosa-oriented cell homing</b> — 활성화된 림프구가 다시 점막면역계로 선택적 이동</li>
+        </ol>
+        하루 5g의 IgA 생성 (2/3는 sIgA), 5종류 항체 중 IgA 60-70%로 가장 多
+      </div>
+
+      <h4>점막면역계가 아닌 것 (시험에 자주)</h4>
+      <ul class="compact">
+        <li>갑상선 (Thyroid), 부갑상선 (Parathyroid) — MALT 아님!</li>
+        <li>골수, 가슴샘 (1차 림프기관)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec3-galt">
+    <div class="subsection-header">
+      <span><span class="imp5"></span>III. GALT: Peyer's patch (가장 중요!)</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>Peyer's patch 구조</h4>
+      <ul class="compact">
+        <li>융모 없이 납작한 상피 하방, lymphocyte 모인 부분</li>
+        <li>Lumen 쪽 정상세균총 + Enterocyte 사이 <em class="kw">M cell</em>이 듬성듬성</li>
+        <li>Dendritic cell이 항원제시 (일부는 lumen까지 돌출)</li>
+        <li>숫T (parafollicle), 숫B (follicle), 림프관 연결</li>
+      </ul>
+
+      <h4>M cell (Membranous / Microfold cell)</h4>
+      <div class="info">
+        <b>특징:</b>
+        <ul class="compact">
+          <li>Enterocyte의 0.1% 미만, 섬모 없음</li>
+          <li><em class="kw">Antigen transport cell</em> — pinocytosis로 항원을 Peyer's patch로 운반</li>
+          <li><b>★★★ class II MHC 발현 X</b> (항원제시세포 아님!) — 분해 X, 통로 역할만</li>
+        </ul>
+      </div>
+
+      <div class="important">
+        <b>⭐⭐⭐⭐⭐ Peyer's patch에서 T의존 항원에 대한 숫T와 숫B 활성화</b>
+        <ol>
+          <li>항원이 M cell로 Peyer's patch로 이동</li>
+          <li>Dendritic cell이 포식 → class II MHC + peptide로 숫T 활성화 → 작동 T<sub>H</sub></li>
+          <li>또는 숫 B가 막결합 IgM/IgD로 항원 직접 인지</li>
+          <li>작동 T<sub>H</sub>와 숫 B 접촉 → 활성화 → 항체 분비</li>
+          <li><b>IgA isotype switching ★★★:</b><br>
+            • 작동 T<sub>H</sub>의 <em class="kw">CD40L</em> + 점막면역계 DC/상피세포가 분비하는 <em class="kw">TGF-β ★</em> → IgA 전환 유도<br>
+            • <em class="kw">Retinoic acid ★</em>가 작동T·B 표면에 <em class="kw">α4β7 integrin</em>과 <em class="kw">chemokine receptor</em> 발현 유도 → <b>점막면역계로 선택적 이동</b>
+          </li>
+          <li>작동 T<sub>H</sub> + plasmablast → 림프관 → Mesenteric LN → 다른 점막면역계로 이동</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <b>결론:</b> 점막면역계에서 IgA를 주로 분비하고 점막면역계로만 이동하는 이유는 <em class="kw">TGF-β와 retinoic acid</em>가 많이 생성되기 때문!
+      </div>
+
+      <h4>Selective Mucosal Homing ★</h4>
+      <ul class="compact">
+        <li>점막면역계 혈관내피세포에 α4β7 integrin과 결합하는 부착분자 (<em class="kw">MAdCAM-1</em>) 존재</li>
+        <li>+chemokine receptor와 결합하는 chemokine 존재</li>
+        <li>→ 작동 T<sub>H</sub>·plasmablast가 MALT 상피 하방으로 쉽게 이동</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec3-siga">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>IV. Dimeric IgA & sIgA</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1. B세포의 Dimeric IgA 생성·분비</h4>
+      <ol class="compact">
+        <li>Plasmablast가 점막면역계 혈관 밖으로 이동</li>
+        <li>상피세포 하방에서 plasma cell로 분화</li>
+        <li>IgA monomer 2개 + <em class="kw">Joining chain</em> 1개 → <b>Dimeric IgA</b>로 분비</li>
+        <li>점막상피의 <em class="kw">Secretory Component (SC, poly Ig receptor)</em>와 결합 → endocytosis → exocytosis → <b>sIgA</b> 분비</li>
+      </ol>
+
+      <h4>2. sIgA의 특징 ★</h4>
+      <div class="info">
+        <b>구조:</b> IgA dimer + Joining chain + Secretory Component<br>
+        <b>SC의 역할:</b>
+        <ul class="compact">
+          <li>점막상피세포에서 분비 (간세포에서도)</li>
+          <li>Poly Ig receptor (IgA dimer, IgM pentamer 인식)</li>
+          <li><b>★ 단백분해효소(protease)에 저항성</b> — 항체 보호</li>
+        </ul>
+      </div>
+
+      <h4>3. 타액선에서의 sIgA 분비 ★★★</h4>
+      <div class="important">
+        <b>치과의사가 점막면역을 알아야 하는 이유 = MALT 중 Salivary gland 때문!</b>
+        <ol>
+          <li>다른 점막면역계(Waldeyer, Peyer's, 비강)에서 만들어진 plasmablast가 타액선으로 이동</li>
+          <li>Plasma cell이 되어 dimeric IgA 분비</li>
+          <li>타액선 상피세포(ductal cell, acinar cell) 표면의 SC와 결합 → sIgA 형태로 입안으로 분비</li>
+          <li>타액의 sIgA는 biofilm 내에도 존재</li>
+        </ol>
+      </div>
+
+      <h4>4. sIgA의 역할 ★ — 중화작용 (Neutralization)</h4>
+      <ul>
+        <li>Pathogen/toxin의 체내 침입 억제 (★ 메인 역할)</li>
+        <li>침입에 성공한 것을 다시 lumen으로 수송</li>
+      </ul>
+      <table>
+        <tr><th>sIgA</th><th>IgG</th></tr>
+        <tr>
+          <td>중화작용 (부착억제) 중심<br>보체활성·opsonization 약함<br>염증 유도 X</td>
+          <td>중화작용 + 고전경로 보체활성<br>+ Opsonization + ADCC 유도</td>
+        </tr>
+      </table>
+
+      <h4>치아우식 백신 개발 시 (S. mutans 예방)</h4>
+      <table>
+        <tr><th>구성</th><th>선택</th></tr>
+        <tr><td>항체 종류</td><td>sIgA (타액에서 분비)</td></tr>
+        <tr><td>항원 종류</td><td>① 박테리아 자체 ② Pbp(Pellicle binding) ③ Gbp(Glucan binding) ④ GTF(Glucosyltransferase)</td></tr>
+        <tr><td>투여 부위</td><td>경구·코점막·항문(좌약) — Selective mucosal homing 이용</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 기출문제 -->
+  <div class="exam-section" id="sec3-exam">
+    <h3>점막면역계 기출문제</h3>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>치아 우식 예방 약 경구 투여 옳은 것?</b>
+      <ol class="compact">
+        <li>경구 투여 이유: 소장의 Waldeyer ring 활성화</li>
+        <li>경구 투여 이유: plasmablast가 골수로 선택적으로 돌아감</li>
+        <li>IgA switching 일어나는 이유: 점막면역계에서 TNF 방출</li>
+        <li>sIgA 발견되는 이유: 점막면역계에서 retinoic acid 방출</li>
+      </ol>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 4 (Selective mucosal homing 유도)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>sIgA의 타액 분비에 대해 옳은 설명?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> IgA isotype switching 된 plasmablast가 타액선으로 이동한다 (Peyer's에서 만들어진 plasmablast가 타액선으로 이동)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023</span><b>점막면역계가 아닌 것?</b>
+      <ul>
+        <li>1. Respiratory tract</li>
+        <li>2. Parathyroid gland</li>
+        <li>3. Waldeyer's ring</li>
+        <li>4. Mammary gland</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 2 — Parathyroid는 MALT 아님</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023</span><b>sIgA의 특징으로 옳은 것?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> SC(secretory component)를 가져서 protease로부터 보호된다</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019, 2018, 2017</span><b>점막면역계 빈칸 채우기 (단골 출제!)</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans">
+        <b>(Peyer's patch)</b>에서 <b>(M cell)</b>을 통해 들어오면 <b>(가지돌기세포)</b>가 Th cell에 항원을 제시.<br>
+        <b>(가지돌기세포)</b>가 생성하는 <b>(retinoic acid)</b>에 의해 Th cell과 B cell이 <b>(α4β7 integrin)</b>과 <b>(chemokine receptor)</b>을 발현해 selective mucosal homing이 가능.<br>
+        Th cell이 <b>(CD40L)</b>을 형성해서 IgA switching 일어나고, 말초기관인 <b>(Mesenteric Lymph Node)</b>로 이동.<br>
+        그 후 타액선으로 가서 <b>(dimer)</b> 형태로 항체 분비, 내피세포의 <b>(secretory component)</b>와 결합하여 <b>(sIgA)</b> 형태로 나온다.<br>
+        <b>(SC)</b> 덕분에 protease에 대한 저항성을 갖고, 항체 기능 중 <b>(중화작용)</b>만 수행한다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 4: 과민면역반응 ============== -->
+<section class="section" id="sec4">
+  <div class="section-title">
+    <div class="num">4</div>
+    <h2>과민면역반응 (Hypersensitivity)</h2>
+  </div>
+
+  <div class="section-intro">
+    <strong>핵심:</strong> 면역반응에 의해 조직이 손상되어 야기되는 병.
+    원인: ① 외래 항원에 대한 조절되지 않은 반응 ② 자기관용 실패 (자가면역).
+    <em>대부분 염증에 의해 조직 손상</em> ★
+  </div>
+
+  <div class="subsection" id="sec4-overview">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>I. 과민반응 개요 & 분류 ★★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <div class="important">
+        <b>4가지 Type 비교 (★★ 중요한 표)</b>
+        <table>
+          <tr>
+            <th>Type</th><th>한글명</th><th>매개체</th><th>발현 시간</th>
+          </tr>
+          <tr><td><b>I</b></td><td>즉시형 과민반응 (Allergy)</td><td><em class="kw">IgE</em></td><td>2-30분 (즉시형)</td></tr>
+          <tr><td><b>II</b></td><td>항체매개 과민반응</td><td>IgG, IgM (자가/외부항원)</td><td>5-8시간</td></tr>
+          <tr><td><b>III</b></td><td>면역복합체매개 과민반응</td><td>항원-항체 복합체 (IgG, IgM)</td><td>2-8시간</td></tr>
+          <tr><td><b>IV</b></td><td>T세포매개 (지연형)</td><td><em class="kw">T 세포</em> (항체 X)</td><td>1-3일</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <b>알러지 = 과민반응?</b><br>
+        알러지는 <em>Type I만</em> 의미. 모든 과민반응을 알러지라고 하면 틀림!
+      </div>
+
+      <h4>조직 손상의 공통 기전 — 염증</h4>
+      <ol class="compact">
+        <li><b>T세포 매개:</b> TH1·TH17이 cytokine 분비 → 호중구·대식세포 증가·활성화</li>
+        <li><b>항체 매개:</b> ① 항체가 직접 ② 항원항체복합체 → classical pathway 보체 활성</li>
+      </ol>
+      <p>→ 단백분해효소, ROS, NO, cytokine 분비, opsonization & phagocytosis → 조직 손상</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec4-t4">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>II. 제4형 (Type IV) — T세포매개 ★★★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1. 지연형 과민반응의 2가지 기전</h4>
+      <ol>
+        <li><b>Cytokine-mediated inflammation:</b> APC → TH1/TH17/Tc 활성 + cytokine → Mφ·Neutrophil 활성 → ROS, lysosomal enzyme → 조직 손상</li>
+        <li><b>Tc-mediated killing:</b> 숙주세포 Class I MHC + self/foreign peptide → 활성 Tc가 apoptosis 유도</li>
+      </ol>
+
+      <h4>2-3. TH1 / TH17 매개 과민반응</h4>
+      <ul>
+        <li><b>TH1:</b> IFN-γ → Mφ 활성화 → NO, ROI, lysosomal enzyme 증가 + chemokine, TNF, IL-1</li>
+        <li><b>TH17:</b> IL-17 → 백혈구·조직세포에서 IL-1, TNF, IL-8(neutrophil chemokine), G-CSF 유도</li>
+      </ul>
+
+      <h4>5. Superantigen (초항원) <span class="imp3"></span></h4>
+      <div class="important">
+        <b>특징:</b> 비특이적으로 TH를 <em class="kw">polyclonal로 활성화</em>시키는 항원
+        <ul class="compact">
+          <li>S. aureus, S. pyogenes의 외독소 (toxic shock syndrome toxin, enterotoxin)</li>
+          <li>분해 없이 직접 Class II MHC와 TCR에 결합</li>
+        </ul>
+        <b>Cytokine storm 기전:</b><br>
+        MHC II + TCR 결합 → TH polyclonal 활성화 → 다량 IFN-γ → Mφ 활성화 → 다량 IL-1, TNF → <em class="kw">shock / multiple organ failure</em>
+      </div>
+      <table>
+        <tr><th>TNF 농도</th><th>작용</th></tr>
+        <tr><td>저농도 (IL-1, TNF)</td><td>국소염증 (혈관 투과도↑, 부착분자 발현)</td></tr>
+        <tr><td>중간농도</td><td>전신: 발열, 골수에서 백혈구↑</td></tr>
+        <tr><td>고농도</td><td>병리적: 혈압강하, 혈전, 식욕감소, cachexia</td></tr>
+      </table>
+
+      <h4>6. 결핵 (Tuberculosis) - 만성염증 ★★★</h4>
+      <ol class="compact">
+        <li>Mφ가 결핵균 못 죽임 → TH1이 도움</li>
+        <li>TH1이 IFN-γ → Mφ 활성화</li>
+        <li>NO, ROI, lysosomal enzyme 증가</li>
+        <li>Necrosis (육아종 형성)</li>
+      </ol>
+      <p><b>Tuberculin skin test:</b> PPD → Mφ 분해·TH1 제시 → IFN-γ → 48-72시간 후 부어오름 (Type IV)</p>
+
+      <h4>7. 접촉성 피부염 (Contact sensitivity) ★★★</h4>
+      <ul>
+        <li><b>유발물질:</b> 옻나무, 금속이온(니켈, 베릴륨), thiuram(latex 장갑)</li>
+        <li>분자량 작아 자체 항원 X → self protein 변형시켜 유발</li>
+        <li>세포 밖 self protein 변형: TH1 매개 / 세포 안 변형: Tc 매개</li>
+        <li>랑게르한스세포(피부 APC) → Class II MHC 제시 → TH1 → IFN-γ → Mφ 활성, Keratinocyte 자극 → 물집</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec4-t2">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>III. 제2형 (Type II) — 항체매개 ★★★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1. 유발기전 3가지</h4>
+      <ol>
+        <li><b>조직항원에 항체 결합 → 염증 유도:</b> ECM에 항체 → Fc·보체 → 염증세포 활성 → ROS, enzyme</li>
+        <li><b>세포에 항체 → 식작용 유도:</b> 정상세포에 항체 + C3b → opsonization → Neutrophil, Mφ가 포식</li>
+        <li><b>수용체에 항체 → 기능 변화:</b> 호르몬·신경전달물질 수용체 기능 증가/억제</li>
+      </ol>
+
+      <h4>ABO 부적합 수혈 ★★★</h4>
+      <table>
+        <tr><th>혈액형</th><th>RBC 항원</th><th>혈청 항체 (IgM)</th></tr>
+        <tr><td>A</td><td>A</td><td>anti-B</td></tr>
+        <tr><td>B</td><td>B</td><td>anti-A</td></tr>
+        <tr><td>AB</td><td>A, B</td><td>없음</td></tr>
+        <tr><td>O</td><td>없음</td><td>anti-A, anti-B</td></tr>
+      </table>
+      <div class="important">
+        <b>★ 핵심:</b> 공혈자의 항원과 수여자의 항체가 결합하여 공혈자의 RBC가 용혈
+        <ul class="compact">
+          <li>ABO 항원은 <em class="kw">carbohydrate</em> → isotype switching X → 항체는 IgM</li>
+          <li>O형: 모두에게 줄 수 있고, O형한테만 받을 수 있음</li>
+          <li>AB형: AB형한테만 줄 수 있고, 모두에게 받을 수 있음</li>
+        </ul>
+      </div>
+
+      <h4>Rh 부적합 - 신생아 용혈성 질환 ★★★</h4>
+      <div class="info">
+        <ul>
+          <li>Rh 항원은 <em class="kw">단백질</em> → IgG (태반 통과 가능)</li>
+          <li><b>첫 임신:</b> Rh- 산모 분만 시 태아 RBC가 산모에 → 산모에 anti-Rh IgG 생성 (신생아 정상)</li>
+          <li><b>두 번째 임신:</b> 산모 IgG가 태반 통과 → 태아 Rh+ RBC 용혈 (Type II)</li>
+          <li><b>예방:</b> 첫 출산 직후 anti-Rh 면역글로불린 주사</li>
+        </ul>
+      </div>
+
+      <h4>Type II 주요 질병</h4>
+      <div class="kw-grid">
+        <div class="card">
+          <div class="term">중증근무력증 (Myasthenia gravis) ★</div>
+          Acetylcholine receptor에 항체 → ACh 결합 방해 + endocytosis → 근육 신호 차단
+        </div>
+        <div class="card">
+          <div class="term">갑상선기능항진증 (Graves disease) ★</div>
+          TSH receptor에 자가항체 → 지속 자극 (negative feedback X) → 갑상선 호르몬 과다
+        </div>
+        <div class="card">
+          <div class="term">악성빈혈 (Pernicious anemia) ★</div>
+          Intrinsic factor에 항체 → Vit B12 흡수 차단 → 적혈구 생성 X
+        </div>
+        <div class="card">
+          <div class="term">류마티스열 (Rheumatic fever) ★★★</div>
+          S. pyogenes 항체가 심장근육에 교차결합 → 심근염 (감염성 심내막염 위험)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec4-t3">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>IV. 제3형 (Type III) — 면역복합체매개 ★★★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>유발기전</h4>
+      <ul>
+        <li>자기/비자기 항원 + 항체 (IgG, IgM) → <em class="kw">면역복합체 형성</em> → 조직 침착 → 보체 활성·식작용 → 조직 파괴</li>
+        <li>주로 침착: 혈관 분지부, 콩팥 사구체, 관절 (혈류 거칠고 혈압 높은 곳)</li>
+      </ul>
+
+      <h4>Type III 주요 질병</h4>
+      <div class="kw-grid">
+        <div class="card">
+          <div class="term">SLE (전신 홍반성 루푸스) ★</div>
+          면역관용 실패 → DNA, nucleoprotein에 자가항체 → 신장염·관절염·혈관염 (전신적)
+        </div>
+        <div class="card">
+          <div class="term">Poststreptococcal glomerulonephritis ★★</div>
+          S. pyogenes 감염 → 항원-항체 복합체가 신장 기저막에 침착 → 신장염
+        </div>
+        <div class="card">
+          <div class="term">Serum sickness</div>
+          다량 단백질 항원 → 전신 항원항체 복합체 → 전신 염증
+        </div>
+        <div class="card">
+          <div class="term">Arthus reaction</div>
+          이미 면역된 개체에 피하 단백질 항원 → 국소 항원항체 복합체 → 부어오름
+        </div>
+      </div>
+
+      <div class="warn">
+        <b>★ 류마티스열 vs Nephritis 구분 (둘 다 S. pyogenes 원인)</b>
+        <ul>
+          <li><b>Rheumatic fever:</b> 항체가 심근에 교차결합 → Type II</li>
+          <li><b>Poststreptococcal nephritis:</b> 항원-항체 복합체가 신장에 침착 → Type III</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec4-t1">
+    <div class="subsection-header">
+      <span><span class="imp5"></span>V. 제1형 (Type I) — 즉시형 (알러지) ★★★★★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>특징</h4>
+      <ul>
+        <li>30분 내 발생 → 즉시형 과민반응 (immediate hypersensitivity)</li>
+        <li><em class="kw">IgE 항체 + Mast cell</em>에 의한 반응</li>
+        <li>전 국민의 20%</li>
+      </ul>
+
+      <h4>발생 순서 ★★★★★</h4>
+      <div class="important">
+        <ol>
+          <li><b>Allergen 첫 노출:</b> APC가 림프절로 이동</li>
+          <li><b>Naive TH 활성화 → TFH, TH2 분화:</b> <em class="kw">IL-4, IL-13 ★</em> 생성</li>
+          <li><b>IL-4가 B cell의 IgE isotype switching 유도:</b> Plasma cell이 IgE 생성</li>
+          <li><b>Sensitization (감작):</b> IgE가 Mast cell의 FCεR에 결합</li>
+          <li><b>동일 항원 재노출:</b> Allergen이 Mast cell 표면 IgE 2개 이상에 교차결합 → 활성화</li>
+          <li><b>탈과립:</b> Vasoactive amine, lipid mediator, cytokine 유리</li>
+        </ol>
+      </div>
+
+      <div class="info">
+        <b>★ Mast cell 활성화 조건:</b> 최소 2개 이상의 IgE에 allergen이 cross-link! 하나에 결합으로는 활성화 X
+      </div>
+
+      <h4>Mast cell이 분비하는 물질 ★★★★</h4>
+      <table>
+        <tr><th>분류</th><th>물질</th><th>작용</th></tr>
+        <tr><td rowspan="2">초기반응 (즉시)</td><td><em class="kw">Histamine</em> (vasoactive amine)</td><td>혈관 확장·투과도↑, 기관지·장 평활근 수축 (혈관과 반대!)</td></tr>
+        <tr><td>Protease</td><td>주변 정상조직 손상</td></tr>
+        <tr><td rowspan="2">초기반응 (lipid)</td><td>Prostaglandin</td><td>혈관 확장</td></tr>
+        <tr><td><em class="kw">Leukotriene</em></td><td>기관지·장 평활근 수축, 점액 분비↑, 투과도↑</td></tr>
+        <tr><td rowspan="4">후기반응 (cytokine)</td><td><em class="kw">TNF ★★</em></td><td>혈관 내피세포 부착분자 발현 → 염증</td></tr>
+        <tr><td>IL-4</td><td>TH2 분화 촉진</td></tr>
+        <tr><td>IL-5</td><td>호산구 생성·활성</td></tr>
+        <tr><td>IL-13</td><td>점액 분비 증가</td></tr>
+      </table>
+
+      <h4>임상 증상 (4가지)</h4>
+      <table>
+        <tr><th>병명</th><th>증상</th></tr>
+        <tr><td>알레르기 비염·부비동염</td><td>Leukotriene → 콧물</td></tr>
+        <tr><td>음식 알러지</td><td>장관 연동운동 증가</td></tr>
+        <tr><td>기관지천식 (Bronchial asthma)</td><td>기관지 평활근 수축 + 점액 + 염증 → 호흡곤란</td></tr>
+        <tr><td><b>Anaphylaxis ★★★★★</b></td><td>전신 혈관 확장 → <b>혈압 급강하 (shock)</b> + 부종 + 기관지 수축 → 호흡곤란</td></tr>
+      </table>
+
+      <h4>Allergen 유입 경로별 ★</h4>
+      <ul class="compact">
+        <li><b>주사·곤충 쏘임 (대량):</b> 혈관 → 전신 mast cell 활성 → Anaphylaxis, 두드러기</li>
+        <li><b>피부 (소량):</b> 국소 → 부종 (두드러기)</li>
+        <li><b>호흡기:</b> Allergic rhinitis (상부), Asthma (하부)</li>
+        <li><b>섭취 (Food allergy):</b> 장 → 설사·구토 (다량이면 전신)</li>
+      </ul>
+
+      <h4>치료 ★</h4>
+      <table>
+        <tr><th>약물</th><th>기전</th></tr>
+        <tr><td><b>Epinephrine ★ (Anaphylaxis)</b></td><td>히스타민 반대 작용. 혈관평활근 수축·CO↑ → 혈압 상승, 기관지 평활근 이완, mast cell 탈과립 억제</td></tr>
+        <tr><td>Corticosteroid</td><td>cytokine 생성 억제 → 염증 감소</td></tr>
+        <tr><td>Leukotriene antagonist</td><td>기관지 평활근 이완</td></tr>
+        <tr><td>Anti-IgE Ab</td><td>IgE 제거</td></tr>
+        <tr><td>Anti-histamine</td><td>histamine 작용 억제</td></tr>
+        <tr><td>Cromolyn</td><td>Mast cell 탈과립 억제</td></tr>
+        <tr><td>탈감작 (Desensitization)</td><td>Allergen 소량부터 점차 증가. 가설: 다른 isotype switching, T tolerance, Treg 자극</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 기출문제 -->
+  <div class="exam-section" id="sec4-exam">
+    <h3>과민반응 기출문제</h3>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>아나필락시스가 발생한 이유는?</b>
+      <ul>
+        <li>1) 세포매개과민면역반응</li>
+        <li>2) Th17로 분화</li>
+        <li>3) TGF-beta로 IgE isotype changing</li>
+        <li>4) IgE가 결합한 mast cell에서 과립이 유출</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 4</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>다음 병에 걸린 환자에 대한 설명으로 옳은 것?</b>
+      <ul>
+        <li>1) Grave's: TSH receptor 항체가 갑상선 호르몬 분비를 억제</li>
+        <li>2) Rheumatic fever: S.pyogenes가 신장에 ~</li>
+        <li>3) Myasthenia gravis: ACh receptor 항체가 촉진</li>
+        <li>4) Pernicious anemia: Intrinsic factor 억제해 VitB12 흡수 억제</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 4</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023</span><b>지연형 과민반응 발병기전?</b>
+      <ul>
+        <li>1) 염증반응</li>
+        <li>2) 항원항체복합체</li>
+        <li>3) Th-1이 만드는 IL-10</li>
+        <li>4) Th-17이 만드는 IFN-γ</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 1</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023</span><b>알러지에 대한 바른 설명?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> IL-4, IL-13에 의한 IgE isotype switching</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022, 2024</span><b>에피네프린의 효과 (모두 고르시오)</b>
+      <ul>
+        <li>ㄱ. 혈관 평활근 수축으로 고혈압 치료</li>
+        <li>ㄴ. 심박출량 증가로 저혈압 치료</li>
+        <li>ㄷ. 기관지 평활근 수축</li>
+        <li>ㄹ. 기관지 평활근 이완</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> ㄴ, ㄹ (혈압 상승 + 기관지 이완)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022</span><b>Anti A에 반응, Anti B에 무반응 → 혈액형 / 수혈 가능 혈액형?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> A형 / O형(B 항원 없음). A형에게는 A형 또는 O형 수혈 가능</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2021</span><b>Rh- 여성이 Rh+ 아이를 임신하면?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> 첫 임신은 정상, 두 번째부터 anti-Rh IgG가 태반 통과 → 신생아 용혈성 질환</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2021</span><b>Latex 장갑 알러지 (접촉성 피부염) 기전?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> IL-1과 TNF가 염증반응 일으킨다 (TH1이 IFN-γ → Mφ → IL-1, TNF → keratinocyte 자극). 낚시: TH1이 IL-1 직접 분비</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019</span><b>Anaphylaxis 일으키는 cytokine 설명 틀린 것?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> "히스타민: 혈관 투과도 증가, 혈관 및 기관지 평활근 수축" — 혈관 평활근은 <b>확장</b>!</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 5: 종양면역 ============== -->
+<section class="section" id="sec5">
+  <div class="section-title">
+    <div class="num">5</div>
+    <h2>종양면역 (Tumor Immunology)</h2>
+  </div>
+
+  <div class="subsection" id="sec5-immune">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>I. 암에 대한 면역반응 ★★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1. 암항원의 종류</h4>
+      <ul class="compact">
+        <li>Mutation이 생긴 self-protein</li>
+        <li>Oncogene protein, mutation된 tumor suppressor gene protein</li>
+        <li>과발현/시기 부적절 발현 self protein</li>
+        <li>감염 세포의 oncogene virus 항원</li>
+      </ul>
+
+      <h4>2. 4가지 면역세포</h4>
+
+      <h4>1) 세포독성 T 세포 (Tc) ★★</h4>
+      <ol class="compact">
+        <li>APC가 암세포 자체 포식 → tumor Ag → Class I MHC 제시</li>
+        <li>APC가 림프절로 이동</li>
+        <li>숫 Tc 활성화 (TCR + Class I MHC + tumor peptide + CD28-B7)</li>
+        <li>Effector Tc 증식·이동</li>
+        <li>암세포의 Class I MHC + tumor peptide 인지</li>
+        <li>Perforin, Granzyme → apoptosis</li>
+      </ol>
+
+      <h4>2) NK 세포 (Natural Killer) ★★★</h4>
+      <div class="important">
+        <b>특징:</b>
+        <ul class="compact">
+          <li>특이성 X, 활성화 과정 불필요 (T와 차이점)</li>
+          <li><em class="kw">IL-2로 활성 촉진 가능</em> (LAK cell)</li>
+          <li>Class I MHC 발현 X + 활성수용체 ligand 발현 세포 죽임</li>
+          <li>항체로 도포된 세포 죽임 (ADCC)</li>
+          <li>Perforin, granzyme로 죽이는 기전은 Tc와 동일</li>
+          <li>IFN-γ 생성으로 M1 Mφ 활성화, TH1 분화 유도</li>
+        </ul>
+      </div>
+
+      <table>
+        <caption><b>★★★ NK vs Tc ★★★</b></caption>
+        <tr><th></th><th>NK</th><th>Tc</th></tr>
+        <tr><td>수용체</td><td>억제·활성·Fc 수용체</td><td>TCR</td></tr>
+        <tr><td>특이성</td><td>없음</td><td>있음</td></tr>
+        <tr><td>활성화 과정</td><td>불필요 (IL-2로 촉진 가능)</td><td>필요함</td></tr>
+        <tr><td>죽이는 방법</td><td colspan="2" style="text-align:center"><b>Perforin, granzyme → apoptosis (동일)</b></td></tr>
+      </table>
+
+      <div class="info">
+        <b>★ NK가 정상세포를 안 죽이는 이유:</b> 정상세포는 Class I MHC 발현 → NK의 <em>억제수용체</em> 자극 → 억제신호 → 죽이지 않음
+      </div>
+
+      <h4>3) 대식세포 (M1)</h4>
+      <p>TNF-α 분비 → 혈전 형성 → 종양 혈액공급 저하, 괴사</p>
+
+      <h4>4) 항체</h4>
+      <p>보체 활성화 (MAC, lysis), ADCC, Phagocytosis 유도</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec5-escape">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>II. 종양 면역회피 기전</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1) T의 종양세포 인식 어려움</h4>
+      <ol class="compact">
+        <li>종양항원 발현 ↓</li>
+        <li>MHC 발현 소실·저하</li>
+        <li>항체에 의한 항원의 capping·endocytosis (항원 사라짐)</li>
+        <li>Glycocalyx로 표면 덮음 → 면역세포 접근 어려움</li>
+      </ol>
+
+      <h4>2) T 세포 활성화 억제</h4>
+      <ul>
+        <li>① 종양세포가 APC의 B7 발현 잘 유도 X</li>
+        <li>② <em class="kw">PD-L1 발현</em> → T의 PD-1과 결합 → 억제신호</li>
+        <li>③ 면역억제 cytokine (IL-10: B7, class II 억제 / TGF-β: TH 분화 억제, Treg 유도)</li>
+      </ul>
+
+      <h4>3) MDSC (Myeloid-derived suppressor cell)</h4>
+      <p>미성숙 neutrophil, monocyte, DC 포함 골수계 전구세포. IL-10, TGF-β 생성 → 면역 억제</p>
+
+      <h4>4) M2 활성화 유도</h4>
+      <ul>
+        <li>TGF-β, IL-10 → T세포 억제</li>
+        <li>TGF-β, VEGF → 혈관 형성 (영양 공급, 성장)</li>
+        <li>MMP → 결체조직 분해 → 전이</li>
+      </ul>
+
+      <h4>5) 보체 활성화 어려움</h4>
+      <p>종양세포 표면의 보체 조절단백 발현 → 보체 의존 세포 용해 회피</p>
+
+      <div class="mnemonic">
+        <b>외우는 법 - "암세포의 5가지 도망 전략":</b><br>
+        ① 숨기 (항원·MHC↓) ② 가리기 (glycocalyx) ③ 속이기 (PD-L1) ④ 부하 부르기 (MDSC, M2) ⑤ 방패 (보체 조절)
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec5-therapy">
+    <div class="subsection-header">
+      <span><span class="imp2"></span>III. 면역치료 전략</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1) Dendritic cell vaccine</h4>
+      <p>종양항원과 함께 배양한 숙주 DC 접종 (또는 종양항원 유전자 plasmid 접종)</p>
+
+      <h4>2) Cytokine 투여 (IL-2)</h4>
+
+      <h4>3) 환자 T를 분리 → IL-2 처리 → 증식 → 재투여</h4>
+
+      <h4>4) CAR-T (Chimeric Antigen Receptor T) ★</h4>
+      <div class="important">
+        <b>구성:</b> 항체 VL + VH (종양항원 인지) + TCR ζ chain signaling + CD28 signaling<br>
+        <b>장점:</b> MHC가 없이도 종양항원 인지 가능 (MHC 발현 안 하는 암세포도 공격)
+      </div>
+
+      <h4>5) 항체 사용</h4>
+      <ul class="compact">
+        <li>종양항원에 대한 항체 (보체·식작용·ADCC + chemotherapy drug 부착)</li>
+        <li>VEGF/EGF receptor 항체 (혈관·성장 차단)</li>
+        <li><b>Bispecific Ab (BiTE):</b> Tumor Ag + T cell 활성수용체 연결</li>
+        <li><b>Anti-PD-1 / Anti-PD-L1 Ab:</b> 면역회피 차단 (FDA 승인: melanoma 등)</li>
+      </ul>
+
+      <h4>종양 유발에서 면역의 역할</h4>
+      <ul>
+        <li>만성염증 → 종양 유발 (H. pylori-위암, HBV/HCV-간암)</li>
+        <li>M1, Neutrophil ROS → 정상세포 DNA 손상 → oncogene</li>
+        <li>M2 → 혈관 형성·전이 촉진</li>
+        <li>→ 암 예방을 위해 항염증제 사용</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 기출문제 -->
+  <div class="exam-section" id="sec5-exam">
+    <h3>종양면역 기출문제</h3>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>항종양 면역반응 옳은 것?</b>
+      <ul>
+        <li>1. APC: class II MHC-tumor peptide를 naive Tc에 제시</li>
+        <li>2. APC: class II MHC-tumor peptide를 naive NK에 제시</li>
+        <li>3. effector Tc: class I MHC-tumor peptide 인식해 apoptosis 유도</li>
+        <li>4. 종양항원 항체: 작동 Tc의 ADCC 유도</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 3</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>구강 내 만성염증과 구강암 — 옳은 것?</b>
+      <ul>
+        <li>1) Th1: M1 활성화 억제</li>
+        <li>2) Th2: M2 활성화 억제</li>
+        <li>3) M1: ROS로 정상세포 DNA의 tumor suppressor gene 손상 → oncogene 형성</li>
+        <li>4) M2: 혈관 생성 억제하는 TGF-β, VEGF 생성</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 3</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022</span><b>원형질막에 종양항원 발현, Class I MHC 발현 X → 어떻게 사멸?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> 4번 (NK cell의 apoptosis 유도)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022</span><b>구강암 환자 MDSC 설명 옳지 않은 것?</b>
+      <ul>
+        <li>1) IL-10 생성: macrophage의 MHC II 발현 촉진</li>
+        <li>2) IL-10 생성: DC의 B7 발현 촉진</li>
+        <li>3) TGF-β 생성: Th2 분화 억제</li>
+        <li>4) TGF-β 생성: Treg 분화 억제</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>옳은 보기:</b> 3. 나머지는 틀림 (방향성 반대)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2021</span><b>Cyclosporin의 원리?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> Calcineurin 억제 → IL-2 생성 억제</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019</span><b>CAR (Chimeric antigen receptor) 구성성분으로 옳지 않은 것?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> B7 signaling domain (CAR는 VL + VH + TCR ζ + CD28 signaling. B7은 APC 표면)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019</span><b>Tc가 종양세포를 제거하는 기전?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> Class I MHC + peptide complex를 인지해 apoptosis 유도 (perforin, granzyme)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 6: 이식면역 ============== -->
+<section class="section" id="sec6">
+  <div class="section-title">
+    <div class="num">6</div>
+    <h2>이식면역 (Transplant Immunology)</h2>
+  </div>
+
+  <div class="section-intro">
+    <strong>핵심:</strong> 이식실패의 가장 큰 이유 = 제공자 조직에 대한 받는자의 면역반응 (거부반응).
+    <em>HLA(인간 MHC)가 가장 중요!</em><br>
+    <b>주의:</b> 제공자(donor)와 받는자(recipient)를 명확히 구분!
+  </div>
+
+  <div class="subsection" id="sec6-types">
+    <div class="subsection-header">
+      <span><span class="imp3"></span>I. 이식 종류 & 거부 대상 항원</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>이식의 4가지 종류 ★★</h4>
+      <table>
+        <tr><th>종류</th><th>설명</th><th>성공률</th></tr>
+        <tr><td><b>Autograft (자가)</b></td><td>동일 개체 다른 부위</td><td>100%</td></tr>
+        <tr><td><b>Syngraft (동계)</b></td><td>Inbred 내 동일 MHC (주로 동물)</td><td>100%</td></tr>
+        <tr><td><b>Allograft (동종) ★★</b></td><td>동일 종 다른 개체 (사람-사람)</td><td>거부 위험</td></tr>
+        <tr><td><b>Xenograft (이종)</b></td><td>다른 종 (예: 돼지→사람)</td><td>거의 100% 거부</td></tr>
+      </table>
+
+      <h4>거부 대상 항원</h4>
+      <div class="important">
+        <b>1. 동종항원 (Alloantigen) ★</b>
+        <ul class="compact">
+          <li><em class="kw">MHC (HLA)</em>: 가장 중요. 급성 거부반응 유도</li>
+          <li>Minor histocompatibility antigen: MHC 외 다른 self peptide. 만성 거부 유도</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec6-recog">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>II. 직접 인지 vs 간접 인지 ★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <table>
+        <tr><th></th><th>직접 인지 (Direct)</th><th>간접 인지 (Indirect)</th></tr>
+        <tr><td>인지 대상</td><td><b>분해되지 않은</b> MHC</td><td><b>분해된</b> MHC peptide</td></tr>
+        <tr><td>제시 세포</td><td>제공자 APC가 제시</td><td>받는자 APC가 포식·분해·제시</td></tr>
+        <tr><td>유도</td><td><b>급성 거부</b></td><td><b>만성 거부</b></td></tr>
+      </table>
+
+      <div class="info">
+        <b>★★ 가장 큰 차이점:</b> 분해 여부 (직접 = 분해 X / 간접 = 분해 O)
+        <p><b>공통점:</b> 둘 다 CD28-B7 보조자극 필요!</p>
+      </div>
+
+      <h4>받는자 T가 동종 MHC를 직접 인지할 수 있는 이유</h4>
+      <p>"동종 MHC-동종항원펩타이드 복합체"가 "자기 MHC-외부항원 펩타이드"로 인식 → <em class="kw">TCR의 교차반응</em></p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec6-reject">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>III. 거부반응 3종류 (초급성 / 급성 / 만성)</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>1) 초급성 (Hyperacute) — 수 분~수 시간</h4>
+      <div class="important">
+        <ul>
+          <li><b>원인:</b> 이식 전부터 있던 <em class="kw">받는자 항체</em>가 제공자 혈관내피의 항원(MHC, blood group)과 결합</li>
+          <li><b>출처:</b> 이전 수혈, 이식, 다임신, 장내세균총</li>
+          <li><b>기전:</b> 항체 → 보체 활성 + 염증 → 혈관내피 파괴 → 혈전 형성 → 괴사</li>
+          <li><b>예방:</b> <em class="kw">Cross-matching</em> (사전 항체 검사)</li>
+        </ul>
+      </div>
+
+      <h4>2) 급성 (Acute) — 수일~수주</h4>
+      <ul>
+        <li>주로 T세포 매개. 직접·간접 인지로 활성</li>
+        <li>TH: cytokine → 염증 / Tc: apoptosis → parenchymal cell, 혈관 파괴</li>
+        <li>조기이식 실패의 가장 중요한 원인</li>
+        <li><b>예방:</b> MHC 검사 (HLA typing) + 면역억제제</li>
+      </ul>
+
+      <h4>3) 만성 (Chronic) — 수개월~수년</h4>
+      <ul>
+        <li>특징: 점차 좁아지는 혈관 + 섬유화</li>
+        <li>TH cytokine (IFN-γ) → 혈관 주변 평활근 증식 → 혈관 직경 좁아짐</li>
+        <li>조직파괴 → fibroblast의 collagen 대체 (섬유화)</li>
+        <li>예방 어려움 → 이식 실패의 주요 원인</li>
+      </ul>
+
+      <h4>4) 역거부반응 (Graft-versus-host)</h4>
+      <p><b>제공자의 면역세포가 받는자의 조직을 공격</b>. 조건: ① 제공자 조직에 성숙 T 多 ② 받는자 면역세포 결핍 (예: 백혈병 환자의 hematopoietic stem cell 이식)</p>
+    </div>
+  </div>
+
+  <div class="subsection" id="sec6-prevent">
+    <div class="subsection-header">
+      <span><span class="imp4"></span>IV. 예방 & 면역억제제 ★★★</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="subsection-body">
+
+      <h4>사람마다 MHC가 다른 이유 3가지</h4>
+      <ol>
+        <li>Class I, II MHC 유전자가 여러 개 (A, B, C / DP, DQ, DR)</li>
+        <li>각 유전자마다 여러 대립유전자 (Multiple Alleles)</li>
+        <li><em class="kw">Codominant expression</em> (양 부모 대립유전자 모두 발현)</li>
+      </ol>
+
+      <h4>HLA 적합성 검사 (HLA typing) — 급성·만성 예방 ★</h4>
+      <div class="info">
+        <b>3가지 방법:</b>
+        <ol>
+          <li><b>보체의존 세포독성:</b> B cell + HLA 항체 + 보체 + trypan blue (lysis 시 푸른색)</li>
+          <li><b>PCR:</b> Polymorphic region 증폭·시퀀싱</li>
+          <li><b>MLR (Mixed Lymphocyte Reaction) ★★★:</b> 한쪽에 mitomycin C 처리 (증식 억제) 후 혼합. 다른 쪽 림프구의 증식 정도로 MHC 유사성 판단. <em class="kw">증식이 작을수록 좋음!</em></li>
+        </ol>
+      </div>
+
+      <h4>Cross-matching ★★ — 초급성 예방!</h4>
+      <p>받는자의 혈청에 제공자 HLA 및 기타 항원에 대한 <em class="kw">항체</em>가 있는지 확인</p>
+      <ul class="compact">
+        <li>Complement-mediated cytotoxicity test</li>
+        <li>Flow cytometric assay</li>
+      </ul>
+
+      <h4>ABO 적합성 — 무조건 검사</h4>
+
+      <h4>면역억제제의 기전 ★★</h4>
+      <table>
+        <tr><th>약물</th><th>기전</th></tr>
+        <tr><td>Anti-TCR Ab</td><td>TCR-MHC 결합 차단</td></tr>
+        <tr><td><b>CTLA4-Ig</b></td><td>CTLA4가 CD28 대신 B7과 결합 → T 활성화 저해</td></tr>
+        <tr><td><b>Cyclosporine, Tacrolimus</b></td><td><em class="kw">Calcineurin (phosphatase) 억제 → IL-2 생성 억제</em></td></tr>
+        <tr><td>Anti-IL-2R Ab</td><td>IL-2R에 결합 → IL-2 신호 차단 → T 증식 억제</td></tr>
+        <tr><td>Rapamycin</td><td>IL-2 신호전달 억제</td></tr>
+        <tr><td>Mycophenolate</td><td>림프구 guanine nucleotide 합성 억제</td></tr>
+        <tr><td>Corticosteroid</td><td>IL-1, TNF, IL-8 ↓, 부착분자 ↓, 림프구 apoptosis 유도 (항염증)</td></tr>
+      </table>
+
+      <h4>동종 치아 이식</h4>
+      <p>경조직만 이식은 거부 적음. PDL 세포 같이 이식해야 치근 흡수·치조골 융합 방지. 그러나 PDL에는 Class I MHC + self peptide → 면역 인식. <b>해결:</b> recipient의 PDL 세포를 붙여서 함께 이식하면 성공률↑ (시험 출제 X)</p>
+    </div>
+  </div>
+
+  <!-- 기출문제 -->
+  <div class="exam-section" id="sec6-exam">
+    <h3>이식면역 기출문제</h3>
+
+    <div class="exam-q">
+      <span class="yr">2024</span><b>조직 이식 시 수혜자 고르는 조건은?</b>
+      <ol>
+        <li>림프구 혼합 배양 시 증식 많이 한 recipient</li>
+        <li>HLA 차이가 적은 recipient</li>
+        <li>교차일치 검사에서 recipient MHC에 결합하는 donor 항체 있으면 선정 X</li>
+        <li>CTLA4-Ig는 IL-2 receptor에 결합</li>
+      </ol>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 2 (또는 3) — HLA 차이가 적은 사람 선정</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2023</span><b>이식 용어 옳은 것?</b>
+      <ul>
+        <li>ㄹ. Graft-versus-host reaction: 제공자 T세포가 수여자 조직을 공격</li>
+      </ul>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> ㄹ</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022</span><b>초급성 거부반응에 대해 맞는 것?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> 미리 가지고 있었던 항체가 제공자의 혈관내피세포의 항원에 결합한다</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022</span><b>급성/만성 거부 옳지 않은 것?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> 만성 거부에서 TH 림프구 cytokine이 혈관주변 평활근 증식을 <b>억제</b>하여 혈관 수축</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2022</span><b>적합한 이식 방법으로 틀린 것?</b>
+      <ol>
+        <li>HLA 차이가 덜 나는걸 선택</li>
+        <li>림프구 혼합배양시 증식정도가 큰 것 선택</li>
+        <li>HLA typing과 cross matching 시 보체 사용 가능</li>
+      </ol>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>정답:</b> 2</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019</span><b>Corticosteroid 작용기작?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> Cytokine 억제 → 염증 억제 (항염증반응)</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2019</span><b>간접인지에 대한 설명?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> Recipient APC가 donor MHC 조각을 항원으로 인지</div>
+    </div>
+
+    <div class="exam-q">
+      <span class="yr">2012</span><b>직접인식·간접인식 옳은 것?</b>
+      <button class="toggle-ans" onclick="toggleAns(this)">정답 보기</button>
+      <div class="ans"><b>답:</b> 둘 다 B7을 필요로 한다</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION SUMMARY ============== -->
+<section class="section" id="sec-summary">
+  <div class="section-title">
+    <div class="num">S</div>
+    <h2>핵심 키워드 정리</h2>
+  </div>
+
+  <div class="warn">
+    <b>이 페이지의 키워드는 모두 ★ 매우 빈출!</b> 시험 직전 빠르게 훑어볼 핵심 요약.
+  </div>
+
+  <h3>매년 출제되는 빈출 토픽 TOP 10</h3>
+  <ol>
+    <li><b>점막면역계 빈칸 채우기</b> (Peyer's patch → M cell → DC → retinoic acid → α4β7 → CD40L → MLN → dimer → SC → sIgA → 중화작용)</li>
+    <li><b>ABO/Rh 부적합 수혈 & 신생아 용혈</b></li>
+    <li><b>FACS 4사분면 해석</b> (CD4/CD8)</li>
+    <li><b>COVID-19 자가검진키트 Test line</b></li>
+    <li><b>Western Blot vs ELISA 비교</b></li>
+    <li><b>Anaphylaxis & Epinephrine</b></li>
+    <li><b>Cyclosporine 기전</b> (Calcineurin → IL-2)</li>
+    <li><b>Tc vs NK 비교</b></li>
+    <li><b>MDSC 기능</b></li>
+    <li><b>직접인지 vs 간접인지</b></li>
+  </ol>
+
+  <h3>절대 헷갈리지 말 것</h3>
+  <div class="kw-grid">
+    <div class="card">
+      <div class="term">ELISA vs Sandwich ELISA</div>
+      ELISA: plate에 <b>항원</b> 코팅 (항체 detect) / Sandwich: plate에 <b>항체</b> 코팅 (항원 detect)
+    </div>
+    <div class="card">
+      <div class="term">Histamine 작용 방향</div>
+      혈관 평활근 <b>이완(확장)</b>, 기관지·장 평활근 <b>수축</b> (반대 방향!)
+    </div>
+    <div class="card">
+      <div class="term">류마티스열 vs PSGN</div>
+      류마티스열: Type II (항체가 심근에 교차결합) / PSGN: Type III (항원항체 복합체가 신장)
+    </div>
+    <div class="card">
+      <div class="term">ABO vs Rh 항원</div>
+      ABO: carbohydrate → IgM / Rh: 단백질 → IgG (태반 통과!)
+    </div>
+    <div class="card">
+      <div class="term">M cell 핵심</div>
+      Class II MHC 발현 <b>X</b> — 항원 통로 역할만, 분해 X
+    </div>
+    <div class="card">
+      <div class="term">Treg 분비 사이토카인</div>
+      <b>IL-10</b> (DC/Mφ의 B7 억제) + <b>TGF-β</b> (Th 분화 억제, Treg 분화 유도)
+    </div>
+    <div class="card">
+      <div class="term">직접 vs 간접 인지</div>
+      직접: 분해 <b>X</b> (급성) / 간접: 분해 <b>O</b> (만성). 둘 다 B7 필요!
+    </div>
+    <div class="card">
+      <div class="term">초급성 거부 vs Cross matching</div>
+      초급성: 미리 있던 항체로 인한 거부 / Cross matching: 미리 항체 있는지 검사 (예방!)
+    </div>
+    <div class="card">
+      <div class="term">탈감작 (Desensitization)</div>
+      Allergen 소량부터 증가. 가설: 다른 isotype switching 유도, Treg 자극, T tolerance
+    </div>
+    <div class="card">
+      <div class="term">면역 특혜 지역</div>
+      <b>Brain, Eye, Testis, Uterus</b> (BETU) — 면역반응 잘 안 일어남
+    </div>
+  </div>
+
+  <h3>사이토카인 한눈에</h3>
+  <table>
+    <tr><th>Cytokine</th><th>출처</th><th>작용</th></tr>
+    <tr><td>IL-2</td><td>활성 T</td><td>T 증식·NK 활성. Treg가 소모</td></tr>
+    <tr><td>IL-4</td><td>TH2, TFH</td><td>IgE switching, TH2 분화</td></tr>
+    <tr><td>IL-5</td><td>TH2, mast</td><td>호산구 생성·활성</td></tr>
+    <tr><td>IL-10</td><td>Treg, M2, MDSC, 암</td><td>면역억제 (B7, class II, IL-12 억제)</td></tr>
+    <tr><td>IL-13</td><td>TH2, mast</td><td>IgE switching, 점액 분비 증가</td></tr>
+    <tr><td>IL-17</td><td>TH17</td><td>IL-8, G-CSF 유도 → 호중구</td></tr>
+    <tr><td>IFN-γ</td><td>TH1, NK</td><td>M1 활성화</td></tr>
+    <tr><td>TGF-β</td><td>Treg, M2, MDSC, 암</td><td>TH 억제, Treg/M2 유도, 혈관 형성, IgA switching</td></tr>
+    <tr><td>TNF</td><td>Mφ, mast</td><td>저: 염증 / 고: shock, 혈전</td></tr>
+    <tr><td>Retinoic acid</td><td>점막 DC, 상피</td><td>α4β7, chemokine R 발현 → mucosal homing</td></tr>
+  </table>
+
+  <h3>시험 직전 마지막 체크리스트</h3>
+  <details>
+    <summary>면역관용 체크리스트</summary>
+    <div>
+      <ul class="compact">
+        <li>• AIRE의 역할 알기</li>
+        <li>• T 중추관용 4단계 흐름</li>
+        <li>• B 중추관용 3가지 운명 (apoptosis/editing/anergy)</li>
+        <li>• Treg의 4가지 억제 기전</li>
+        <li>• 미생물이 자가면역 유도하는 4가지 기전</li>
+        <li>• 면역특혜지역 4곳</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>점막면역계 체크리스트</summary>
+    <div>
+      <ul class="compact">
+        <li>• M cell 특징 (class II MHC X)</li>
+        <li>• IgA isotype switching 3가지 (CD40L, TGF-β, retinoic acid)</li>
+        <li>• Selective mucosal homing 분자 (α4β7, chemokine R, MAdCAM-1)</li>
+        <li>• sIgA 구조 (dimer + JC + SC)</li>
+        <li>• 빈칸 채우기 시나리오 완전 암기</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>과민반응 체크리스트</summary>
+    <div>
+      <ul class="compact">
+        <li>• 4가지 type 표 (매개체, 발현 시간)</li>
+        <li>• Superantigen → cytokine storm</li>
+        <li>• ABO/Rh 부적합 (carbohydrate vs 단백질)</li>
+        <li>• MG, Graves, Rheumatic fever, PSGN</li>
+        <li>• Histamine vs Leukotriene</li>
+        <li>• Epinephrine 작용</li>
+        <li>• Mast cell 활성화 조건 (cross-linking)</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>종양·이식 체크리스트</summary>
+    <div>
+      <ul class="compact">
+        <li>• Tc vs NK 비교표</li>
+        <li>• 종양 면역회피 5가지</li>
+        <li>• CAR-T 구성과 장점</li>
+        <li>• 이식 4종류 + Allograft 거부</li>
+        <li>• 직접·간접 인지 차이</li>
+        <li>• 초급성/급성/만성 거부 + 예방법</li>
+        <li>• 면역억제제 6가지 기전</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ============== ALL EXAMS ============== -->
+<section class="section" id="sec-allexam">
+  <div class="section-title">
+    <div class="num">Q</div>
+    <h2>전체 기출문제 모음 (2019-2024)</h2>
+  </div>
+
+  <div class="info">
+    각 파트별 기출은 해당 섹션 마지막에 있습니다. 여기서는 <b>연도별 통합 정리</b>를 제공합니다.
+  </div>
+
+  <h3>2024년 기말 (가장 최신)</h3>
+  <ul class="compact">
+    <li>면역특혜지역 (Eye)</li>
+    <li>구강 만성염증과 구강암 → M1의 ROS가 정상세포 DNA 손상</li>
+    <li>CTLA4 / MDSC 설명</li>
+    <li>치아우식 약 경구투여 (retinoic acid)</li>
+    <li>sIgA 타액 분비 (plasmablast 이동)</li>
+    <li>Monoclonal Ab 제작 (HAT 원리)</li>
+    <li>항종양 면역반응 (Tc의 class I MHC 인식)</li>
+    <li>이식 수혜자 선정 조건 (HLA 차이 적은)</li>
+    <li>Treg 설명</li>
+    <li>말초 anergy 기전 (CTLA-4가 B7 분해)</li>
+    <li>PSGN 기전</li>
+    <li>DNA microarray 서술형</li>
+    <li>Graves, Rheumatic fever, MG, Pernicious anemia 구분</li>
+    <li>아나필락시스 기전 (IgE+mast cell)</li>
+    <li>FACS / COVID-19 키트 / ELISA</li>
+    <li>CAR 조합과 MHC 없이 인지 가능한 이유</li>
+    <li>에피네프린 역할</li>
+  </ul>
+
+  <h3>2023년 기말</h3>
+  <ul class="compact">
+    <li>점막면역계가 아닌 것 (Parathyroid)</li>
+    <li>Treg가 자기항원인지하는 T 억제</li>
+    <li>지연형 과민반응 발병기전 (염증반응)</li>
+    <li>Infective endocarditis (S. pyogenes 항체가 심장근육 교차결합)</li>
+    <li>질병 옳은 것 (MG: ACh 결합 억제)</li>
+    <li>알러지: IL-4, IL-13 → IgE switching</li>
+    <li>Rh 용혈성 질환 (IgG)</li>
+    <li>암세포 면역회피, CAR, MDSC (IL-10이 DC의 B7 억제)</li>
+    <li>Monoclonal Ab 제작 (Myeloma는 HAT에서 죽지 않는다 X)</li>
+    <li>FACS (2022와 동일)</li>
+    <li>COVID-19 키트 (Test line은 2, 3, 5)</li>
+    <li>HIV Western Blot 서술형 (5점)</li>
+    <li>DNA Microarray 서술형 (5점)</li>
+    <li>sIgA SC, 면역특혜 지역, 초항원, 에피네프린</li>
+    <li>Graft-versus-host reaction</li>
+  </ul>
+
+  <h3>2022년 기말</h3>
+  <ul class="compact">
+    <li>점막면역계가 아닌 것 (갑상샘)</li>
+    <li>면역 특혜 지역 아닌 것 (심장)</li>
+    <li>가슴샘 없어진 노인 환자 면역 문제</li>
+    <li>T cell 말초면역관용</li>
+    <li>Rf 환자 예방적 항생제</li>
+    <li>알러지: mast cell의 FCεR</li>
+    <li>Anaphylaxis 유발 물질, 에피네프린 (혈관수축으로 고혈압치료 X)</li>
+    <li>종양항원 발현 + class I 없는 세포: NK가 apoptosis</li>
+    <li>Class I + peptide 발현세포 사멸: Tc, ADCC 등</li>
+    <li>MDSC 옳지 않은 것 (B7 발현 촉진 X — 억제)</li>
+    <li>이식 종류 (allograft), 직접·간접 인지, 초급성·급성·만성</li>
+    <li>적합 이식: 림프구 증식 작은 것 (큰 것 X)</li>
+    <li>ABO 부적합 수혈 (A형, O형/B형 받을 수 있음)</li>
+    <li>FACS, COVID-19 키트</li>
+    <li>Cyclosporine: guanine X / Anti IL-2R: T 증식 억제 O</li>
+    <li>ELISA 서술형, Microarray 서술형</li>
+  </ul>
+
+  <h3>2021년 기말</h3>
+  <ul class="compact">
+    <li>Rf — IgD 관련</li>
+    <li>SLE: DNA 항체 + 보체활성</li>
+    <li>이식 급성반응 틀린 것</li>
+    <li>점막면역계 아닌 것</li>
+    <li>sIgA 타액 가는 과정과 구조</li>
+    <li>Rh- 여성 Rh+ 임신</li>
+    <li>가슴샘이 면역관용에서 중요한 이유</li>
+    <li>사람-사람 이식 종류 (동종이식)</li>
+    <li>Anti A·B 모두 무반응 (O형) → 수혈 가능 (O형)</li>
+    <li>급성거부, Cyclosporin (IL-2 억제), B cell 중추관용</li>
+    <li>구강암 M1·M2·IL-10 혈관재형성 (틀림)</li>
+    <li>에피네프린 진정 원리, 피부 알러지 검사</li>
+    <li>Latex 접촉성 피부염 (IL-1·TNF 염증)</li>
+    <li>Western blot (1) 항원 (2) target 단백질</li>
+    <li>Lymphocyte 분리, thymidine 사용 이유</li>
+    <li>HIV ELISA 원리, DNA microarray</li>
+  </ul>
+
+  <h3>2020년 기말</h3>
+  <ul class="compact">
+    <li>MDSC 설명 틀린 것 (Treg이다 X)</li>
+    <li>Graves disease: TSH 수용체</li>
+    <li>HIV western blot 결과 해석</li>
+    <li>서술: 림프구 분리, thymidine 사용</li>
+    <li>서술: HIV ELISA 원리</li>
+    <li>서술: microarray</li>
+  </ul>
+
+  <h3>2019년 기말</h3>
+  <ul class="compact">
+    <li>점막면역계 빈칸 (joining chain)</li>
+    <li>암 면역회피 (APC의 B7 발현 억제, PD-L1 발현 X)</li>
+    <li>Rh 임산부 항체 시기 (첫 출산 후)</li>
+    <li>말초관용 안 일어나는 것 (B cell editing — 중추!)</li>
+    <li>가슴샘 퇴화 환자 (Class I + peptide 인식 X → apoptosis)</li>
+    <li>Lymphocyte 분리: density gradient</li>
+    <li>Anaphylaxis cytokine 틀린 것 (히스타민이 혈관 평활근 수축은 X — 확장)</li>
+    <li>CAR 구성 아닌 것 (B7 signaling)</li>
+    <li>Tc 종양 제거: MHC I + peptide → apoptosis</li>
+    <li>혈전촉진 cytokine (TNF-α)</li>
+    <li>NK 정상세포 안 죽이는 이유 (MHC I 발현)</li>
+    <li>MDSC 역할 틀린 것 (TH 분화 촉진 X — Treg)</li>
+    <li>종양세포 반응 (TH17 IL-17 → 염증)</li>
+    <li>Anaphylaxis 유발 가능 환자 (피부검사 30분 부어오름)</li>
+    <li>Epinephrine: NO 증가? (실제는 혈관수축)</li>
+    <li>Corticosteroid: cytokine 억제 (항염증)</li>
+    <li>탈감작 (TH1→TH2 X)</li>
+    <li>Acute rheumatic fever (세균항체→심근 교차결합)</li>
+    <li>O형 환자에 B형 수혈 (B형 RBC가 anti-B와 결합)</li>
+    <li>Rh 항체 type (IgG), MG, PSGN</li>
+    <li>점막 빈칸 채우기, 이식 종류, 직접·간접 인지</li>
+    <li>초급성 거부, 만성 거부, 적합 이식법</li>
+  </ul>
+
+  <div class="tip">
+    <b>출제 패턴 분석:</b>
+    <ul class="compact">
+      <li><b>매년 빈출:</b> 점막면역계 빈칸, FACS, COVID-19 키트, ABO/Rh, 에피네프린, MDSC, 이식 (직접/간접, 초급성), 면역억제제</li>
+      <li><b>서술형 단골:</b> ELISA 원리, Western blot, DNA microarray, Lymphocyte stimulation test</li>
+      <li><b>2024 새로운 토픽:</b> 구강암과 만성염증의 연결</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- Quiz modal -->
+<div class="modal" id="quizModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeQuiz()">×</button>
+    <h2 style="margin-top:0;color:var(--accent)">암기 플래시카드</h2>
+    <div class="cat-select" id="catSelect"></div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="front" id="cardFront">시작하려면 카테고리를 선택하세요</div>
+      <div class="back" id="cardBack"></div>
+    </div>
+    <div class="quiz-controls">
+      <button class="prev" onclick="prevCard()">이전</button>
+      <button class="dunno" onclick="markDunno()">모름</button>
+      <button class="know" onclick="markKnow()">알아요</button>
+      <button class="next" onclick="nextCard()">다음</button>
+    </div>
+    <div class="quiz-progress" id="quizProgress">카드를 선택하세요</div>
+  </div>
+</div>
+
+<button class="fab" onclick="openQuiz()" title="암기 테스트">Q</button>
+
+<script>
+/* === Theme toggle === */
+const themeBtn = document.getElementById('themeToggle');
+themeBtn.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  themeBtn.textContent = next === 'dark' ? '라이트' : '다크모드';
+  localStorage.setItem('immuno-theme', next);
+});
+const savedTheme = localStorage.getItem('immuno-theme');
+if (savedTheme) {
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '라이트' : '다크모드';
+}
+
+/* === Subsection toggle === */
+document.querySelectorAll('.subsection-header').forEach(h => {
+  h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
+});
+document.getElementById('expandAll').addEventListener('click', () => {
+  document.querySelectorAll('.subsection').forEach(s => s.classList.add('open'));
+});
+document.getElementById('collapseAll').addEventListener('click', () => {
+  document.querySelectorAll('.subsection').forEach(s => s.classList.remove('open'));
+});
+
+/* === Exam answer toggle === */
+function toggleAns(btn) {
+  btn.parentElement.classList.toggle('show-ans');
+  btn.textContent = btn.parentElement.classList.contains('show-ans') ? '정답 숨기기' : '정답 보기';
+}
+
+/* === Search === */
+const searchInput = document.getElementById('searchInput');
+let searchTimeout;
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(doSearch, 200);
+});
+function doSearch() {
+  const q = searchInput.value.trim().toLowerCase();
+  // remove previous highlights
+  document.querySelectorAll('.hl-search').forEach(n => {
+    const p = n.parentNode;
+    p.replaceChild(document.createTextNode(n.textContent), n);
+    p.normalize();
+  });
+  if (!q || q.length < 2) return;
+  // open all subsections
+  document.querySelectorAll('.subsection').forEach(s => s.classList.add('open'));
+  // highlight matches
+  highlightInElement(document.getElementById('mainContent'), q);
+  // jump to first match
+  const first = document.querySelector('.hl-search');
+  if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function highlightInElement(el, q) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => n.parentNode.tagName.match(/^(SCRIPT|STYLE)$/i) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const text = node.textContent;
+    const lower = text.toLowerCase();
+    const idx = lower.indexOf(q);
+    if (idx === -1) return;
+    const span = document.createElement('span');
+    span.innerHTML = text.substring(0, idx) +
+      '<span class="hl-search">' + text.substring(idx, idx + q.length) + '</span>' +
+      text.substring(idx + q.length);
+    node.parentNode.replaceChild(span, node);
+  });
+}
+
+/* === TOC active highlight on scroll === */
+const tocLinks = document.querySelectorAll('.toc a');
+const sections = document.querySelectorAll('.section, .subsection');
+const headerOff = 100;
+window.addEventListener('scroll', () => {
+  let activeId = null;
+  for (const s of sections) {
+    const r = s.getBoundingClientRect();
+    if (r.top - headerOff <= 0) activeId = s.id;
+  }
+  if (activeId) {
+    tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + activeId));
+  }
+});
+
+/* === Smooth scroll for TOC === */
+tocLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        if (target.classList.contains('subsection')) target.classList.add('open');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+});
+
+/* === Flashcards === */
+const flashcards = {
+  '면역관용': [
+    { q: 'AIRE의 역할과 위치는?', a: '가슴샘 상피세포에서 발현. 우리 몸의 거의 모든 단백질을 만들어 self peptide로 제시 → 자기항원 인지 림프구 제거' },
+    { q: '면역 특혜 지역 4곳은?', a: 'Brain, Eye, Testis (고환), Uterus (자궁) — "BETU"' },
+    { q: 'T cell 중추면역관용 핵심 4가지 (작작족)?', a: '① 목적: 자기 MHC는 인지, 자기항원은 인지 X ② 장소: 가슴샘 ③ 세포: 상피·대식·가지돌기세포 ④ 강하게 인식 = apoptosis/Treg, 약하게 = 생존' },
+    { q: 'B cell 중추면역관용 3가지 운명?', a: '① Apoptosis (deletion) ② Receptor editing (light chain 변화) ③ Anergy' },
+    { q: 'Treg의 4가지 억제 기전 ★★★★★?', a: '① CTLA-4가 APC의 B7과 결합·제거 ② IL-2 소모 ③ IL-10 분비 (DC/Mφ의 B7, class II, IL-12 억제) ④ TGF-β 분비 (TH1/TH2 분화 억제, Treg 분화 유도)' },
+    { q: 'CTLA-4가 중요한 이유?', a: 'B7에 대한 친화력이 CD28보다 강함 → 자기반응 TH가 B7과 만났을 때 CTLA-4가 결합·제거 → anergy 유발' },
+    { q: '미생물이 자가면역을 유도하는 4가지 기전 ★★★★★?', a: '① B7 발현 유도 ② 미생물 효소가 자기단백질 변형 (P. gingivalis → RA) ③ Molecular mimicry (예: 류마티스열) ④ 면역특혜지역 손상으로 격리항원 노출' },
+    { q: 'Fas-FasL는 어떤 관용 기전?', a: '말초면역관용의 apoptosis 기전. 자기항원 반복 자극받은 TH가 Fas, FasL 발현 → 상호작용으로 apoptosis' }
+  ],
+  '검사방법': [
+    { q: 'ELISA에서 plate에 코팅하는 것은? 그 이유?', a: '항원을 코팅 (혈청 내 항체를 detect하기 위함). HIV의 경우 HIV 항원 코팅' },
+    { q: 'Sandwich ELISA에서 plate에 코팅하는 것은?', a: '항체를 코팅 (검체 내 항원을 detect). cytokine 측정 등' },
+    { q: 'Lymphocyte stimulation test에서 [³H] thymidine 사용 이유?', a: 'DNA 합성 시 흡수됨. 림프구가 자극받아 분열·증식하면 thymidine이 DNA에 포함됨 → radioactivity로 활성화 정도 측정' },
+    { q: 'HAT 배지의 원리는?', a: 'Hypoxanthine + Aminopterin + Thymidine. Aminopterin이 metabolic pathway 막음 → bypass에 H, T 필요. Spleen B는 HAT 저항성, Myeloma는 민감 → fusion된 세포만 생존' },
+    { q: 'Southern/Northern/Western Blotting 비교?', a: 'Southern: DNA (DNA probe) / Northern: RNA (RNA probe) / Western: 단백질 (Antibody)' },
+    { q: 'Western Blot이 ELISA보다 specific한 이유?', a: '각각의 단백질을 분리해서 보여줌. ELISA는 cross reaction 가능. HIV 진단에서 confirmatory test' },
+    { q: 'COVID-19 자가진단키트 Test line vs Control line?', a: 'Test line: Primary Ab — 항원 있을 때만 sandwich 형성 (Sandwich ELISA 원리). Control line: Secondary Ab — 항원 무관, 무조건 결합 (검사 정상작동 확인)' },
+    { q: 'FACS의 4사분면 의미?', a: 'CD4/CD8 두 가지 형광 dye → CD4⁺CD8⁻ (TH), CD4⁻CD8⁺ (Tc), CD4⁺CD8⁺ (immature), CD4⁻CD8⁻ (분화 전)' }
+  ],
+  '점막면역계': [
+    { q: 'M cell의 가장 큰 특징 (★★★)?', a: 'Antigen transport cell. Pinocytosis로 항원 운반. Class II MHC 발현 X — 분해되지 않고 통로 역할만' },
+    { q: '점막면역계의 2가지 특징 (★★★)?', a: '① IgA 생성 (다른 곳은 IgG, IgM 등) ② Mucosa-oriented homing (점막면역계로만 선택 이동)' },
+    { q: 'IgA isotype switching을 유도하는 3가지?', a: '① 작동 TH의 CD40L ② 점막면역계 DC/상피세포의 TGF-β ③ Retinoic acid (α4β7 integrin과 chemokine receptor 발현 유도)' },
+    { q: 'Selective mucosal homing의 핵심 분자 2가지?', a: 'α4β7 integrin + Chemokine receptor (점막면역계 혈관내피의 MAdCAM-1 + chemokine과 결합)' },
+    { q: 'sIgA의 구조?', a: 'IgA dimer + Joining chain + Secretory Component (SC)' },
+    { q: 'Secretory Component (SC)의 역할?', a: '① Poly Ig receptor (IgA dimer, IgM pentamer 인식) ② 단백분해효소(protease) 저항성 부여 → 항체 보호' },
+    { q: 'sIgA가 IgG와 다른 점?', a: 'sIgA: 중화작용(부착억제)만, 보체활성·opsonization 약함, 염증 유도 X / IgG: 중화 + 고전경로 보체 + opsonization + ADCC' },
+    { q: '치과의사가 점막면역을 알아야 하는 이유?', a: 'MALT 중 Salivary gland 때문! 다른 점막면역계에서 만들어진 plasmablast가 타액선으로 이동하여 sIgA 분비' }
+  ],
+  '과민면역반응': [
+    { q: '과민반응 4가지 분류 (발현 시간 + 기전)?', a: 'Type I: IgE (즉시형, 2-30분) / Type II: IgG, IgM (항체매개, 5-8h) / Type III: 항원항체 복합체 (2-8h) / Type IV: T세포매개 (지연형, 1-3일)' },
+    { q: 'Superantigen의 작용 기전 ★★★?', a: '분해 없이 직접 MHC II와 TCR에 결합 → polyclonal TH 활성화 → cytokine storm (다량 IFN-γ → Mφ 활성화 → IL-1, TNF) → shock' },
+    { q: '결핵에서 IV형 과민반응?', a: 'Macrophage가 결핵균 못 죽임 → TH1이 IFN-γ 분비 → Mφ 활성화 → ROS/NO/lysosomal enzyme → necrosis → 육아종 형성' },
+    { q: 'Tuberculin skin test에서 부어오르는 기전?', a: 'PPD를 Mφ가 분해·제시 → 기억 TH1이 IFN-γ → Mφ 활성화 → IL-1, TNF → 혈관 투과도 증가 → 48-72시간 후 부어오름 (Type IV)' },
+    { q: 'ABO 부적합 수혈의 핵심 원리?', a: '공혈자의 항원 + 수여자의 항체가 결합 → 보체 활성 → MAC로 RBC 용혈 + opsonization. IgM (ABO는 carbohydrate라 isotype switching X)' },
+    { q: 'Rh 부적합 신생아 용혈 (Type II)?', a: 'Rh- 산모가 Rh+ 태아 첫 임신 시 분만으로 산모에 IgG 생성. 두 번째 임신부터 IgG가 태반 통과 → 태아 RBC 용혈 (Rh항원은 단백질 → IgG → 태반 통과 가능)' },
+    { q: '중증근무력증 (Myasthenia gravis)?', a: 'Acetylcholine 수용체에 대한 자가항체 → 아세틸콜린 결합 방해 + 수용체 endocytosis → 근육 신호 차단 (Type II)' },
+    { q: 'Graves disease 기전?', a: 'TSH 수용체에 대한 자가항체 → 지속적 자극 (negative feedback X) → 갑상선 호르몬 과다 분비 (Type II)' },
+    { q: '류마티스열 (Rheumatic fever)?', a: 'S. pyogenes 감염 → 세균 세포벽 항원에 대한 항체가 심장근육 단백질에 교차결합 → 심근염 (Type II)' },
+    { q: 'Poststreptococcal glomerulonephritis?', a: 'S. pyogenes 감염 → 항원-항체 복합체가 신장 사구체 기저막에 침착 → 신장염 (Type III, 류마티스열과 구분!)' },
+    { q: 'Anaphylaxis 기전과 치료?', a: '전신 mast cell 탈과립 → 혈관 확장·투과도↑ → 혈압 하강 + 기관지 평활근 수축 → 호흡곤란. 치료: Epinephrine (혈관수축으로 혈압↑, 기관지 평활근 이완)' },
+    { q: 'IgE isotype switching 유도 사이토카인?', a: 'IL-4, IL-13 (TH2 / TFH가 분비)' },
+    { q: 'Mast cell이 활성화되는 조건?', a: '최소 2개 이상의 IgE에 동일 allergen이 교차결합 (cross-linking) — 하나에 결합 시 활성화 X' },
+    { q: 'Histamine vs Leukotriene 작용?', a: 'Histamine: 혈관 평활근 이완(확장), 기관지·장 평활근 수축, 투과도↑ / Leukotriene: 기관지·장 평활근 수축, 점액 분비↑, 혈관 투과도↑' }
+  ],
+  '종양면역': [
+    { q: 'Tc cell vs NK cell의 차이점 ★★★?', a: 'Tc: 수용체 TCR, 특이성 있음, 활성화 과정 필요 / NK: 억제·활성·Fc 수용체, 특이성 없음, 활성화 과정 불필요 (IL-2로 활성 촉진). 공통점: perforin·granzyme로 apoptosis 유도' },
+    { q: 'NK cell이 표적세포를 죽이는 3가지 경우?', a: '① Class I MHC 발현 X + 활성수용체 ligand 발현 ② 항체로 도포된 세포 (ADCC) ③ class I MHC 있어도 항체 결합 시 ADCC' },
+    { q: 'NK cell이 정상세포를 안 죽이는 이유?', a: '정상세포는 Class I MHC 발현 → NK의 억제수용체가 자극 → 억제신호 → 죽이지 않음' },
+    { q: 'PD-1/PD-L1의 역할?', a: 'PD-1: T 억제 수용체. PD-L1: 종양세포에서 발현. 결합 시 Tc 활성 억제 → 종양 면역회피' },
+    { q: 'MDSC (Myeloid-derived suppressor cell)?', a: '미성숙 neutrophil, monocyte, DC 포함 골수계 전구세포. 암환자 림프조직·혈액·암조직에 존재. IL-10, TGF-β 생성으로 면역 억제' },
+    { q: 'CAR (Chimeric Antigen Receptor) 구성?', a: '항체 VL + VH (종양항원 인지) + TCR ζ chain signaling + CD28 signaling. MHC 없이도 종양항원 인지 가능 (장점)' },
+    { q: 'M1 vs M2 (종양에서)?', a: 'M1 (by TH1, IFN-γ): ROS, TNF, IL-1, chemokine → 염증 → 정상 DNA 손상으로 oncogene 형성. M2 (by TH2, IL-4, IL-13): TGF-β, IL-10, VEGF, MMP → 혈관 형성, 결체조직 분해, 전이' },
+    { q: '종양 면역회피 5가지?', a: '① 종양항원 발현 ↓ ② MHC 발현 ↓ ③ 항체에 의한 항원 capping/endocytosis ④ Glycocalyx로 표면 덮음 ⑤ B7 발현 ↓, PD-L1 발현, IL-10/TGF-β, MDSC 유도' }
+  ],
+  '이식면역': [
+    { q: '이식의 4가지 종류?', a: 'Autograft (자가, 동일 개체 다른 부위, 100%) / Syngraft (동계, MHC 동일 - 동물만) / Allograft (동종, 동일 종 다른 개체) / Xenograft (이종, 다른 종 - 100% 거부)' },
+    { q: '직접 인지 vs 간접 인지 ★?', a: '직접: 받는자 T가 제공자 APC의 동종 MHC를 분해되지 않은 채 인지 → 급성 거부 / 간접: 받는자 APC가 제공자 MHC를 포식·분해 → 받는자 T에 제시 → 만성 거부' },
+    { q: '초급성 vs 급성 vs 만성 거부?', a: '초급성 (수 분~수 시간): 이식 전부터 있던 항체가 혈관내피 항원과 반응 → 혈전 / 급성 (수일~수주): 직접인지로 활성화된 Tc → 조직 파괴 / 만성 (수개월~수년): 간접인지 TH cytokine → 혈관 평활근 증식, 섬유화' },
+    { q: 'HLA typing 3가지 방법?', a: '① 보체의존 세포독성 (B cell + 항체 + 보체 + trypan blue) ② PCR로 polymorphic region 증폭·시퀀싱 ③ MLR (Mixed Lymphocyte Reaction) - mitomycin C로 한쪽 증식 억제 후 혼합' },
+    { q: 'Cross matching의 목적?', a: '초급성 거부반응 예방. 받는자의 혈청에 제공자 HLA에 대한 항체가 있는지 미리 확인' },
+    { q: '면역억제제 6가지 기전 ★★?', a: '① Anti-TCR Ab (TCR-MHC 차단) ② CTLA4-Ig (B7 가로채기) ③ Cyclosporine/Tacrolimus (calcineurin 억제 → IL-2 생성 X) ④ Anti-IL-2R Ab ⑤ Rapamycin (IL-2 신호전달 차단) ⑥ Mycophenolate (guanine nucleotide 합성 억제)' },
+    { q: 'Graft-versus-host reaction (역거부반응)?', a: '제공자의 면역세포가 받는자의 조직을 공격. 조건: ① 제공자 조직에 성숙 T 多 ② 받는자의 면역세포 결핍 (예: 백혈병 환자에 hematopoietic stem cell 이식)' },
+    { q: '직접인지·간접인지 공통점?', a: '둘 다 B7을 동시에 인지해야 함 (CD28-B7 보조자극 필요)' }
+  ]
+};
+
+let currentCat = null;
+let currentCards = [];
+let currentIdx = 0;
+let knownIds = new Set();
+
+function buildCatSelector() {
+  const wrap = document.getElementById('catSelect');
+  wrap.innerHTML = '';
+  Object.keys(flashcards).forEach(cat => {
+    const btn = document.createElement('button');
+    btn.textContent = cat + ' (' + flashcards[cat].length + ')';
+    btn.onclick = () => selectCat(cat);
+    wrap.appendChild(btn);
+  });
+  const allBtn = document.createElement('button');
+  allBtn.textContent = '전체';
+  allBtn.onclick = () => selectCat('전체');
+  wrap.appendChild(allBtn);
+}
+
+function selectCat(cat) {
+  currentCat = cat;
+  document.querySelectorAll('#catSelect button').forEach(b => {
+    b.classList.toggle('active', b.textContent.startsWith(cat));
+  });
+  if (cat === '전체') {
+    currentCards = [];
+    Object.values(flashcards).forEach(arr => currentCards = currentCards.concat(arr));
+  } else {
+    currentCards = [...flashcards[cat]];
+  }
+  // shuffle
+  for (let i = currentCards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [currentCards[i], currentCards[j]] = [currentCards[j], currentCards[i]];
+  }
+  currentIdx = 0;
+  knownIds = new Set();
+  renderCard();
+}
+
+function renderCard() {
+  const card = document.getElementById('flashcard');
+  card.classList.remove('flipped');
+  if (currentCards.length === 0) {
+    document.getElementById('cardFront').textContent = '카테고리를 선택하세요';
+    document.getElementById('cardBack').textContent = '';
+    document.getElementById('quizProgress').textContent = '';
+    return;
+  }
+  const cur = currentCards[currentIdx];
+  document.getElementById('cardFront').innerHTML = '<b style="font-size:18px;display:block;margin-bottom:8px">Q' + (currentIdx + 1) + '.</b>' + cur.q + '<br><br><small style="color:var(--muted)">카드를 클릭하면 정답</small>';
+  document.getElementById('cardBack').innerHTML = '<b style="color:var(--ok);font-size:15px;display:block;margin-bottom:8px">정답</b>' + cur.a;
+  document.getElementById('quizProgress').textContent = (currentIdx + 1) + ' / ' + currentCards.length + ' · 알아요: ' + knownIds.size;
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+function nextCard() {
+  if (currentCards.length === 0) return;
+  currentIdx = (currentIdx + 1) % currentCards.length;
+  renderCard();
+}
+function prevCard() {
+  if (currentCards.length === 0) return;
+  currentIdx = (currentIdx - 1 + currentCards.length) % currentCards.length;
+  renderCard();
+}
+function markKnow() {
+  knownIds.add(currentIdx);
+  nextCard();
+}
+function markDunno() {
+  knownIds.delete(currentIdx);
+  nextCard();
+}
+function openQuiz() {
+  document.getElementById('quizModal').classList.add('open');
+  if (!currentCat) buildCatSelector();
+}
+function closeQuiz() {
+  document.getElementById('quizModal').classList.remove('open');
+}
+document.getElementById('quizBtn').addEventListener('click', openQuiz);
+buildCatSelector();
+
+// Open by default the first subsection
+document.querySelector('.subsection')?.classList.add('open');
+</script>
+
+</body>
+</html>
