@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>면역학 암기 테스트</title>
+<style>
+:root {
+  --bg: #fafafa;
+  --panel: #ffffff;
+  --text: #222;
+  --muted: #888;
+  --border: #e8e8e8;
+  --border-strong: #d4d4d4;
+  --code-bg: #f4f4f4;
+  --hl: #fff7c0;
+  --imp: #c00;
+  --ok: #1a7a3a;
+}
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --panel: #242424;
+  --text: #e4e4e4;
+  --muted: #888;
+  --border: #333;
+  --border-strong: #444;
+  --code-bg: #2d2d2d;
+  --hl: #4a3c00;
+  --imp: #ff6b6b;
+  --ok: #4ade80;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "맑은 고딕", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+header.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+header.topbar h1 {
+  font-size: 16px; margin: 0; font-weight: 600;
+  letter-spacing: -0.2px;
+}
+header.topbar .controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+header.topbar button, header.topbar a.btn {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 12px; border-radius: 4px;
+  cursor: pointer; font-size: 13px;
+  text-decoration: none;
+}
+header.topbar button:hover, header.topbar a.btn:hover { border-color: var(--text); }
+
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+
+.intro { text-align: center; padding: 20px 0 28px; }
+.intro h2 { font-size: 22px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.3px; }
+.intro p { color: var(--muted); margin: 0 0 24px; font-size: 14px; }
+
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px; margin: 20px 0;
+}
+.mode-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 22px 20px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s, transform .15s;
+}
+.mode-card:hover { border-color: var(--text); transform: translateY(-1px); }
+.mode-card .mode-title { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
+.mode-card .mode-desc { font-size: 13px; color: var(--muted); margin: 0; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px; margin: 20px 0;
+}
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px; text-align: center;
+}
+.stat-card .stat-num { font-size: 22px; font-weight: 600; margin: 0; font-variant-numeric: tabular-nums; }
+.stat-card .stat-label { font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+
+.cat-picker {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px; margin: 16px 0;
+}
+.cat-picker h3 {
+  font-size: 13px; margin: 0 0 10px;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 1px; font-weight: 600;
+}
+.cat-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.cat-chip {
+  padding: 6px 12px; border-radius: 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text); cursor: pointer; font-size: 13px;
+}
+.cat-chip:hover { border-color: var(--text); }
+.cat-chip.active { background: var(--text); color: var(--panel); border-color: var(--text); }
+
+.workspace {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px 28px; margin: 16px 0; min-height: 280px;
+}
+.workspace .progress {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px; font-size: 12px; color: var(--muted);
+}
+.progress-bar {
+  height: 3px; background: var(--border);
+  border-radius: 2px; overflow: hidden; margin-bottom: 18px;
+}
+.progress-bar > div { height: 100%; background: var(--text); transition: width .25s; }
+
+.flashcard {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 32px 28px;
+  min-height: 220px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  cursor: pointer; font-size: 16px;
+  margin: 14px 0; line-height: 1.7;
+}
+.flashcard:hover { border-color: var(--border-strong); }
+.flashcard.flipped { border-color: var(--text); background: var(--panel); }
+.flashcard .front, .flashcard .back { width: 100%; }
+.flashcard .back { display: none; }
+.flashcard.flipped .front { display: none; }
+.flashcard.flipped .back { display: block; }
+.flashcard .label {
+  display: block; font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px;
+}
+
+.question-block { margin: 10px 0 18px; }
+.question-text { font-size: 15.5px; font-weight: 500; margin: 0 0 14px; line-height: 1.6; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.option {
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 4px; cursor: pointer;
+  background: var(--panel); font-size: 14px;
+  transition: border-color .15s, background .1s; line-height: 1.5;
+}
+.option:hover:not(.locked) { border-color: var(--text); }
+.option.selected { border-color: var(--text); background: var(--code-bg); }
+.option.correct { border-color: var(--ok); background: rgba(26, 122, 58, 0.06); }
+.option.wrong { border-color: var(--imp); background: rgba(204, 0, 0, 0.05); }
+.option.locked { cursor: default; }
+.option .opt-mark { display: inline-block; width: 22px; font-weight: 600; color: var(--muted); }
+.option.correct .opt-mark { color: var(--ok); }
+.option.wrong .opt-mark { color: var(--imp); }
+
+.explanation {
+  margin-top: 14px; padding: 12px 14px;
+  background: var(--code-bg);
+  border-left: 2px solid var(--border-strong);
+  border-radius: 0 3px 3px 0;
+  font-size: 13.5px; display: none; line-height: 1.6;
+}
+.explanation.show { display: block; }
+.explanation .ex-label { font-weight: 600; color: var(--text); margin-right: 4px; }
+
+.fill-passage { font-size: 15px; line-height: 2.2; margin: 14px 0; }
+.fill-input {
+  display: inline-block; padding: 4px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px; font-size: 14px;
+  width: 120px; background: var(--panel); color: var(--text);
+  font-family: inherit; margin: 0 2px;
+}
+.fill-input:focus { outline: none; border-color: var(--text); }
+.fill-input.correct { border-color: var(--ok); background: rgba(26, 122, 58, 0.06); }
+.fill-input.wrong { border-color: var(--imp); background: rgba(204, 0, 0, 0.05); }
+.fill-input.revealed { background: var(--code-bg); color: var(--imp); font-weight: 600; }
+
+.ox-buttons { display: flex; gap: 12px; justify-content: center; margin: 20px 0; }
+.ox-btn {
+  width: 100px; height: 100px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel); color: var(--text);
+  font-size: 32px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.ox-btn:hover { border-color: var(--text); }
+.ox-btn.correct { border-color: var(--ok); color: var(--ok); }
+.ox-btn.wrong { border-color: var(--imp); color: var(--imp); }
+
+.controls-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 18px; gap: 10px; flex-wrap: wrap;
+}
+.btn {
+  padding: 8px 16px; border-radius: 4px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel); color: var(--text);
+  cursor: pointer; font-weight: 500; font-size: 13px;
+  transition: background .15s; font-family: inherit;
+}
+.btn:hover { background: var(--code-bg); }
+.btn.primary { background: var(--text); color: var(--panel); border-color: var(--text); }
+.btn.primary:hover { opacity: 0.85; background: var(--text); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.result { text-align: center; padding: 20px 0; }
+.result .score { font-size: 48px; font-weight: 600; margin: 0; font-variant-numeric: tabular-nums; }
+.result .score-label { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+.result-breakdown {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0;
+}
+.result-breakdown .item { background: var(--code-bg); padding: 14px; border-radius: 4px; text-align: center; }
+.result-breakdown .item .v { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.result-breakdown .item .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+.wrong-list { margin-top: 20px; text-align: left; }
+.wrong-list h3 {
+  font-size: 14px; margin: 0 0 10px;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 1px; font-weight: 600;
+}
+.wrong-list .wrong-item {
+  background: var(--code-bg);
+  border-left: 2px solid var(--imp);
+  padding: 10px 14px; border-radius: 0 3px 3px 0;
+  margin: 8px 0; font-size: 13.5px;
+}
+.wrong-list .wrong-item .q { font-weight: 500; margin-bottom: 4px; }
+.wrong-list .wrong-item .a { color: var(--muted); font-size: 12.5px; }
+
+.hidden { display: none !important; }
+footer { text-align: center; padding: 24px 0; color: var(--muted); font-size: 12px; }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
+
+.timer { display: inline-block; font-size: 13px; color: var(--text); font-variant-numeric: tabular-nums; font-weight: 500; }
+.timer.urgent { color: var(--imp); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <h1>면역학 암기 테스트</h1>
+  <div class="controls">
+    <a href="면역학_기말_정리.html" class="btn">정리본으로</a>
+    <button id="homeBtn">홈</button>
+    <button id="resetBtn">기록 초기화</button>
+    <button id="themeBtn">다크모드</button>
+  </div>
+</header>
+
+<div class="container">
+  <div id="homeView">
+    <div class="intro">
+      <h2>모드 선택</h2>
+      <p>학습 방식을 선택하세요. 모든 진행 상황은 브라우저에 저장됩니다.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="cat-picker">
+      <h3>카테고리</h3>
+      <div class="cat-chips" id="catChips"></div>
+    </div>
+    <div class="mode-grid">
+      <div class="mode-card" data-mode="flashcard">
+        <div class="mode-title">플래시카드</div>
+        <p class="mode-desc">Q&amp;A 카드를 한 장씩 넘기며 핵심 개념 암기. 모름/알아요 체크 가능.</p>
+      </div>
+      <div class="mode-card" data-mode="mcq">
+        <div class="mode-title">객관식 퀴즈</div>
+        <p class="mode-desc">기출 기반 객관식 문제. 즉시 정답·해설 확인. 오답은 자동 기록.</p>
+      </div>
+      <div class="mode-card" data-mode="fill">
+        <div class="mode-title">빈칸 채우기</div>
+        <p class="mode-desc">점막면역계 빈칸 등 단골 문장형 문제. 직접 타이핑하여 검증.</p>
+      </div>
+      <div class="mode-card" data-mode="ox">
+        <div class="mode-title">OX 퀴즈</div>
+        <p class="mode-desc">참/거짓 빠르게 판단. 헷갈리는 디테일 점검에 최적.</p>
+      </div>
+      <div class="mode-card" data-mode="mock">
+        <div class="mode-title">모의고사 (20문)</div>
+        <p class="mode-desc">전 카테고리 혼합 20문 모의고사. 15분 타이머 + 채점·해설.</p>
+      </div>
+      <div class="mode-card" data-mode="wrong">
+        <div class="mode-title">오답 노트</div>
+        <p class="mode-desc">지금까지 틀린 문제만 다시 풀이. 약점만 집중 보완.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="workspaceView" class="hidden">
+    <div class="workspace" id="workspace"></div>
+  </div>
+</div>
+
+<footer>면역학 기말고사 대비 · 진행상황은 LocalStorage에 자동 저장됩니다</footer>
+
+<script>
+const CATEGORIES = ['면역관용', '검사방법', '점막면역계', '과민반응', '종양면역', '이식면역'];
+
+const FLASHCARDS = [
+  { c: '면역관용', q: 'AIRE의 역할과 위치는?', a: '가슴샘 상피세포에서 발현. 우리 몸의 거의 모든 단백질을 만들어 self peptide로 제시 → 자기항원 인지 T 림프구를 제거 (중추면역관용에 핵심)' },
+  { c: '면역관용', q: '면역 특혜 지역 4곳은?', a: 'Brain, Eye, Testis(고환), Uterus(자궁). 면역반응 잘 일어나지 않는 부위. 손상 시 격리항원 노출로 자가면역 유발 가능' },
+  { c: '면역관용', q: 'T cell 중추면역관용 핵심 4가지?', a: '① 목적: 자기 MHC는 인지, 자기항원은 인지 X\n② 장소: 가슴샘\n③ 관여 세포: 상피세포·대식세포·가지돌기세포\n④ 강하게 인식 → apoptosis 또는 Treg / 약하게 인식 → 생존' },
+  { c: '면역관용', q: 'B cell 중추면역관용에서 자기항원과 강하게 반응하는 BCR의 3가지 운명?', a: '① Apoptosis (deletion)\n② Receptor editing (새로운 light chain 발현)\n③ Anergy (약하게 반응 시 BCR 발현량 감소)' },
+  { c: '면역관용', q: 'Treg의 4가지 억제 기전?', a: '① CTLA-4가 APC의 B7과 결합·제거 (CD28보다 친화력 강함)\n② IL-2 소모 → 자기반응 TH 증식 차단\n③ IL-10 분비 → DC/Mφ의 B7·class II·IL-12 발현 억제\n④ TGF-β 분비 → TH1/TH2 분화 억제, Treg 분화 유도' },
+  { c: '면역관용', q: 'CTLA-4가 중요한 이유 한 줄로?', a: 'B7에 대한 친화력이 CD28보다 강해서, 자기반응 TH가 B7과 만났을 때 CTLA-4가 B7과 결합·제거 → CD28 자극 X → anergy 유발' },
+  { c: '면역관용', q: '미생물이 자가면역을 유도하는 4가지 기전?', a: '① Microbe induces B7 in APC\n② 미생물 효소가 자기단백질 변형 (예: P. gingivalis → RA)\n③ Molecular mimicry (미생물 peptide와 self peptide 유사 → 교차반응)\n④ 면역특혜지역 손상으로 격리항원 노출' },
+  { c: '면역관용', q: 'Fas-FasL는 어떤 관용 기전?', a: '말초면역관용의 apoptosis 기전. 자기항원에 반복 자극받은 TH가 Fas, FasL를 둘 다 발현 → 상호작용으로 apoptosis' },
+  { c: '면역관용', q: '말초면역관용의 3가지 기전 (T cell)?', a: '① Anergy (B7 없음 또는 CTLA-4가 B7 제거)\n② Apoptosis (Fas-FasL 또는 B7 없어 anti-apoptotic 단백질 X)\n③ Treg에 의한 억제' },
+  { c: '면역관용', q: '자가면역의 2가지 필수 요인은?', a: '① 유전적 요인 (HLA, AIRE, CTLA-4, Fas 변이 등으로 면역관용 결함)\n② 환경적 요인 (염증 유발: 미생물 감염 또는 조직 손상). 둘 다 있어야 자가면역 발생' },
+  { c: '검사방법', q: 'ELISA에서 plate에 코팅하는 것은? 그 이유?', a: 'Plate에 항원 코팅. 혈청 내 항체를 detect하기 위함. (HIV: HIV 항원 코팅 → 환자 혈청의 anti-HIV 항체 검출)' },
+  { c: '검사방법', q: 'Sandwich ELISA에서 plate에 코팅하는 것은?', a: 'Plate에 항체 코팅. 검체 내 항원을 detect (cytokine 측정 등). ELISA와 반대' },
+  { c: '검사방법', q: 'Lymphocyte stimulation test에서 [3H] thymidine 사용 이유?', a: 'DNA 합성 시 흡수됨. 림프구가 자극받아 분열·증식하면 thymidine이 DNA에 포함됨 → radioactivity 측정으로 활성화 정도 정량' },
+  { c: '검사방법', q: 'Lymphocyte 분리 방법 이름은?', a: 'Density-gradient separation on Ficoll Isopaque (밀도 차 원심분리: lymphocyte < ficoll < RBC·granulocyte)' },
+  { c: '검사방법', q: 'HAT 배지의 원리?', a: 'H(hypoxanthine) + A(aminopterin) + T(thymidine). Aminopterin이 metabolic pathway 막음 → H,T로 bypass 필요. Spleen B는 HAT 저항성, Myeloma는 HAT 민감 → fusion된 세포만 생존' },
+  { c: '검사방법', q: 'Southern/Northern/Western Blotting 비교?', a: 'Southern: DNA (DNA probe)\nNorthern: RNA (RNA probe)\nWestern: 단백질 (Antibody)' },
+  { c: '검사방법', q: 'Western Blot이 ELISA보다 specific한 이유?', a: '각 단백질을 분리해서 보여줌. ELISA는 cross reaction 가능. HIV 진단에서 ELISA 양성·indeterminate의 confirmatory test로 사용' },
+  { c: '검사방법', q: 'COVID-19 자가진단키트 Test line vs Control line?', a: 'Test line: Primary Ab — 항원 있을 때만 sandwich 형성 (Sandwich ELISA 원리)\nControl line: Secondary Ab — 항원 유무 무관, 무조건 결합 (검사 정상작동 확인)' },
+  { c: '검사방법', q: 'DNA Microarray에서 cancer/normal labeling?', a: '정상세포 cDNA: Green / 암세포 cDNA: Red\nYellow = 둘 다 발현, Red = 암 우세, Green = 정상 우세, 무색 = 둘 다 X' },
+  { c: '검사방법', q: 'RT-PCR에서 mRNA만 선별적으로 RT 가능한 이유?', a: 'Oligo-dT primer가 mRNA의 poly A tail에만 결합 → mRNA만 선별적으로 cDNA로 reverse transcription' },
+  { c: '검사방법', q: 'FACS의 4사분면 의미?', a: 'CD4/CD8 두 가지 dye → CD4+CD8-(TH), CD4-CD8+(Tc), CD4+CD8+(immature), CD4-CD8-(분화 전) 4가지로 분류·counting·분리' },
+  { c: '검사방법', q: 'Real-time PCR의 두 가지 detection 방식 비교?', a: 'SYBR Green: ds DNA에 비특이적 결합, 싸지만 정확도 낮음, single product만\nTaqMan probe: 특이적, 비쌈, multiplex 가능 (여러 색 probe로 동시 검출). Reporter + Quencher 구조' },
+  { c: '점막면역계', q: 'M cell의 가장 큰 특징?', a: 'Antigen transport cell. Pinocytosis로 항원 운반. Class II MHC 발현 X — 분해되지 않고 통로 역할만 함 (항원제시세포 아님!)' },
+  { c: '점막면역계', q: '점막면역계의 2가지 특징?', a: '① IgA 생성 (다른 면역계는 IgG, IgM 등)\n② Mucosa-oriented homing (활성화된 림프구가 다시 점막면역계로 선택적 이동)' },
+  { c: '점막면역계', q: 'IgA isotype switching을 유도하는 3가지?', a: '① 작동 TH의 CD40L\n② 점막면역계 DC/상피세포의 TGF-β\n③ Retinoic acid (α4β7 integrin·chemokine receptor 발현 유도)' },
+  { c: '점막면역계', q: 'Selective mucosal homing의 핵심 분자 2가지?', a: 'α4β7 integrin + Chemokine receptor (점막면역계 혈관내피의 MAdCAM-1 + chemokine과 결합 → 점막 상피 하방으로 이동)' },
+  { c: '점막면역계', q: 'sIgA의 구조는?', a: 'IgA dimer + Joining chain + Secretory Component (SC). 점막상피세포 SC가 dimeric IgA를 endocytosis → exocytosis로 분비' },
+  { c: '점막면역계', q: 'Secretory Component (SC)의 역할?', a: '① Poly Ig receptor (IgA dimer, IgM pentamer 인식)\n② 단백분해효소(protease) 저항성 부여 → 항체 보호' },
+  { c: '점막면역계', q: 'sIgA가 IgG와 다른 점?', a: 'sIgA: 중화작용(부착억제) 중심, 보체활성·opsonization 약함, 염증 유도 X\nIgG: 중화 + 고전경로 보체 + opsonization + ADCC 모두 유도' },
+  { c: '점막면역계', q: '치과의사가 점막면역을 알아야 하는 이유?', a: 'MALT 중 Salivary gland 때문! 다른 점막면역계(Peyer\'s, Waldeyer, 비강 등)에서 만들어진 plasmablast가 타액선으로 이동하여 sIgA를 분비' },
+  { c: '점막면역계', q: '치아우식 백신 개발 시 항원 후보 4가지?', a: '① S. mutans 박테리아 자체\n② Pellicle binding protein (Pbp)\n③ Glucan binding protein (Gbp)\n④ Glucosyltransferase (GTF)' },
+  { c: '점막면역계', q: 'sIgA 형성 순서 한 줄로?', a: 'Plasma cell이 dimeric IgA + Joining chain 분비 → 점막상피세포의 SC와 결합 → endocytosis → exocytosis → sIgA (SC 부착된 채 lumen으로)' },
+  { c: '과민반응', q: '과민반응 4가지 분류 (매개체)?', a: 'Type I: IgE (즉시형 알러지)\nType II: IgG, IgM (항체매개)\nType III: 항원-항체 복합체 (IgG, IgM)\nType IV: T 세포 (지연형, 항체 X)' },
+  { c: '과민반응', q: '과민반응 4가지의 발현 시간?', a: 'Type I: 2-30분 / Type II: 5-8시간 / Type III: 2-8시간 / Type IV: 1-3일' },
+  { c: '과민반응', q: 'Superantigen의 작용 기전?', a: '분해 없이 직접 MHC II와 TCR에 결합 → polyclonal TH 활성화 → 다량 IFN-γ → Mφ 활성화 → 다량 IL-1, TNF → cytokine storm → shock / multiple organ failure' },
+  { c: '과민반응', q: '결핵에서 IV형 과민반응이 일어나는 기전?', a: 'Mφ가 결핵균 못 죽임 → TH1이 IFN-γ 분비 → Mφ 활성화 → ROS/NO/lysosomal enzyme 분비 → necrosis → 육아종(granuloma) 형성' },
+  { c: '과민반응', q: 'Tuberculin skin test의 기전과 시간?', a: 'PPD를 Mφ가 분해·class II MHC로 TH1에 제시 → IFN-γ → Mφ 활성화 → IL-1, TNF → 혈관 투과도 증가 → 48-72시간 후 부어오름 (Type IV)' },
+  { c: '과민반응', q: '접촉성 피부염 (latex 등)의 기전?', a: '저분자 물질이 self protein과 결합·변형 → 랑게르한스세포가 class II MHC로 제시 → TH1 → IFN-γ → Mφ 활성, Keratinocyte 자극 → IL-1, TNF → 물집 (Type IV, TH1 매개)' },
+  { c: '과민반응', q: 'ABO 부적합 수혈의 핵심?', a: '공혈자 항원 + 수여자 항체가 결합 → 보체 활성 → MAC로 RBC 용혈 + opsonization. ABO 항원은 carbohydrate라 isotype switching X → 항체는 IgM' },
+  { c: '과민반응', q: 'Rh 부적합 신생아 용혈의 기전?', a: 'Rh- 산모가 Rh+ 태아 첫 임신 시 분만으로 산모에 anti-Rh IgG 생성 (첫째는 정상). 두 번째 임신부터 IgG가 태반 통과 → 태아 RBC 용혈. Rh항원이 단백질이라 IgG로 isotype switching 가능, IgG라서 태반 통과' },
+  { c: '과민반응', q: '중증근무력증 (Myasthenia gravis) 기전?', a: 'Acetylcholine 수용체에 대한 자가항체 → ACh 결합 방해 + receptor endocytosis + 항원항체복합체 보체활성 → 근육 신호 차단 (Type II)' },
+  { c: '과민반응', q: 'Graves disease 기전?', a: 'TSH 수용체에 대한 자가항체가 지속적 자극 (negative feedback 작동 X) → 갑상선 호르몬 과다 분비 (Type II, 항진증)' },
+  { c: '과민반응', q: '류마티스열 (Rheumatic fever) 기전?', a: 'S. pyogenes 감염 → 세균 세포벽 항원(M protein)에 대한 항체가 심장근육의 유사 단백질에 교차결합 → 심근염 (Type II). 감염성 심내막염 위험!' },
+  { c: '과민반응', q: 'Poststreptococcal glomerulonephritis와 류마티스열의 차이?', a: '둘 다 S. pyogenes 후유증.\n류마티스열: 항체가 심근에 교차결합 (Type II)\nPSGN: 항원-항체 복합체가 신장 사구체에 침착 (Type III)' },
+  { c: '과민반응', q: 'SLE (전신홍반루푸스) 기전?', a: 'DNA, nucleoprotein에 대한 자가항체 → 항원항체복합체가 전신에 침착 → 신장염·관절염·혈관염 (Type III). 양쪽 볼의 빨간 발진' },
+  { c: '과민반응', q: 'Anaphylaxis 기전과 치료?', a: '기전: 전신 mast cell 탈과립 → 혈관 확장·투과도↑ → 혈압 급강하 + 기관지 평활근 수축 → 호흡곤란\n치료: Epinephrine (혈관수축 → 혈압↑, 기관지 평활근 이완, mast cell 탈과립 억제)' },
+  { c: '과민반응', q: 'IgE isotype switching 유도 사이토카인?', a: 'IL-4, IL-13 (TH2 / TFH가 분비). IL-4가 핵심' },
+  { c: '과민반응', q: 'Mast cell 활성화 조건?', a: '최소 2개 이상의 IgE에 동일 allergen이 cross-link (교차결합). 한 개에만 결합 시 활성화 X' },
+  { c: '과민반응', q: 'Histamine vs Leukotriene 작용?', a: 'Histamine: 혈관 평활근 이완(확장), 기관지·장 평활근 수축, 혈관 투과도↑\nLeukotriene: 기관지·장 평활근 수축, 점액 분비↑, 혈관 투과도↑\n(혈관과 기관지가 반대 방향!)' },
+  { c: '과민반응', q: 'Mast cell 후기반응 cytokine?', a: 'TNF (혈관 내피 부착분자 → 염증), IL-4 (TH2 분화), IL-5 (호산구), IL-13 (점액 분비). 특히 TNF가 중요' },
+  { c: '과민반응', q: '탈감작(Desensitization) 원리?', a: 'Allergen을 소량부터 점차 증가시켜 수개월에 걸쳐 반복 투여. 가설: IgE 아닌 다른 isotype switching 유도, T tolerance, Treg 자극' },
+  { c: '종양면역', q: 'Tc cell vs NK cell 차이점?', a: 'Tc: TCR, 특이성 O, 활성화 과정 필요\nNK: 억제·활성·Fc 수용체, 특이성 X, 활성화 과정 불필요 (IL-2로 촉진 가능)\n공통: perforin·granzyme로 apoptosis 유도' },
+  { c: '종양면역', q: 'NK cell이 표적세포를 죽이는 3가지 경우?', a: '① Class I MHC 발현 X + 활성수용체 ligand 발현 세포\n② 항체로 도포된 세포 (ADCC)\n③ class I MHC 있어도 항체 결합 시 ADCC' },
+  { c: '종양면역', q: 'NK cell이 정상세포를 안 죽이는 이유?', a: '정상세포는 Class I MHC 발현 → NK의 억제수용체 자극 → 억제신호 → 죽이지 않음' },
+  { c: '종양면역', q: 'PD-1 / PD-L1의 역할?', a: 'PD-1: T 억제 수용체 / PD-L1: 종양세포에서 발현. 결합 시 Tc 활성 억제 → 종양 면역회피. Anti-PD-1/PD-L1 항체로 차단 가능 (melanoma 등 FDA 승인)' },
+  { c: '종양면역', q: 'MDSC (Myeloid-derived suppressor cell)란?', a: '미성숙 neutrophil·monocyte·DC 포함 골수계 전구세포. 암환자 림프조직·혈액·암조직에 존재. IL-10, TGF-β 생성으로 면역 억제 (T 활성 억제, Treg 분화 유도)' },
+  { c: '종양면역', q: 'CAR-T (Chimeric Antigen Receptor T) 구성과 장점?', a: '구성: 항체 VL + VH (종양항원 인지) + TCR ζ chain signaling + CD28 signaling\n장점: MHC 없이도 종양항원 인지 가능 (MHC 발현 안 하는 암세포도 공격)' },
+  { c: '종양면역', q: 'M1 vs M2 (종양에서 역할)?', a: 'M1 (by TH1, IFN-γ): ROS, TNF, IL-1, chemokine → 염증, 정상 DNA 손상 → oncogene 형성\nM2 (by TH2, IL-4, IL-13): TGF-β, IL-10, VEGF, MMP → 혈관 형성, 결체조직 분해 → 전이' },
+  { c: '종양면역', q: '종양 면역회피 5가지?', a: '① 종양항원 발현 ↓\n② MHC 발현 ↓\n③ 항체에 의한 항원 capping/endocytosis\n④ Glycocalyx로 표면 덮음\n⑤ B7 발현 ↓, PD-L1 발현, IL-10/TGF-β, MDSC 유도' },
+  { c: '종양면역', q: 'Tc cell이 암세포를 죽이는 과정?', a: 'APC가 암세포 포식 → Class I MHC + tumor peptide 제시 → 림프절로 이동 → 숫 Tc 활성화 (TCR + CD28-B7) → effector Tc 증식·이동 → 암세포 Class I MHC 인지 → perforin, granzyme → apoptosis' },
+  { c: '종양면역', q: '만성염증이 암을 유발하는 기전?', a: 'M1·Neutrophil의 ROS가 정상세포 DNA의 tumor suppressor gene·oncogene 변이 유도. M2의 TGF-β·VEGF·MMP가 혈관 형성·전이 촉진. → 항염증제로 예방' },
+  { c: '이식면역', q: '이식 4가지 종류와 성공률?', a: 'Autograft (자가, 동일 개체 다른 부위): 100%\nSyngraft (동계, MHC 동일 - 동물만): 100%\nAllograft (동종, 사람-사람): 거부 위험\nXenograft (이종, 다른 종): 거의 100% 거부' },
+  { c: '이식면역', q: '직접 인지 vs 간접 인지 핵심 차이?', a: '직접: 받는자 T가 제공자 APC의 동종 MHC를 분해 X로 인지 → 급성 거부\n간접: 받는자 APC가 제공자 MHC 포식·분해 → 받는자 T에 제시 → 만성 거부\n공통: 둘 다 CD28-B7 필요' },
+  { c: '이식면역', q: '초급성 거부의 원인과 예방?', a: '원인: 이식 전부터 있던 받는자 항체가 제공자 혈관내피 항원과 결합 → 보체 활성 → 혈전\n출처: 이전 수혈·이식·다임신·장내세균총\n예방: Cross-matching (사전 항체 검사)' },
+  { c: '이식면역', q: '급성 vs 만성 거부?', a: '급성 (수일~수주): T세포 매개 (직접 인지). 조기 이식실패의 주요 원인. 예방: HLA typing + 면역억제제\n만성 (수개월~수년): 간접 인지 TH cytokine → 혈관 평활근 증식, 섬유화. 예방 어려움' },
+  { c: '이식면역', q: 'HLA typing 3가지 방법?', a: '① 보체의존 세포독성: B cell + 항체 + 보체 + trypan blue (lysis 시 푸른색)\n② PCR: polymorphic region 증폭·시퀀싱\n③ MLR: mitomycin C로 한쪽 증식 억제 후 혼합. 증식 작을수록 좋음' },
+  { c: '이식면역', q: 'Cross-matching의 목적?', a: '초급성 거부반응 예방. 받는자의 혈청에 제공자 HLA에 대한 항체가 있는지 미리 확인 (보체매개 cytotoxicity 또는 flow cytometry)' },
+  { c: '이식면역', q: '면역억제제 6가지 기전?', a: '① Anti-TCR Ab: TCR-MHC 차단\n② CTLA4-Ig: B7 가로채기\n③ Cyclosporine/Tacrolimus: calcineurin 억제 → IL-2 생성 X\n④ Anti-IL-2R Ab: IL-2 신호 차단\n⑤ Rapamycin: IL-2 신호전달 차단\n⑥ Mycophenolate: guanine nucleotide 합성 억제' },
+  { c: '이식면역', q: 'Graft-versus-host reaction이란?', a: '제공자의 면역세포가 받는자의 조직을 공격. 조건: ① 제공자 조직에 성숙 T 多 ② 받는자 면역세포 결핍. 예: 백혈병 환자의 hematopoietic stem cell 이식' },
+  { c: '이식면역', q: '사람마다 MHC가 다른 3가지 이유?', a: '① Multiple locus: A, B, C / DP, DQ, DR 등 여러 유전자\n② Multiple alleles: 각 유전자마다 여러 대립유전자\n③ Codominant expression: 양 부모 대립유전자 모두 발현' },
+  { c: '이식면역', q: 'Corticosteroid의 항염증 작용?', a: 'IL-1, TNF, IL-8 생성 감소 → 염증 감소\nNO·PGE2·leukotriene 감소 → 혈관 확장·투과도 감소\n부착분자 발현 저하 → 백혈구 extravasation 감소\nendonuclease → 림프구 apoptosis 유도' }
+];
+
+const MCQ = [
+  { c: '면역관용', y: '2024', q: '말초면역관용에서 MHC2-peptide를 인지한 TH의 anergy 기전으로 옳은 것은?',
+    o: ['Apoptosis가 일어난다', 'TCR editing이 일어난다', 'Fas-FasL 상호작용이 일어난다', 'CTLA-4가 B7에 결합 후 분해한다'], ans: 3,
+    ex: 'Anergy의 핵심 기전 중 하나는 CTLA-4가 B7과 결합하여 B7을 세포 내로 endocytosis 시키는 것. CTLA-4는 B7에 대해 CD28보다 친화력이 강함. Apoptosis와 Fas-FasL는 anergy가 아닌 별개의 말초관용 기전이고, TCR editing은 존재하지 않음(BCR editing은 있음).' },
+  { c: '면역관용', y: '2024', q: '면역 특혜 지역(Immunological privileged site)에 해당하는 것은?',
+    o: ['Heart', 'Pancreas', 'Eye', 'Bone marrow'], ans: 2,
+    ex: '면역 특혜 지역: Brain, Eye, Testis(고환), Uterus(자궁) 4곳. 외상이나 미생물 감염 시 격리항원이 노출되어 자가면역이 일어날 수 있음 (예: 외상후 포도막염).' },
+  { c: '면역관용', y: '2022', q: 'Thymus가 지방화(퇴화)된 노인에서 일어날 수 있는 면역 문제로 가장 옳은 것은?',
+    o: ['말초면역관용에 문제가 일어난다', 'Class I MHC + peptide를 약하게 인지하는 T가 Tc로 분화하지 않는다', 'Class I MHC + peptide를 강하게 인지하는 세포가 Treg가 된다', '간접인지가 일어나지 않는다'], ans: 1,
+    ex: '가슴샘에서 Class I MHC와 self peptide를 약하게 인식하는 immature T가 Tc로 단일양성 분화됨. 가슴샘이 퇴화되면 이 양성선택 과정이 손상되어 Tc로의 정상 분화가 안 됨.' },
+  { c: '면역관용', y: '2019', q: 'B cell의 중추면역관용에서 일어나는 일로 옳지 않은 것은?',
+    o: ['Apoptosis (deletion)', 'Receptor editing (light chain 변화)', '약하게 반응 시 Anergy', '억제수용체를 통한 BCR threshold 조절'], ans: 3,
+    ex: '억제수용체를 통한 threshold 조절은 말초면역관용에서 일어나는 기전. 중추면역관용에서는 apoptosis, receptor editing, anergy 3가지가 일어남.' },
+  { c: '면역관용', y: '응용', q: '미생물이 자가면역을 유도하는 4가지 기전에 해당하지 않는 것은?',
+    o: ['미생물이 APC의 B7 발현 유도', '미생물 효소가 자기단백질을 변형', '미생물 peptide와 self peptide의 교차반응 (molecular mimicry)', '미생물이 Treg를 직접 활성화'], ans: 3,
+    ex: '4가지: ① B7 유도 ② 자기단백질 변형 ③ 분자모방 ④ 면역특혜지역 손상으로 격리항원 노출. Treg 직접 활성화는 자가면역 유도가 아닌 억제 방향.' },
+  { c: '검사방법', y: '2024', q: 'Monoclonal antibody 제작 방법 중 옳지 않은 것은?',
+    o: ['Spleen에서 얻은 B lymphocyte는 HAT media에서 죽지 않는다', 'B+myeloma fusion 세포는 HAT에서 살아남는다', 'Fusion 세포를 1~2주 배양하는 이유는 B cell의 성격을 얻기 위함이다', 'Monoclonal antibody는 한 항원의 한 epitope에 결합한다'], ans: 2,
+    ex: '1~2주 배양은 myeloma의 immortality(암세포 특성)을 fusion된 세포가 가지도록 하기 위함. B cell만으로는 division이 멈춰 죽음.' },
+  { c: '검사방법', y: '2023', q: 'COVID-19 자가검진키트 test line에 대한 가장 정확한 설명은?',
+    o: ['Labeling된 항체와 결합한다', 'Labeling된 항원항체 복합체와 결합하며 COVID-19 항원과 sandwich를 이룬다', '발색되면 항체가 검출되었다는 의미이다', '검사의 정상 작동만 확인하는 용도이다'], ans: 1,
+    ex: 'Test line은 primary antibody가 깔린 곳으로, 항원이 있어야만 labeling된 항원항체 복합체가 sandwich로 결합 → Sandwich ELISA 원리. 항원 검출용. (3번은 항원 잘못 설명, 4번은 control line 설명)' },
+  { c: '검사방법', y: '2023', q: 'FACS에 대한 설명으로 옳은 것은?',
+    o: ['세포 내 단백질의 양을 정량한다', '형광 표지된 항체로 세포 표면 항원을 검출하고 분류한다', 'DNA 서열을 결정한다', '세포 분열 속도를 측정한다'], ans: 1,
+    ex: 'FACS는 형광 dye-labeled 항체와 laser를 이용해 세포 표면 항원에 따라 세포를 분류·counting·분리하는 기법. CD4/CD8 등으로 T세포 분화 정도 파악.' },
+  { c: '검사방법', y: '2021', q: 'HIV Western blot에서 (1) 측정 대상과 (2) Primary antibody가 결합하는 것으로 옳은 짝은?',
+    o: ['(1) 항원 (2) Substrate', '(1) 항체 (2) HIV 단백질(항원)', '(1) HIV 자체 (2) Secondary Ab', '(1) Enzyme (2) HIV DNA'], ans: 1,
+    ex: '일반적 western blot은 단백질(항원) 검출이지만, HIV 진단의 경우 환자 혈청 내 anti-HIV 항체를 detect하는 것이 목적. Primary Ab(환자의 anti-HIV)는 막에 blot된 HIV 단백질(항원)에 결합.' },
+  { c: '검사방법', y: '2020', q: 'Lymphocyte stimulation test에서 [3H] thymidine이 사용되는 이유는?',
+    o: ['림프구의 단백질 합성을 정량하기 위해', '림프구가 자극받아 분열할 때 DNA 복제 과정에서 흡수되어 활성화 정도를 측정', '림프구의 세포막을 형광 표지', '림프구의 ATP 생산을 측정'], ans: 1,
+    ex: 'Thymidine은 DNA 합성 시 dTTP로 사용됨. 림프구가 항원에 자극받아 proliferation 시 DNA 복제가 일어나는데, 이때 [3H] thymidine이 DNA에 incorporation됨.' },
+  { c: '점막면역계', y: '2023', q: '점막면역계(MALT)가 아닌 것은?',
+    o: ['Respiratory tract', 'Parathyroid gland', "Waldeyer's ring", 'Mammary gland'], ans: 1,
+    ex: 'Parathyroid (부갑상선)는 MALT가 아님. 점막면역계: 호흡기(BALT, NALT), 소화기(GALT, Peyer\'s patch), Waldeyer ring, lacrimal/salivary/mammary gland, 생식기.' },
+  { c: '점막면역계', y: '2024', q: '치아우식 예방 약을 경구 투여하는 이유로 가장 옳은 것은?',
+    o: ['소장의 Waldeyer ring 활성화', 'Plasmablast가 골수로 선택적으로 돌아감', '점막면역계에서 TNF 방출로 IgA switching', '점막면역계의 retinoic acid로 selective mucosal homing 유도'], ans: 3,
+    ex: 'Retinoic acid가 작동 TH·plasmablast 표면에 α4β7 integrin과 chemokine receptor 발현을 유도 → 다른 점막면역계(타액선 포함)로 선택적 이동. 그래서 경구 투여로 입안의 sIgA를 늘릴 수 있음.' },
+  { c: '점막면역계', y: '응용', q: 'M cell에 대한 설명으로 옳지 않은 것은?',
+    o: ['Lumen의 항원을 pinocytosis로 Peyer\'s patch로 운반', 'Class II MHC를 발현하여 항원을 분해·제시한다', '장상피세포의 0.1% 미만으로 존재', 'Enterocyte와 달리 섬모가 없고 납작함'], ans: 1,
+    ex: 'M cell은 class II MHC 발현 X → 항원을 분해하지 않고 통로 역할만 함. 항원제시세포가 아니라 antigen transport cell. 분해·제시는 그 다음 dendritic cell이 담당.' },
+  { c: '점막면역계', y: '응용', q: 'IgA isotype switching을 직접 유도하는 인자가 아닌 것은?',
+    o: ['작동 TH의 CD40L', '점막 DC/상피세포의 TGF-β', 'Retinoic acid', '주변 세포의 IL-2'], ans: 2,
+    ex: 'IgA switching의 직접 인자는 CD40L + TGF-β. Retinoic acid는 switching이 아닌 selective mucosal homing(α4β7 integrin, chemokine R 발현)을 유도. IL-2는 무관.' },
+  { c: '과민반응', y: '2024', q: '아나필락시스가 발생한 이유로 가장 옳은 것은?',
+    o: ['세포매개과민면역반응이 일어났기 때문', 'TH17로 분화가 일어났기 때문', 'TGF-β로 인해 IgE isotype changing이 일어났기 때문', 'IgE가 결합한 mast cell에서 과립이 유출되었기 때문'], ans: 3,
+    ex: '아나필락시스 = Type I 즉시형 과민반응. IgE에 결합된 mast cell에 allergen이 cross-link → 탈과립 → histamine 등 분비 → 전신 혈관 확장·기관지 수축.' },
+  { c: '과민반응', y: '2024', q: '다음 질병에 대한 설명으로 옳은 것은?',
+    o: ["Grave's disease: TSH receptor 항체가 갑상선호르몬 분비를 억제", 'Rheumatic fever: S. pyogenes가 직접 신장을 공격', 'Myasthenia gravis: ACh receptor 항체가 ACh 결합을 촉진', 'Pernicious anemia: Intrinsic factor를 항체가 억제해 Vit B12 흡수 차단'], ans: 3,
+    ex: 'Pernicious anemia(악성빈혈)은 intrinsic factor에 대한 자가항체가 IF의 작용을 막아 Vit B12 흡수 불가 → 적혈구 생성 X. 나머지: Graves는 항진(억제 X), Rheumatic fever는 항체 교차결합으로 심근염(신장 X), MG는 ACh 결합 방해(촉진 X).' },
+  { c: '과민반응', y: '2023', q: '지연형 과민반응(Type IV)의 발병기전으로 옳은 것은?',
+    o: ['T세포 매개 염증반응', '항원항체복합체 침착', 'TH1이 만드는 IL-10', 'TH17이 만드는 IFN-γ'], ans: 0,
+    ex: 'Type IV(지연형)은 T세포 매개로 염증반응을 유도하여 조직 손상. 항원항체복합체는 Type III. TH1은 IFN-γ 분비(IL-10 X), TH17은 IL-17 분비(IFN-γ X).' },
+  { c: '과민반응', y: '2022', q: '항생제 알러지로 아나필락시스 온 환자에게 에피네프린을 투여한다. 효과로 옳은 것은?',
+    o: ['혈관 평활근 수축시켜 고혈압 치료', '심박출량 증가 및 혈관 수축으로 혈압 상승, 기관지 평활근 이완', '기관지 평활근 수축시켜 호흡곤란 완화', '히스타민 수용체 차단으로 두드러기 완화'], ans: 1,
+    ex: '에피네프린: 혈관평활근 수축 + CO 증가 → 혈압 상승(저혈압 치료), 기관지 평활근 이완(호흡곤란 완화). 정확히 히스타민 반대 작용.' },
+  { c: '과민반응', y: '2022', q: 'Anti-A 항체에 반응, Anti-B에 무반응하는 사람의 혈액형과 수혈 가능한 혈액형은?',
+    o: ['A형 / A형, O형 수혈 가능', 'B형 / B형, O형 수혈 가능', 'AB형 / 모든 혈액형 수혈 가능', 'O형 / O형만 수혈 가능'], ans: 0,
+    ex: 'Anti-A에 반응 → 적혈구에 A 항원 있음 → A형. A형 환자는 자신의 anti-B 항체 때문에 B항원 있는 혈액(B, AB) 받으면 안 됨. → A형 또는 O형 수혈 가능.' },
+  { c: '과민반응', y: '2019', q: 'Anaphylaxis를 일으키는 매개물질 설명 중 틀린 것은?',
+    o: ['Histamine: 혈관 투과도 증가, 혈관 평활근 수축', 'Leukotriene: 혈관 투과도 증가, 점액 분비 증가', 'Histamine: 기관지 평활근 수축', 'Leukotriene: 기관지 평활근 수축'], ans: 0,
+    ex: 'Histamine은 혈관 평활근을 이완(확장)시킴 — 혈관 평활근 수축은 틀린 설명. 다만 기관지·장 평활근은 수축시킴. 혈관과 기관지가 반대 방향임을 기억!' },
+  { c: '과민반응', y: '2021', q: 'Latex 장갑 사용으로 손에 수포가 났다. 접촉성 피부염의 기전을 가장 잘 설명한 것은?',
+    o: ['TH1이 직접 IL-1을 분비하여 염증 유발', 'TH1이 분비한 IFN-γ로 활성화된 Mφ가 IL-1, TNF를 분비하여 염증 유발', 'IgE가 mast cell을 활성화시켜 histamine 분비', '면역복합체가 피부 조직에 침착'], ans: 1,
+    ex: '접촉성 피부염은 Type IV. TH1 → IFN-γ → Mφ 활성화 → Mφ가 IL-1, TNF 분비 + keratinocyte 자극. TH1은 IL-1을 직접 분비하지 않음(낚시 선지).' },
+  { c: '종양면역', y: '2024', q: '항종양 면역반응에 대해 옳은 것은?',
+    o: ['APC가 class II MHC-tumor peptide를 naive Tc에 제시', 'APC가 class II MHC-tumor peptide를 naive NK에 제시', 'Effector Tc가 class I MHC-tumor peptide 인식해 apoptosis 유도', '종양항원 항체가 작동 Tc의 ADCC를 유도'], ans: 2,
+    ex: 'Tc는 class I MHC를 인식하여 apoptosis 유도(perforin, granzyme). Class II MHC는 TH에 제시(Tc 아님). NK는 항원제시받지 않음. ADCC는 Tc가 아닌 NK의 기능.' },
+  { c: '종양면역', y: '2024', q: '구강 내 만성염증과 구강암 연관성에 대해 옳은 것은?',
+    o: ['TH1은 M1 활성화를 억제한다', 'TH2는 M2 활성화를 억제한다', 'M1이 생성한 ROS가 정상세포 DNA의 tumor suppressor gene을 손상시켜 oncogene을 만든다', 'M2는 혈관 생성을 억제하는 TGF-β, VEGF를 생성한다'], ans: 2,
+    ex: 'M1·neutrophil의 ROS는 비특이적으로 DNA에 손상을 가하여 oncogene 형성 가능. TH1은 M1을 활성화(억제 X), TH2는 M2 활성화. M2는 혈관 생성을 촉진(억제 X).' },
+  { c: '종양면역', y: '2022', q: '원형질막에 종양항원을 발현하지만 class I MHC를 발현하지 않는 암세포를 사멸시키는 방법은?',
+    o: ['Tc가 직접 인식해 죽임', '항원제시세포가 항원 전달 후 Tc 활성화', '활성수용체가 class I MHC 신호를 받아 활성', 'NK cell이 apoptosis 유도'], ans: 3,
+    ex: 'Class I MHC 없는 세포는 Tc가 인식 X. NK cell은 class I MHC 없는 세포(억제신호 없음)를 활성수용체로 죽임. NK가 적합.' },
+  { c: '종양면역', y: '2022', q: 'MDSC에 대한 설명으로 옳지 않은 것은?',
+    o: ['IL-10을 생성하여 macrophage의 MHC II 발현을 촉진한다', 'IL-10을 생성하여 dendritic cell의 B7 발현을 억제한다', 'TGF-β로 TH1, TH2 분화를 억제한다', 'TGF-β로 Treg 분화를 유도한다'], ans: 0,
+    ex: 'MDSC의 IL-10은 면역억제 작용 → MHC II 발현을 억제 (촉진 X). 나머지는 모두 옳은 면역억제 작용.' },
+  { c: '종양면역', y: '2019', q: 'CAR (Chimeric Antigen Receptor)의 구성 성분이 아닌 것은?',
+    o: ['항체의 VL', '항체의 VH', 'TCR ζ chain signaling domain', 'B7 signaling domain'], ans: 3,
+    ex: 'CAR = 항체 VL + VH (종양항원 인지) + TCR ζ + CD28 signaling. B7은 APC 표면 분자로 CAR 구성에 포함되지 않음.' },
+  { c: '종양면역', y: '2019', q: 'NK cell이 정상세포는 죽이지 않고 암세포는 죽이는 기전으로 옳은 것은?',
+    o: ['정상세포는 항체로 도포되지 않아 죽지 않음', '정상세포는 class I MHC를 발현하여 NK 억제수용체가 활성', 'NK는 TCR로 정상 펩타이드를 인식 못함', '정상세포는 IL-2를 분비하여 NK를 비활성화'], ans: 1,
+    ex: 'NK의 억제수용체가 class I MHC를 인지하면 억제신호 → 죽이지 않음. 암세포는 class I MHC 발현이 감소하거나 변형되어 억제신호 없음 → 활성수용체 신호로 죽임.' },
+  { c: '이식면역', y: '2023', q: '이식 용어에 대한 설명으로 옳은 것은?',
+    o: ['Autograft: 다른 종 사이의 이식', 'Syngraft: 동일 개체 다른 부위', 'Allograft: MHC가 완전히 일치하는 개체 간', 'Graft-versus-host reaction: 제공자의 T세포가 수여자의 조직을 공격'], ans: 3,
+    ex: 'GVH는 제공자 면역세포가 받는자를 공격(역방향). 1: Xenograft 설명, 2: Autograft 설명, 3: Syngraft 설명. Allograft는 동일 종 내 MHC 다른 개체.' },
+  { c: '이식면역', y: '2022', q: '초급성 거부반응에 대한 설명으로 옳은 것은?',
+    o: ['이식 후 새로 형성된 T 림프구가 제공자 조직을 공격', '미리 있던 항체가 제공자 혈관내피세포의 항원에 결합', '간접 인지에 의한 만성 거부의 일종', '면역억제제로 효과적으로 예방 가능'], ans: 1,
+    ex: '초급성은 이식 전부터 있던 받는자의 항체(이전 수혈·임신·이식 등으로 생성)가 제공자 혈관내피세포의 동종항원과 결합 → 보체 활성 → 혈전. Cross-matching으로 사전 검사하여 예방.' },
+  { c: '이식면역', y: '2022', q: '급성/만성 거부반응에 대해 옳지 않은 것은?',
+    o: ['급성: 주로 T세포 매개', '급성: 직접 인지를 통해 활성화된 Tc가 조직 파괴', '만성: TH 림프구 cytokine이 혈관주변 평활근의 증식을 억제하여 혈관이 수축한다', '만성: 섬유화로 인해 이식조직이 기능 상실'], ans: 2,
+    ex: '만성 거부에서 TH cytokine(IFN-γ)은 혈관 주변 평활근의 증식을 유도(억제가 아님)하여 혈관 직경이 좁아짐.' },
+  { c: '이식면역', y: '2022', q: '적합한 이식을 위한 방법으로 옳지 않은 것은?',
+    o: ['HLA 차이가 적은 사람을 선택', '림프구 혼합 배양 시 세포 증식 정도가 큰 것을 선택', 'HLA typing 시 보체를 사용할 수 있다', 'Cross matching을 통해 항체 존재 여부 확인'], ans: 1,
+    ex: 'MLR에서 증식이 크면 두 사람의 MHC 차이가 크다는 뜻 → 거부 가능성 높음. 증식이 작은 것을 선택해야 함.' },
+  { c: '이식면역', y: '2024', q: '면역억제제 cyclosporine의 작용 기전으로 옳은 것은?',
+    o: ['Guanine nucleotide 합성 억제', 'Calcineurin을 억제하여 IL-2 생성 차단', 'IL-2 receptor에 결합', 'B7과 결합하여 CD28 자극 차단'], ans: 1,
+    ex: 'Cyclosporine/Tacrolimus는 TCR 활성 후 calcineurin(phosphatase) 작용을 억제 → T cell이 IL-2를 만들지 못함 → T 증식 차단. Guanine은 Mycophenolate, IL-2R는 Anti-IL-2R Ab, B7은 CTLA4-Ig.' },
+  { c: '이식면역', y: '응용', q: '직접 인지(direct allorecognition)와 간접 인지(indirect allorecognition)에 대해 옳지 않은 것은?',
+    o: ['직접: 제공자 APC의 분해되지 않은 MHC를 받는자 T가 인지', '간접: 받는자 APC가 제공자 MHC를 분해 후 펩타이드로 제시', '직접 인지는 주로 만성 거부와 연관', '둘 다 CD28-B7 보조자극이 필요'], ans: 2,
+    ex: '직접 인지는 급성 거부와 주로 연관(만성 X). 간접 인지가 만성 거부와 연관됨. 둘 다 보조자극(B7) 필요.' }
+];
+
+const FILLS = [
+  { title: '점막면역계 빈칸 (단골 출제)', c: '점막면역계',
+    parts: [
+      { blank: ["Peyer's patch", "peyer's patch", 'PP', '페이어판'] },
+      { text: '에서 ' },
+      { blank: ['M cell', 'M세포', 'M-cell'] },
+      { text: '을 통해 들어오면 ' },
+      { blank: ['가지돌기세포', 'dendritic cell', 'DC'] },
+      { text: '가 Th cell에 항원을 제시. 같은 세포가 생성하는 ' },
+      { blank: ['retinoic acid', 'RA', '레티노산'] },
+      { text: '에 의해 Th cell과 B cell이 ' },
+      { blank: ['α4β7 integrin', 'a4b7 integrin', 'a4b7', 'alpha4beta7'] },
+      { text: '과 ' },
+      { blank: ['chemokine receptor', 'chemokine R'] },
+      { text: '을 발현해 selective mucosal homing이 가능. Th cell이 ' },
+      { blank: ['CD40L'] },
+      { text: '을 형성해서 IgA switching이 일어나고, 말초기관인 ' },
+      { blank: ['Mesenteric Lymph Node', 'MLN', '장간막 림프절'] },
+      { text: '로 이동. 그 후 타액선으로 가서 ' },
+      { blank: ['dimer', 'dimeric IgA', 'IgA dimer'] },
+      { text: ' 형태로 항체를 분비. 이는 내피세포의 ' },
+      { blank: ['secretory component', 'SC'] },
+      { text: '와 결합하여 ' },
+      { blank: ['sIgA', 'secretory IgA'] },
+      { text: ' 형태로 나온다. SC 덕분에 ' },
+      { blank: ['protease', '단백분해효소'] },
+      { text: '에 대한 저항성을 갖고, 항체 기능 중 ' },
+      { blank: ['중화작용', 'neutralization'] },
+      { text: '만 수행한다.' }
+    ]
+  },
+  { title: '중추면역관용 요약', c: '면역관용',
+    parts: [
+      { text: 'T 림프구는 ' },
+      { blank: ['가슴샘', 'thymus'] },
+      { text: '에서, B 림프구는 ' },
+      { blank: ['골수', 'bone marrow'] },
+      { text: '에서 중추면역관용이 일어난다. T cell이 자기 MHC와 self peptide를 강하게 인지하면 apoptosis 또는 ' },
+      { blank: ['Treg', '억제 T 림프구', '조절 T 림프구'] },
+      { text: '로 분화한다. 가슴샘 상피세포는 ' },
+      { blank: ['AIRE'] },
+      { text: '라는 단백질을 통해 거의 모든 self protein을 만들어 제시할 수 있다. B cell이 자기항원과 강하게 반응하는 BCR을 가지면 apoptosis, ' },
+      { blank: ['receptor editing', 'editing'] },
+      { text: ', anergy 중 하나가 일어난다.' }
+    ]
+  },
+  { title: 'Treg에 의한 면역억제 기전', c: '면역관용',
+    parts: [
+      { text: 'Treg는 표면에 ' },
+      { blank: ['CTLA-4', 'CTLA4'] },
+      { text: '를 발현하여 APC의 ' },
+      { blank: ['B7'] },
+      { text: '와 결합해 제거한다. 또한 ' },
+      { blank: ['IL-2', 'IL2'] },
+      { text: '를 소모하여 자기반응 TH의 증식을 막는다. 분비하는 cytokine은 ' },
+      { blank: ['IL-10', 'IL10'] },
+      { text: '와 ' },
+      { blank: ['TGF-β', 'TGF-b', 'TGFβ', 'TGF beta'] },
+      { text: '이다.' }
+    ]
+  },
+  { title: 'ABO/Rh 부적합 비교', c: '과민반응',
+    parts: [
+      { text: 'ABO 항원은 ' },
+      { blank: ['carbohydrate', '탄수화물'] },
+      { text: '이므로 isotype switching이 일어나지 않아 항체는 주로 ' },
+      { blank: ['IgM'] },
+      { text: '이다. 반면 Rh 항원은 ' },
+      { blank: ['단백질', 'protein'] },
+      { text: '이므로 isotype switching이 가능하여 ' },
+      { blank: ['IgG'] },
+      { text: '가 만들어지고 태반을 통과할 수 있다. A형 사람의 혈청에는 ' },
+      { blank: ['anti-B', 'anti B'] },
+      { text: ' 항체가, B형 사람의 혈청에는 ' },
+      { blank: ['anti-A', 'anti A'] },
+      { text: ' 항체가 있다.' }
+    ]
+  },
+  { title: 'CAR-T (Chimeric Antigen Receptor)', c: '종양면역',
+    parts: [
+      { text: 'CAR은 항체의 ' },
+      { blank: ['VL'] },
+      { text: '와 ' },
+      { blank: ['VH'] },
+      { text: '를 결합해 종양항원을 인지하고, TCR의 ' },
+      { blank: ['zeta chain', 'ζ chain', 'zeta', 'ζ'] },
+      { text: '와 ' },
+      { blank: ['CD28'] },
+      { text: '의 signaling domain을 가진다. 가장 큰 장점은 ' },
+      { blank: ['MHC'] },
+      { text: '가 없이도 종양항원을 인지할 수 있다는 점이다.' }
+    ]
+  },
+  { title: '이식 거부반응 정리', c: '이식면역',
+    parts: [
+      { text: '초급성 거부는 이식 전부터 있던 ' },
+      { blank: ['항체', 'antibody'] },
+      { text: '가 제공자 혈관내피의 항원에 결합해 일어난다. 예방은 ' },
+      { blank: ['cross matching', 'cross-matching', '교차일치'] },
+      { text: ' 검사로 한다. 급성 거부는 주로 ' },
+      { blank: ['직접 인지', 'direct'] },
+      { text: '에 의한 T 림프구 매개로 발생하고, 만성 거부는 ' },
+      { blank: ['간접 인지', 'indirect'] },
+      { text: '에 의한 TH cytokine으로 혈관 평활근 증식과 ' },
+      { blank: ['섬유화', 'fibrosis'] },
+      { text: '가 일어난다.' }
+    ]
+  }
+];
+
+const OX = [
+  { c: '면역관용', q: 'T 림프구가 자기 MHC를 인식하면 무조건 살아남는다.', ans: false, ex: '약하게 인식해야 살아남음. 자기 MHC + self peptide를 강하게 인식하면 apoptosis 또는 Treg로 분화. 너무 약해서 MHC조차 인식 못해도 apoptosis.' },
+  { c: '면역관용', q: 'AIRE는 가슴샘 상피세포에서 발현되어 다양한 self protein을 제시한다.', ans: true, ex: 'AIRE는 가슴샘에서 우리 몸의 거의 모든 self protein을 만들어 제시 → 자기항원 인지 림프구 제거.' },
+  { c: '면역관용', q: '면역특혜지역은 brain, eye, testis, uterus 4곳이다.', ans: true, ex: 'BETU: Brain, Eye, Testis, Uterus. 면역반응이 잘 안 일어나는 부위.' },
+  { c: '면역관용', q: 'Treg는 IL-2를 분비하여 자기반응 TH의 증식을 돕는다.', ans: false, ex: 'Treg는 IL-2를 소모하여 TH 증식을 차단함. 분비가 아니라 소비.' },
+  { c: '면역관용', q: 'CTLA-4는 B7에 대한 친화력이 CD28보다 강하다.', ans: true, ex: '그래서 자기반응 TH가 B7과 만났을 때 CTLA-4가 B7과 결합·제거 → CD28 자극 차단.' },
+  { c: '검사방법', q: 'ELISA는 plate에 항체를 코팅하여 검체의 항원을 검출한다.', ans: false, ex: '일반 ELISA는 항원 코팅(항체 검출). 항체 코팅(항원 검출)은 Sandwich ELISA.' },
+  { c: '검사방법', q: 'Western blot은 ELISA보다 specific하여 HIV 진단의 confirmatory test로 사용된다.', ans: true, ex: '각 단백질을 분리해서 보여주므로 어떤 단백질에 대한 항체인지까지 확인 가능.' },
+  { c: '검사방법', q: 'M cell은 항원을 분해해서 class II MHC로 제시한다.', ans: false, ex: 'M cell은 class II MHC 발현 X. 항원을 분해하지 않고 운반만 함. 분해·제시는 dendritic cell이 담당.' },
+  { c: '검사방법', q: 'COVID-19 자가검진키트의 control line은 항원 유무와 관계없이 항상 발색되어야 정상 작동이다.', ans: true, ex: 'Control line은 secondary antibody가 깔려 있어 labeled antibody가 지나가면 무조건 결합. 검사 정상 시행 확인용.' },
+  { c: '검사방법', q: "Sanger sequencing에서 ddNTP는 3'-OH가 있어 DNA polymerization을 계속할 수 있다.", ans: false, ex: "ddNTP는 3'-OH가 없어 DNA polymerization이 멈춤. 그래서 다양한 길이의 fragment를 만들 수 있음." },
+  { c: '점막면역계', q: 'M cell은 enterocyte의 약 0.1% 미만으로 존재하며 섬모가 없다.', ans: true, ex: 'Enterocyte와 달리 납작하고 섬모가 없으며 매우 적은 비율로 존재.' },
+  { c: '점막면역계', q: 'sIgA는 보체 활성화와 opsonization을 강하게 유도한다.', ans: false, ex: 'sIgA의 주된 기능은 중화작용(부착억제). 보체활성·opsonization은 약함. 이는 IgG의 기능.' },
+  { c: '점막면역계', q: 'Retinoic acid는 점막면역계에서 IgA isotype switching에 직접 관여한다.', ans: false, ex: 'IgA switching은 CD40L + TGF-β가 직접 유도. Retinoic acid는 selective mucosal homing(α4β7, chemokine R 발현) 유도.' },
+  { c: '점막면역계', q: 'Secretory Component는 protease에 대한 저항성을 부여한다.', ans: true, ex: 'SC는 sIgA를 단백분해효소로부터 보호하는 역할.' },
+  { c: '점막면역계', q: '갑상선은 점막면역계(MALT)에 포함된다.', ans: false, ex: '갑상선·부갑상선은 MALT가 아님. MALT는 호흡기·소화기·생식기·Waldeyer ring·lacrimal·salivary·mammary gland.' },
+  { c: '과민반응', q: 'Histamine은 혈관 평활근을 수축시켜 혈압을 상승시킨다.', ans: false, ex: 'Histamine은 혈관 평활근을 이완(확장)시켜 혈압을 떨어뜨림. 기관지·장 평활근은 수축.' },
+  { c: '과민반응', q: '아나필락시스의 치료에 epinephrine을 사용하는 이유는 혈관 수축으로 혈압 상승, 기관지 평활근 이완 효과 때문이다.', ans: true, ex: '히스타민과 정확히 반대 작용으로 anaphylaxis 증상을 완화.' },
+  { c: '과민반응', q: 'Mast cell은 IgE 한 분자에만 결합해도 활성화된다.', ans: false, ex: '최소 2개의 IgE에 동일 allergen이 cross-link되어야 활성화. 한 개만으로는 활성화 X.' },
+  { c: '과민반응', q: 'Rh- 산모가 첫 번째 Rh+ 태아를 임신하면 신생아 용혈성 질환이 바로 나타난다.', ans: false, ex: '첫 임신은 정상. 분만 시 산모가 anti-Rh IgG를 만들고, 두 번째 Rh+ 임신부터 IgG가 태반 통과해 용혈.' },
+  { c: '과민반응', q: '류마티스열과 PSGN(post-streptococcal glomerulonephritis)은 모두 S. pyogenes 후유증이지만 과민반응 type이 다르다.', ans: true, ex: '류마티스열: Type II (항체가 심근에 교차결합), PSGN: Type III (항원항체복합체가 신장 침착).' },
+  { c: '과민반응', q: '제4형 과민반응은 IgE에 의해 즉시 발현된다.', ans: false, ex: 'Type IV는 T 세포 매개 지연형(1-3일). IgE 즉시형은 Type I.' },
+  { c: '종양면역', q: 'NK cell은 활성화 과정 없이 표적세포를 죽일 수 있다.', ans: true, ex: 'Tc와 달리 NK는 사전 활성화 과정 불필요. IL-2가 있으면 활성이 더 촉진됨(LAK).' },
+  { c: '종양면역', q: 'Class I MHC를 발현하지 않는 암세포는 Tc cell이 효과적으로 제거한다.', ans: false, ex: 'Tc는 class I MHC + peptide를 인지해야 작용. Class I MHC 없는 세포는 NK cell이 제거.' },
+  { c: '종양면역', q: 'PD-L1을 발현하는 암세포는 T cell의 PD-1과 결합해 면역회피를 한다.', ans: true, ex: 'PD-1은 T 억제 수용체. PD-L1과 결합 시 Tc 활성이 억제됨. Anti-PD-1/PD-L1 항체로 차단 치료.' },
+  { c: '종양면역', q: 'CAR-T는 MHC 발현 없이도 종양항원을 인지할 수 있다는 장점이 있다.', ans: true, ex: '항체 VL+VH 부분이 직접 종양항원에 결합하므로 MHC 제시 불필요.' },
+  { c: '종양면역', q: 'M2 macrophage는 종양 성장을 억제하고 혈관 형성을 차단한다.', ans: false, ex: 'M2는 TGF-β·IL-10·VEGF·MMP를 분비하여 종양 성장·혈관 형성·전이를 촉진. M1이 종양 억제 방향.' },
+  { c: '이식면역', q: '초급성 거부는 이식 전부터 있던 항체에 의해 일어나며 cross matching으로 예방한다.', ans: true, ex: '이전 수혈·임신·이식으로 형성된 항체가 제공자 혈관내피에 결합 → 보체 활성 → 혈전. 사전 cross matching 검사로 항체 존재 여부 확인.' },
+  { c: '이식면역', q: '직접 인지와 간접 인지는 모두 CD28-B7 보조자극을 필요로 한다.', ans: true, ex: 'T cell 활성화의 보조자극은 두 경우 모두 필수.' },
+  { c: '이식면역', q: '림프구 혼합배양(MLR)에서 증식 정도가 크면 이식에 적합한 매칭이다.', ans: false, ex: '증식이 크면 두 사람의 MHC 차이가 크다는 뜻. 증식이 작아야 좋음.' },
+  { c: '이식면역', q: 'Cyclosporine은 calcineurin을 억제해 T cell의 IL-2 생성을 차단한다.', ans: true, ex: 'TCR 활성 후 calcineurin(phosphatase) 작용을 막아 IL-2 transcription 차단.' },
+  { c: '이식면역', q: 'Graft-versus-host reaction은 받는자의 면역세포가 제공자 조직을 공격하는 반응이다.', ans: false, ex: '반대. 제공자의 면역세포가 받는자의 조직을 공격(역방향). 주로 hematopoietic stem cell 이식 후.' }
+];
+
+// ===================== STATE =====================
+const state = {
+  selectedCats: new Set(CATEGORIES),
+  mode: null,
+  cards: [],
+  idx: 0,
+  score: 0,
+  answered: 0,
+  wrongList: [],
+  timer: null,
+  timeLeft: 0
+};
+
+const LS_KEY = 'immuno-quiz-v1';
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveProgress(data) { localStorage.setItem(LS_KEY, JSON.stringify(data)); }
+let progress = loadProgress();
+progress.wrongIds = progress.wrongIds || [];
+progress.totalAnswered = progress.totalAnswered || 0;
+progress.totalCorrect = progress.totalCorrect || 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function filterByCat(arr) {
+  if (state.selectedCats.size === 0) return arr;
+  return arr.filter(item => state.selectedCats.has(item.c));
+}
+function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function normAnswer(s) { return String(s).trim().toLowerCase().replace(/\s+/g, ' ').replace(/[\.\,]/g, ''); }
+
+function renderHome() {
+  stopTimer();
+  document.getElementById('homeView').classList.remove('hidden');
+  document.getElementById('workspaceView').classList.add('hidden');
+
+  const wrongCount = progress.wrongIds.length;
+  const accuracy = progress.totalAnswered > 0
+    ? Math.round((progress.totalCorrect / progress.totalAnswered) * 100) : '-';
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><p class="stat-num">${FLASHCARDS.length}</p><p class="stat-label">플래시카드</p></div>
+    <div class="stat-card"><p class="stat-num">${MCQ.length}</p><p class="stat-label">객관식</p></div>
+    <div class="stat-card"><p class="stat-num">${OX.length}</p><p class="stat-label">OX</p></div>
+    <div class="stat-card"><p class="stat-num">${wrongCount}</p><p class="stat-label">오답</p></div>
+    <div class="stat-card"><p class="stat-num">${accuracy}${accuracy==='-'?'':'%'}</p><p class="stat-label">누적 정답률</p></div>`;
+
+  const chips = document.getElementById('catChips');
+  chips.innerHTML = '';
+  CATEGORIES.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'cat-chip' + (state.selectedCats.has(c) ? ' active' : '');
+    b.textContent = c;
+    b.onclick = () => {
+      if (state.selectedCats.has(c)) state.selectedCats.delete(c);
+      else state.selectedCats.add(c);
+      if (state.selectedCats.size === 0) state.selectedCats = new Set(CATEGORIES);
+      renderHome();
+    };
+    chips.appendChild(b);
+  });
+  const allBtn = document.createElement('button');
+  allBtn.className = 'cat-chip' + (state.selectedCats.size === CATEGORIES.length ? ' active' : '');
+  allBtn.textContent = '전체';
+  allBtn.onclick = () => { state.selectedCats = new Set(CATEGORIES); renderHome(); };
+  chips.appendChild(allBtn);
+
+  document.querySelectorAll('.mode-card').forEach(card => {
+    card.onclick = () => startMode(card.dataset.mode);
+  });
+}
+
+function startMode(mode) {
+  state.mode = mode;
+  state.idx = 0;
+  state.score = 0;
+  state.answered = 0;
+  state.wrongList = [];
+
+  if (mode === 'flashcard') {
+    state.cards = shuffle(filterByCat(FLASHCARDS));
+    if (state.cards.length === 0) { alert('선택된 카테고리에 카드가 없습니다.'); return; }
+    showWorkspace(); renderFlashcard();
+  } else if (mode === 'mcq') {
+    state.cards = shuffle(filterByCat(MCQ));
+    if (state.cards.length === 0) { alert('선택된 카테고리에 문제가 없습니다.'); return; }
+    showWorkspace(); renderMCQ();
+  } else if (mode === 'fill') {
+    state.cards = shuffle(filterByCat(FILLS));
+    if (state.cards.length === 0) { alert('선택된 카테고리에 빈칸 문제가 없습니다.'); return; }
+    showWorkspace(); renderFill();
+  } else if (mode === 'ox') {
+    state.cards = shuffle(filterByCat(OX));
+    if (state.cards.length === 0) { alert('선택된 카테고리에 OX가 없습니다.'); return; }
+    showWorkspace(); renderOX();
+  } else if (mode === 'mock') {
+    const mcqs = shuffle(MCQ).slice(0, 12).map(x => ({...x, _type: 'mcq'}));
+    const oxes = shuffle(OX).slice(0, 6).map(x => ({...x, _type: 'ox'}));
+    const fills = shuffle(FILLS).slice(0, 2).map(x => ({...x, _type: 'fill'}));
+    state.cards = shuffle([...mcqs, ...oxes, ...fills]);
+    state.timeLeft = 15 * 60;
+    startTimer();
+    showWorkspace(); renderMock();
+  } else if (mode === 'wrong') {
+    const items = [];
+    progress.wrongIds.forEach(w => {
+      let arr;
+      if (w.type === 'mcq') arr = MCQ;
+      else if (w.type === 'ox') arr = OX;
+      else return;
+      if (arr[w.id]) items.push({...arr[w.id], _type: w.type, _id: w.id});
+    });
+    if (items.length === 0) {
+      showWorkspace();
+      document.getElementById('workspace').innerHTML = `
+        <div class="empty-state">틀린 문제가 아직 없습니다.<br>다른 모드에서 풀어보세요.</div>
+        <div class="controls-row"><div></div><button class="btn" onclick="renderHome()">홈으로</button></div>`;
+      return;
+    }
+    state.cards = items;
+    showWorkspace(); renderWrongItem();
+  }
+}
+
+function showWorkspace() {
+  document.getElementById('homeView').classList.add('hidden');
+  document.getElementById('workspaceView').classList.remove('hidden');
+}
+
+function renderFlashcard() {
+  const ws = document.getElementById('workspace');
+  if (state.idx >= state.cards.length) {
+    ws.innerHTML = `
+      <div class="result">
+        <p class="score">${state.cards.length}</p>
+        <p class="score-label">카드 완료 · 알아요로 표시한 카드: ${state.score}</p>
+      </div>
+      <div class="controls-row">
+        <button class="btn" onclick="renderHome()">홈으로</button>
+        <button class="btn primary" onclick="startMode('flashcard')">다시 섞어서 풀기</button>
+      </div>`;
+    return;
+  }
+  const card = state.cards[state.idx];
+  ws.innerHTML = `
+    <div class="progress">
+      <span>플래시카드 · ${card.c}</span>
+      <span>${state.idx + 1} / ${state.cards.length} · 알아요 ${state.score}</span>
+    </div>
+    <div class="progress-bar"><div style="width:${(state.idx / state.cards.length) * 100}%"></div></div>
+    <div class="flashcard" id="card" onclick="document.getElementById('card').classList.toggle('flipped')">
+      <div class="front">
+        <span class="label">질문 · 클릭하면 정답</span>
+        ${escapeHtml(card.q)}
+      </div>
+      <div class="back">
+        <span class="label">정답</span>
+        <div style="white-space: pre-line; text-align: left;">${escapeHtml(card.a)}</div>
+      </div>
+    </div>
+    <div class="controls-row">
+      <button class="btn" onclick="prevCard()">이전</button>
+      <div>
+        <button class="btn" onclick="markCard(false)">모름</button>
+        <button class="btn primary" onclick="markCard(true)">알아요</button>
+      </div>
+      <button class="btn" onclick="nextCard()">건너뛰기</button>
+    </div>`;
+}
+function nextCard() { state.idx++; renderFlashcard(); }
+function prevCard() { if (state.idx > 0) state.idx--; renderFlashcard(); }
+function markCard(known) { if (known) state.score++; nextCard(); }
+
+function renderMCQ() {
+  const ws = document.getElementById('workspace');
+  if (state.idx >= state.cards.length) { renderResults(); return; }
+  const q = state.cards[state.idx];
+  ws.innerHTML = `
+    <div class="progress">
+      <span>객관식 · ${q.c} · ${q.y}</span>
+      <span>${state.idx + 1} / ${state.cards.length} · ${state.score} 맞음</span>
+    </div>
+    <div class="progress-bar"><div style="width:${(state.idx / state.cards.length) * 100}%"></div></div>
+    <div class="question-block">
+      <p class="question-text">${escapeHtml(q.q)}</p>
+      <div class="options">
+        ${q.o.map((opt, i) => `
+          <div class="option" data-idx="${i}" onclick="selectMCQ(${i})">
+            <span class="opt-mark">${i + 1}.</span>${escapeHtml(opt)}
+          </div>`).join('')}
+      </div>
+      <div class="explanation" id="explanation">
+        <span class="ex-label">해설:</span><span id="exText"></span>
+      </div>
+    </div>
+    <div class="controls-row">
+      <button class="btn" onclick="renderHome()">홈으로</button>
+      <button class="btn primary" id="nextBtn" onclick="nextMCQ()" disabled>다음 문제</button>
+    </div>`;
+}
+function selectMCQ(idx) {
+  const q = state.cards[state.idx];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => o.classList.add('locked'));
+  const correctIdx = q.ans;
+  const correct = idx === correctIdx;
+  if (correct) {
+    opts[idx].classList.add('correct');
+    state.score++;
+  } else {
+    opts[idx].classList.add('wrong');
+    if (correctIdx >= 0 && correctIdx < opts.length) opts[correctIdx].classList.add('correct');
+    const id = MCQ.indexOf(q);
+    if (id !== -1) recordWrong('mcq', id);
+    state.wrongList.push({q: q.q, ans: q.o[correctIdx], picked: q.o[idx], ex: q.ex});
+  }
+  document.getElementById('exText').textContent = ' ' + (q.ex || '');
+  document.getElementById('explanation').classList.add('show');
+  document.getElementById('nextBtn').disabled = false;
+  state.answered++;
+  progress.totalAnswered++;
+  if (correct) progress.totalCorrect++;
+  saveProgress(progress);
+}
+function nextMCQ() { state.idx++; renderMCQ(); }
+
+function renderFill() {
+  const ws = document.getElementById('workspace');
+  if (state.idx >= state.cards.length) {
+    ws.innerHTML = `
+      <div class="result">
+        <p class="score">완료</p>
+        <p class="score-label">빈칸 문제 ${state.cards.length}개 모두 풀이</p>
+      </div>
+      <div class="controls-row">
+        <button class="btn" onclick="renderHome()">홈으로</button>
+        <button class="btn primary" onclick="startMode('fill')">다시 풀기</button>
+      </div>`;
+    return;
+  }
+  const item = state.cards[state.idx];
+  let html = `
+    <div class="progress">
+      <span>빈칸 채우기 · ${item.c}</span>
+      <span>${state.idx + 1} / ${state.cards.length}</span>
+    </div>
+    <div class="progress-bar"><div style="width:${(state.idx / state.cards.length) * 100}%"></div></div>
+    <h3 style="margin-top:0;">${escapeHtml(item.title)}</h3>
+    <div class="fill-passage">`;
+  let blankIdx = 0;
+  item.parts.forEach(p => {
+    if (p.text !== undefined) html += escapeHtml(p.text);
+    else if (p.blank) {
+      html += `<input type="text" class="fill-input" data-idx="${blankIdx}" data-answers='${JSON.stringify(p.blank).replace(/'/g, "&#39;")}' autocomplete="off">`;
+      blankIdx++;
+    }
+  });
+  html += `</div>
+    <div class="controls-row">
+      <div>
+        <button class="btn" onclick="renderHome()">홈으로</button>
+        <button class="btn" onclick="revealFill()">정답 보기</button>
+      </div>
+      <div>
+        <button class="btn" onclick="checkFill()">채점</button>
+        <button class="btn primary" onclick="nextFill()">다음</button>
+      </div>
+    </div>`;
+  ws.innerHTML = html;
+}
+function checkFill() {
+  const inputs = document.querySelectorAll('.fill-input');
+  let correct = 0, total = inputs.length;
+  inputs.forEach(inp => {
+    if (inp.classList.contains('revealed')) return;
+    const answers = JSON.parse(inp.dataset.answers).map(normAnswer);
+    const val = normAnswer(inp.value);
+    if (val && answers.includes(val)) {
+      inp.classList.add('correct'); inp.classList.remove('wrong'); correct++;
+    } else {
+      inp.classList.add('wrong'); inp.classList.remove('correct');
+    }
+  });
+  showToast(`${correct} / ${total} 정답`);
+}
+function revealFill() {
+  const inputs = document.querySelectorAll('.fill-input');
+  inputs.forEach(inp => {
+    const answers = JSON.parse(inp.dataset.answers);
+    inp.value = answers[0];
+    inp.classList.add('revealed');
+    inp.classList.remove('correct', 'wrong');
+    inp.disabled = true;
+  });
+}
+function nextFill() { state.idx++; renderFill(); }
+
+function showToast(msg) {
+  let el = document.getElementById('toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'toast';
+    el.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 20px;border-radius:4px;font-size:13px;z-index:200;opacity:0;transition:opacity .2s;';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.style.opacity = '0', 1800);
+}
+
+function renderOX() {
+  const ws = document.getElementById('workspace');
+  if (state.idx >= state.cards.length) { renderResults(); return; }
+  const q = state.cards[state.idx];
+  ws.innerHTML = `
+    <div class="progress">
+      <span>OX 퀴즈 · ${q.c}</span>
+      <span>${state.idx + 1} / ${state.cards.length} · ${state.score} 맞음</span>
+    </div>
+    <div class="progress-bar"><div style="width:${(state.idx / state.cards.length) * 100}%"></div></div>
+    <div class="question-block">
+      <p class="question-text">${escapeHtml(q.q)}</p>
+      <div class="ox-buttons">
+        <button class="ox-btn" id="oxO" onclick="selectOX(true)">O</button>
+        <button class="ox-btn" id="oxX" onclick="selectOX(false)">X</button>
+      </div>
+      <div class="explanation" id="explanation">
+        <span class="ex-label">해설:</span><span id="exText"></span>
+      </div>
+    </div>
+    <div class="controls-row">
+      <button class="btn" onclick="renderHome()">홈으로</button>
+      <button class="btn primary" id="nextBtn" onclick="nextOX()" disabled>다음 문제</button>
+    </div>`;
+}
+function selectOX(picked) {
+  const q = state.cards[state.idx];
+  const oBtn = document.getElementById('oxO');
+  const xBtn = document.getElementById('oxX');
+  oBtn.disabled = true; xBtn.disabled = true;
+  const correctBtn = q.ans ? oBtn : xBtn;
+  const wrongBtn = q.ans ? xBtn : oBtn;
+  correctBtn.classList.add('correct');
+  if (picked === q.ans) {
+    state.score++;
+    progress.totalCorrect++;
+  } else {
+    wrongBtn.classList.add('wrong');
+    const id = OX.indexOf(q);
+    if (id !== -1) recordWrong('ox', id);
+    state.wrongList.push({q: q.q, ans: q.ans ? 'O' : 'X', picked: picked ? 'O' : 'X', ex: q.ex});
+  }
+  document.getElementById('exText').textContent = ' ' + (q.ex || '');
+  document.getElementById('explanation').classList.add('show');
+  document.getElementById('nextBtn').disabled = false;
+  state.answered++;
+  progress.totalAnswered++;
+  saveProgress(progress);
+}
+function nextOX() { state.idx++; renderOX(); }
+
+function renderMock() {
+  const ws = document.getElementById('workspace');
+  if (state.idx >= state.cards.length) { stopTimer(); renderResults(); return; }
+  const q = state.cards[state.idx];
+  const head = `
+    <div class="progress">
+      <span>모의고사 · ${q.c} · ${q._type.toUpperCase()}</span>
+      <span>${state.idx + 1} / ${state.cards.length} · <span class="timer" id="timerEl">${formatTime(state.timeLeft)}</span></span>
+    </div>
+    <div class="progress-bar"><div style="width:${(state.idx / state.cards.length) * 100}%"></div></div>`;
+  if (q._type === 'mcq') {
+    ws.innerHTML = head + `
+      <div class="question-block">
+        <p class="question-text">${escapeHtml(q.q)}</p>
+        <div class="options">
+          ${q.o.map((opt, i) => `
+            <div class="option" onclick="mockSelect('mcq', ${i})">
+              <span class="opt-mark">${i + 1}.</span>${escapeHtml(opt)}
+            </div>`).join('')}
+        </div>
+      </div>
+      <div class="controls-row"><div></div><button class="btn" onclick="skipMock()">건너뛰기</button></div>`;
+  } else if (q._type === 'ox') {
+    ws.innerHTML = head + `
+      <div class="question-block">
+        <p class="question-text">${escapeHtml(q.q)}</p>
+        <div class="ox-buttons">
+          <button class="ox-btn" onclick="mockSelect('ox', true)">O</button>
+          <button class="ox-btn" onclick="mockSelect('ox', false)">X</button>
+        </div>
+      </div>
+      <div class="controls-row"><div></div><button class="btn" onclick="skipMock()">건너뛰기</button></div>`;
+  } else if (q._type === 'fill') {
+    let html = head + `<h3>${escapeHtml(q.title)}</h3><div class="fill-passage">`;
+    let blankIdx = 0;
+    q.parts.forEach(p => {
+      if (p.text !== undefined) html += escapeHtml(p.text);
+      else if (p.blank) {
+        html += `<input type="text" class="fill-input" data-idx="${blankIdx}" data-answers='${JSON.stringify(p.blank).replace(/'/g, "&#39;")}' autocomplete="off">`;
+        blankIdx++;
+      }
+    });
+    html += `</div>
+      <div class="controls-row"><div></div><button class="btn primary" onclick="mockSubmitFill()">제출</button></div>`;
+    ws.innerHTML = html;
+  }
+}
+function mockSelect(type, val) {
+  const q = state.cards[state.idx];
+  let isCorrect = false;
+  if (type === 'mcq') isCorrect = (val === q.ans);
+  else if (type === 'ox') isCorrect = (val === q.ans);
+  if (isCorrect) state.score++;
+  else state.wrongList.push({
+    q: q.q,
+    ans: type === 'mcq' ? q.o[q.ans] : (q.ans ? 'O' : 'X'),
+    picked: type === 'mcq' ? q.o[val] : (val ? 'O' : 'X'),
+    ex: q.ex
+  });
+  state.answered++;
+  state.idx++;
+  setTimeout(renderMock, 100);
+}
+function mockSubmitFill() {
+  const inputs = document.querySelectorAll('.fill-input');
+  let correct = 0, total = inputs.length;
+  inputs.forEach(inp => {
+    const answers = JSON.parse(inp.dataset.answers).map(normAnswer);
+    const val = normAnswer(inp.value);
+    if (val && answers.includes(val)) correct++;
+  });
+  const isCorrect = total > 0 ? (correct / total) >= 0.7 : false;
+  if (isCorrect) state.score++;
+  else {
+    const q = state.cards[state.idx];
+    state.wrongList.push({q: q.title, ans: `${total}개 빈칸 중 ${correct}개 맞음`, picked: '70% 미만'});
+  }
+  state.answered++;
+  state.idx++;
+  renderMock();
+}
+function skipMock() {
+  const q = state.cards[state.idx];
+  state.wrongList.push({q: q.q || q.title, ans: '건너뜀', picked: '-'});
+  state.idx++;
+  renderMock();
+}
+
+function startTimer() {
+  stopTimer();
+  state.timer = setInterval(() => {
+    state.timeLeft--;
+    const el = document.getElementById('timerEl');
+    if (el) {
+      el.textContent = formatTime(state.timeLeft);
+      if (state.timeLeft <= 60) el.classList.add('urgent');
+    }
+    if (state.timeLeft <= 0) {
+      stopTimer();
+      alert('시간 종료');
+      renderResults();
+    }
+  }, 1000);
+}
+function stopTimer() { if (state.timer) { clearInterval(state.timer); state.timer = null; } }
+function formatTime(s) {
+  const m = Math.floor(s / 60), sec = s % 60;
+  return `${m}:${sec.toString().padStart(2, '0')}`;
+}
+
+function renderWrongItem() {
+  const ws = document.getElementById('workspace');
+  if (state.idx >= state.cards.length) {
+    ws.innerHTML = `
+      <div class="result">
+        <p class="score">완료</p>
+        <p class="score-label">오답 노트 복습 끝</p>
+      </div>
+      <div class="controls-row">
+        <button class="btn" onclick="renderHome()">홈으로</button>
+        <button class="btn primary" onclick="clearWrong()">오답 기록 초기화</button>
+      </div>`;
+    return;
+  }
+  const q = state.cards[state.idx];
+  if (q._type === 'mcq') {
+    ws.innerHTML = `
+      <div class="progress">
+        <span>오답 노트 · ${q.c} · 객관식</span>
+        <span>${state.idx + 1} / ${state.cards.length}</span>
+      </div>
+      <div class="progress-bar"><div style="width:${(state.idx / state.cards.length) * 100}%"></div></div>
+      <div class="question-block">
+        <p class="question-text">${escapeHtml(q.q)}</p>
+        <div class="options">
+          ${q.o.map((opt, i) => `
+            <div class="option locked ${i === q.ans ? 'correct' : ''}">
+              <span class="opt-mark">${i + 1}.</span>${escapeHtml(opt)}
+            </div>`).join('')}
+        </div>
+        <div class="explanation show">
+          <span class="ex-label">해설:</span> ${escapeHtml(q.ex || '')}
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="btn" onclick="removeWrong('mcq', ${q._id})">이 문제 오답에서 제거</button>
+        <button class="btn primary" onclick="state.idx++; renderWrongItem()">다음</button>
+      </div>`;
+  } else if (q._type === 'ox') {
+    ws.innerHTML = `
+      <div class="progress">
+        <span>오답 노트 · ${q.c} · OX</span>
+        <span>${state.idx + 1} / ${state.cards.length}</span>
+      </div>
+      <div class="progress-bar"><div style="width:${(state.idx / state.cards.length) * 100}%"></div></div>
+      <div class="question-block">
+        <p class="question-text">${escapeHtml(q.q)}</p>
+        <div class="ox-buttons">
+          <button class="ox-btn correct" disabled>${q.ans ? 'O' : 'X'}</button>
+        </div>
+        <div class="explanation show">
+          <span class="ex-label">해설:</span> ${escapeHtml(q.ex || '')}
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="btn" onclick="removeWrong('ox', ${q._id})">이 문제 오답에서 제거</button>
+        <button class="btn primary" onclick="state.idx++; renderWrongItem()">다음</button>
+      </div>`;
+  }
+}
+function recordWrong(type, id) {
+  const exists = progress.wrongIds.some(w => w.type === type && w.id === id);
+  if (!exists) {
+    progress.wrongIds.push({type, id});
+    saveProgress(progress);
+  }
+}
+function removeWrong(type, id) {
+  progress.wrongIds = progress.wrongIds.filter(w => !(w.type === type && w.id === id));
+  saveProgress(progress);
+  state.cards = state.cards.filter(c => !(c._type === type && c._id === id));
+  if (state.cards.length === 0) { renderHome(); return; }
+  if (state.idx >= state.cards.length) state.idx = state.cards.length - 1;
+  renderWrongItem();
+}
+function clearWrong() {
+  if (!confirm('오답 기록을 모두 삭제하시겠습니까?')) return;
+  progress.wrongIds = [];
+  saveProgress(progress);
+  renderHome();
+}
+
+function renderResults() {
+  const ws = document.getElementById('workspace');
+  const total = state.cards.length;
+  const correct = state.score;
+  const wrong = state.wrongList.length;
+  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+  let html = `
+    <div class="result">
+      <p class="score">${accuracy}%</p>
+      <p class="score-label">정답률</p>
+      <div class="result-breakdown">
+        <div class="item"><div class="v">${total}</div><div class="l">전체</div></div>
+        <div class="item"><div class="v" style="color:var(--ok)">${correct}</div><div class="l">정답</div></div>
+        <div class="item"><div class="v" style="color:var(--imp)">${wrong}</div><div class="l">오답</div></div>
+      </div>
+    </div>`;
+  if (state.wrongList.length > 0) {
+    html += `<div class="wrong-list"><h3>틀린 문제 (${state.wrongList.length})</h3>`;
+    state.wrongList.forEach(w => {
+      html += `<div class="wrong-item">
+        <div class="q">${escapeHtml(w.q)}</div>
+        <div class="a">정답: ${escapeHtml(String(w.ans))} / 내 답: ${escapeHtml(String(w.picked))}</div>
+        ${w.ex ? `<div class="a" style="margin-top:4px;">해설: ${escapeHtml(w.ex)}</div>` : ''}
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  html += `
+    <div class="controls-row" style="margin-top:24px;">
+      <button class="btn" onclick="renderHome()">홈으로</button>
+      <button class="btn primary" onclick="startMode('${state.mode}')">다시 풀기</button>
+    </div>`;
+  ws.innerHTML = html;
+}
+
+document.getElementById('homeBtn').addEventListener('click', renderHome);
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('모든 기록(오답 노트, 누적 통계 포함)을 초기화하시겠습니까?')) return;
+  progress = { wrongIds: [], totalAnswered: 0, totalCorrect: 0 };
+  saveProgress(progress);
+  renderHome();
+});
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  themeBtn.textContent = next === 'dark' ? '라이트모드' : '다크모드';
+  localStorage.setItem('immuno-quiz-theme', next);
+});
+const savedTheme = localStorage.getItem('immuno-quiz-theme');
+if (savedTheme) {
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '라이트모드' : '다크모드';
+}
+
+renderHome();
+
+window.startMode = startMode;
+window.nextCard = nextCard;
+window.prevCard = prevCard;
+window.markCard = markCard;
+window.selectMCQ = selectMCQ;
+window.nextMCQ = nextMCQ;
+window.checkFill = checkFill;
+window.revealFill = revealFill;
+window.nextFill = nextFill;
+window.selectOX = selectOX;
+window.nextOX = nextOX;
+window.mockSelect = mockSelect;
+window.mockSubmitFill = mockSubmitFill;
+window.skipMock = skipMock;
+window.renderHome = renderHome;
+window.renderWrongItem = renderWrongItem;
+window.removeWrong = removeWrong;
+window.clearWrong = clearWrong;
+window.state = state;
+</script>
+
+</body>
+</html>
